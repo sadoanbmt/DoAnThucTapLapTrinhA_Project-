@@ -10,33 +10,43 @@ import { DecoButton } from './Decorations/DecoButton';
 
 const CatalogueList = [
   {
+    id: 1,
     bookCover: require('../assets/aGameOfThrones.jpg'),
   },
   {
+    id: 2,
     bookCover: require('../assets/aClashOfKings.jpg'),
   },
   {
+    id: 3,
     bookCover: require('../assets/aStormOfSwords.jpg'),
   },
   {
+    id: 4,
     bookCover: require('../assets/aFeastForCrows.jpg'),
   },
   {
+    id: 5,
     bookCover: require('../assets/aDanceWithDragons.jpg'),
   },
   {
+    id: 6,
     bookCover: require('../assets/fireAndBlood.jpg'),
   },
   {
+    id: 7,
     bookCover: require('../assets/aGameOfThrones.jpg'),
   },
   {
+    id: 8,
     bookCover: require('../assets/aClashOfKings.jpg'),
   },
   {
+    id: 9,
     bookCover: require('../assets/aStormOfSwords.jpg'),
   },
   {
+    id: 10,
     bookCover: require('../assets/aFeastForCrows.jpg'),
   },
 ]
@@ -54,7 +64,7 @@ const Catalogue = () => {
   const getRandomInt = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
-  const random = getRandomInt(0, Phrases.length);
+  const random = getRandomInt(0, Phrases.length-1);
 
   const CatalogueRow_1 = CatalogueList.slice(0, 3);
   const CatalogueRow_2 = CatalogueList.slice(3, 7);
@@ -75,7 +85,7 @@ const Catalogue = () => {
       <View style={[styles.c_row, { top: -45 }]}>
         {
           CatalogueRow_1.map((catalogue) => (
-            <View style={styles.c_book}>
+            <View style={styles.c_book} key={catalogue.id}>
               <Image
                 source={catalogue.bookCover}
                 style={styles.c_bookImg}
@@ -89,7 +99,7 @@ const Catalogue = () => {
       <View style={[styles.c_row]}>
         {
           CatalogueRow_2.map((catalogue) => (
-            <View style={styles.c_book}>
+            <View style={styles.c_book} key={catalogue.id}>
               <Image
                 source={catalogue.bookCover}
                 style={styles.c_bookImg}
@@ -102,7 +112,7 @@ const Catalogue = () => {
       <View style={[styles.c_row, { bottom: -45 }]}>
         {
           CatalogueRow_3.map((catalogue) => (
-            <View style={styles.c_book}>
+            <View style={styles.c_book} key={catalogue.id}>
               <Image
                 source={catalogue.bookCover}
                 style={styles.c_bookImg}
