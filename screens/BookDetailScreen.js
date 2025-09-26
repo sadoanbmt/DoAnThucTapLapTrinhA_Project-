@@ -5,31 +5,51 @@ import { useNavigation } from '@react-navigation/native';
 
 import { colors } from './GlobalStyle';
 import HeaderMain from './Components/HeaderMain';
+import BookList from './Components/BookList';
 import { Filigree1, Filigree2, Filigree3_Simple, Filigree5_Bottom } from './Decorations/Filigree';
 import { DecoButton, DecoButton_Dark } from './Decorations/DecoButton';
 
 import MaterialIcons from '@react-native-vector-icons/material-icons';
 
-const theBook = {
-    title: 'A Game Of Thrones',
-    series: 'A Song of Ice & Fire',
-    author: 'George R.R Martin',
-    cover: require('../assets/aGameOfThrones.jpg'),
-    genreList: ['Tiểu Thuyết', 'Hư Cấu', 'Huyền Ảo', 'Trưởng Thành', 'Hoàn Tất'],
-
-    totalPage: 800,
-    totalView: 67231,
-    totalLike: 20189,
-
-    description: 'A Clash of Kings là cuốn thứ hai trong số bảy tiểu thuyết được lên kế hoạch trong A Song of Ice and Fire của tác giả người Mỹ George RR Martin , một bộ truyện sử thi giả tưởng . Nó được xuất bản lần đầu tại Vương quốc Anh vào ngày 16 tháng 11 năm 1998; phiên bản đầu tiên tại Hoa Kỳ tiếp theo vào ngày 2 tháng 2 năm 1999. Giống như người tiền nhiệm của nó, A Game of Thrones , nó đã giành được Giải thưởng Locus (năm 1999) cho Tiểu thuyết hay nhất và được đề cử Giải thưởng Nebula (cũng vào năm 1999) cho Tiểu thuyết hay nhất. Vào tháng 5 năm 2005, Meisha Merlin đã phát hành một phiên bản giới hạn của tiểu thuyết, được minh họa đầy đủ bởi John Howe .',
-    chapterList: ['Prolouge', 'Arya', 'Sansa', 'Tyrion', 'Arya', 'Jon']
+const bookDatabase = require('../assets/_bookDatabase.json');
+const bookCover = {
+    "../assets/aGameOfThrones.jpg": require("../assets/aGameOfThrones.jpg"),
+    "../assets/aClashOfKings.jpg": require("../assets/aClashOfKings.jpg"),
+    "../assets/aStormOfSwords.jpg": require("../assets/aStormOfSwords.jpg"),
+    "../assets/aFeastForCrows.jpg": require("../assets/aFeastForCrows.jpg"),
+    "../assets/aDanceWithDragons.jpg": require("../assets/aDanceWithDragons.jpg"),
+    "../assets/fireAndBlood.jpg": require("../assets/fireAndBlood.jpg"),
+    "../assets/theHobbit.jpg": require("../assets/theHobbit.jpg"),
+    "../assets/theFellowshipOfTheRing.jpg": require("../assets/theFellowshipOfTheRing.jpg"),
+    "../assets/theTwoTowers.jpg": require("../assets/theTwoTowers.jpg"),
+    "../assets/theReturnOfTheKing.jpg": require("../assets/theReturnOfTheKing.jpg"),
+    "../assets/harryPotter1.jpg": require("../assets/harryPotter1.jpg"),
+    "../assets/harryPotter2.jpg": require("../assets/harryPotter2.jpg"),
+    "../assets/harryPotter3.jpg": require("../assets/harryPotter3.jpg"),
+    "../assets/harryPotter4.jpg": require("../assets/harryPotter4.jpg"),
+    "../assets/harryPotter5.jpg": require("../assets/harryPotter5.jpg"),
+    "../assets/harryPotter6.jpg": require("../assets/harryPotter6.jpg"),
+    "../assets/harryPotter7.jpg": require("../assets/harryPotter7.jpg"),
+    "../assets/dune1.jpg": require("../assets/dune1.jpg"),
+    "../assets/dune2.jpg": require("../assets/dune2.jpg"),
+    "../assets/dune3.jpg": require("../assets/dune3.jpg"),
+    "../assets/dune4.jpg": require("../assets/dune4.jpg"),
+    "../assets/dune5.jpg": require("../assets/dune5.jpg"),
+    "../assets/dune6.jpg": require("../assets/dune6.jpg"),
 }
+const createRandomList = (array, count) => {
+    return [...array]
+        .sort(() => Math.random() - 0.5)
+        .slice(0, count);
+};
+const getRandomInt = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+};
 
-const BookDetail = ({ }) => {
+const BookDetail = ({ theBook }) => {
     const navigation = useNavigation();
 
     const BookGenre = ({ genre }) => {
-
         return (
             <TouchableOpacity style={styles.bg_container}
                 onPress={() => navigation.navigate('SearchResultScreen')}
@@ -45,7 +65,7 @@ const BookDetail = ({ }) => {
                 style={[styles.shadow, styles.bottomShadow, { height: 40 }]}
             />
             <View style={styles.bd_bookCover}>
-                <Image source={theBook.cover}
+                <Image source={bookCover[theBook.cover]}
                     style={styles.bd_bookCoverImg}
                     resizeMode='cover'
                 />
@@ -59,7 +79,7 @@ const BookDetail = ({ }) => {
                     colors={['rgba(0, 0, 0, 0.3)', 'transparent']}
                     style={[styles.shadow, styles.topShadow, { height: 40 }]}
                 />
-                <Image source={theBook.cover}
+                <Image source={bookCover[theBook.cover]}
                     style={styles.bd_blurBgImg}
                     resizeMode='cover'
                     blurRadius={5}
@@ -86,7 +106,7 @@ const BookDetail = ({ }) => {
                         style={{ marginRight: 6 }}
                     />
                     <Text style={styles.bd_seriesText}>
-                        {theBook.series}
+                        {theBook.series} {theBook.bookNum > 0 && "| Cuốn " + theBook.bookNum}
                     </Text>
                 </TouchableOpacity>
 
@@ -115,7 +135,7 @@ const BookDetail = ({ }) => {
     )
 }
 
-const BookStat = ({ }) => {
+const BookStat = ({ theBook }) => {
     return (
         <View style={styles.bs_container}>
             <Filigree1 customPosition={-95} />
@@ -138,7 +158,7 @@ const BookStat = ({ }) => {
                 theBook.chapterList != null &&
 
                 <View style={styles.bs_info}>
-                    <Text style={styles.bs_number}>{theBook.chapterList.length}</Text>
+                    <Text style={styles.bs_number}>{theBook.totalChapter}</Text>
                     <Text style={styles.bs_text}>Chương</Text>
                 </View>
             }
@@ -170,7 +190,7 @@ const formatCompactNumber = (number) => {
     return number.toString();
 };
 
-const MoreDetails = ({ }) => {
+const MoreDetails = ({ theBook }) => {
     const [option, setOption] = useState(1);
 
     return (
@@ -187,7 +207,7 @@ const MoreDetails = ({ }) => {
                     <Text style={[styles.md_buttonText, option == 1 && styles.md_buttonText_Active]}>Giới Thiệu</Text>
                 </TouchableOpacity>
                 {
-                    theBook.chapterList != null &&
+                    theBook.chapterList.length > 0 &&
                     <TouchableOpacity style={[styles.md_button, option == 2 && styles.md_button_Active]}
                         onPress={() => setOption(2)}
                     >
@@ -201,14 +221,14 @@ const MoreDetails = ({ }) => {
                 </TouchableOpacity>
             </View>
             <View style={styles.md_content}>
-                {option == 1 && <MoreDetailsOption1 />}
-                {option == 2 && <MoreDetailsOption2 />}
-                {option == 3 && <MoreDetailsOption3 />}
+                {option == 1 && <MoreDetailsOption1 theBook={theBook} />}
+                {option == 2 && <MoreDetailsOption2 theBook={theBook} />}
+                {option == 3 && <MoreDetailsOption3 theBook={theBook} />}
             </View>
         </View>
     )
 }
-const MoreDetailsOption1 = () => {
+const MoreDetailsOption1 = ({ theBook }) => {
     return (
         <View style={styles.moreDetailsOption1}>
             <View style={styles.mdo_textBox}>
@@ -220,7 +240,7 @@ const MoreDetailsOption1 = () => {
         </View>
     )
 }
-const MoreDetailsOption2 = () => {
+const MoreDetailsOption2 = ({ theBook }) => {
     if (theBook.chapterList == null) return (null);
     const ChapterComponent = ({ index, chapterName }) => {
         const navigation = useNavigation();
@@ -247,115 +267,38 @@ const MoreDetailsOption2 = () => {
         </View>
     )
 }
-const MoreDetailsOption3 = () => {
-    const listOfBooks = [{
-        title: 'A Game Of Thrones',
-        author: 'George R.R Martin',
-        cover: require('../assets/aGameOfThrones.jpg')
-    },
-    {
-        title: 'A Clash Of Kings',
-        author: 'George R.R Martin',
-        cover: require('../assets/aClashOfKings.jpg')
-    },
-    {
-        title: 'A Storm Of Swords',
-        author: 'George R.R Martin',
-        cover: require('../assets/aStormOfSwords.jpg')
-    },
-    {
-        title: 'A Feast For Crows',
-        author: 'George R.R Martin',
-        cover: require('../assets/aFeastForCrows.jpg')
-    },
-    {
-        title: 'A Dance With Dragons',
-        author: 'George R.R Martin',
-        cover: require('../assets/aDanceWithDragons.jpg')
-    },]
-
+const MoreDetailsOption3 = ({ theBook }) => {
+    const listOfBooksByAuthor = bookDatabase.filter(book => book.author === theBook.author);
+    const listOfBooksBySeries = bookDatabase.filter(book => book.series === theBook.series);
     return (
         <View>
-            <BookListing title={"Tác Giả: " + theBook.author} listOfBooks={listOfBooks} />
-            <BookListing title={"Series: " + theBook.series} listOfBooks={listOfBooks} />
+            <BookList title={"Tác Giả: " + theBook.author} listOfBooks={listOfBooksByAuthor.slice(0, 10)} />
+            {theBook.series != "" && <BookList title={"Series: " + theBook.series} listOfBooks={listOfBooksBySeries.slice(0, 10)} />}
             {
                 theBook.genreList.slice(0, 3).map((genre) => (
-                    <BookListing title={"Thể Loại: " + genre} listOfBooks={listOfBooks} />
+                    <BookList title={"Thể Loại: " + genre}
+                        listOfBooks={
+                            bookDatabase.filter(
+                                book => book.genreList.includes(genre)
+                            ).slice(0, 10)
+                        }
+                    />
                 ))
             }
         </View>
     )
 }
-const BookListing = ({ title, listOfBooks }) => {
-    if (listOfBooks == null) return (null);
-
-    const navigation = useNavigation();
-
-    const BookItem = ({ book }) => {
-        if (book == null) return (null);
-        return (
-            <TouchableOpacity style={styles.bi_container}
-                activeOpacity={1}
-                onPress={() => navigation.navigate('BookDetailScreen')}
-            >
-                <View style={styles.bi_bookCover}>
-                    <Image
-                        source={book.cover}
-                        style={styles.bi_bookCoverImg}
-                        resizeMode="cover"
-                    />
-                </View>
-                <Text style={styles.bi_bookTitle}>{book.title}</Text>
-                <Text style={styles.bi_bookAuthor}>{book.author}</Text>
-            </TouchableOpacity>
-        );
-    }
-    return (
-        <View style={styles.bl_container}>
-            <View style={styles.line} />
-            <Filigree1 style={styles.filigree} />
-            <LinearGradient colors={['rgba(0, 0, 0, 0.3)', 'transparent']}
-                style={[styles.shadow, styles.topShadow, { marginTop: 30, }]}
-            />
-            <LinearGradient colors={['transparent', 'rgba(0,0,0,0.2)']}
-                style={[styles.shadow, styles.bottomShadow]}
-            />
-            <LinearGradient colors={['transparent', 'rgba(0,0,0,1)']}
-                style={[styles.shadow, styles.bottomShadow, { top: -30, height: 30 }]}
-            />
-            <View style={styles.bl_header}>
-                <Text style={styles.bl_headerTitle}>
-                    {title}
-                </Text>
-            </View>
-
-            <FlatList
-                data={listOfBooks}
-                renderItem={(bookItem) => <BookItem book={bookItem.item} listOfBooks={listOfBooks} />}
-                keyExtractor={bookItem => bookItem.title}
-                horizontal={true}
-                style={styles.bl_flatList}
-            />
-
-            <TouchableOpacity style={styles.decoButton_bl}
-                activeOpacity={1}
-                onPress={() => navigation.navigate('SearchResultScreen')}
-            >
-                <DecoButton ButtonText="XEM THÊM" />
-            </TouchableOpacity>
-
-        </View>
-    )
-}
 
 const BookDetailScreen = ({ navigation }) => {
+    const theBook = bookDatabase[getRandomInt(0, bookDatabase.length - 1)];
+
     return (
         <View style={styles.container}>
             <HeaderMain />
             <ScrollView bounces={false} overScrollMode="never" style={{ width: '100%' }}>
-                <BookDetail />
+                <BookDetail theBook={theBook} />
 
-                <BookStat />
+                <BookStat theBook={theBook} />
 
                 <TouchableOpacity style={styles.decoButton}
                     activeOpacity={1}
@@ -366,12 +309,11 @@ const BookDetailScreen = ({ navigation }) => {
 
                 <TouchableOpacity style={styles.decoButton}
                     activeOpacity={1}
-                    onPress={() => navigation.navigate('PageScreen')}
                 >
                     <DecoButton_Dark ButtonText="THƯ VIỆN" ButtonIcon="add" />
                 </TouchableOpacity>
 
-                <MoreDetails />
+                <MoreDetails theBook={theBook} />
             </ScrollView>
         </View>
     );
@@ -664,7 +606,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
 
-        height: 320,
+        // height: 320,
         width: '100%',
         marginBottom: 60,
 
@@ -691,7 +633,7 @@ const styles = StyleSheet.create({
         fontSize: 17,
     },
     bl_flatList: {
-        height: '100%',
+        // height: '100%',
         marginHorizontal: 6,
         marginVertical: 20,
     },
@@ -702,14 +644,15 @@ const styles = StyleSheet.create({
     bi_container: {
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
-        height: "100%",
-        width: 100,
 
-        marginHorizontal: 5,
+        height: "100%",
+        width: 150,
+        marginHorizontal: 8,
+        paddingBottom: 10
     },
     bi_bookCover: {
-        height: 160,
-        width: "100%",
+        height: 250,
+        width: 150,
         marginBottom: 10,
 
         borderRadius: 4,

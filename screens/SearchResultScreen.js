@@ -2,324 +2,46 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, FlatList, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Svg, { Circle, Line } from 'react-native-svg';
-import { useNavigation } from '@react-navigation/native';
 
 import { colors } from './GlobalStyle';
 import HeaderMain from './Components/HeaderMain';
-import { Filigree1, Filigree5_Bottom } from './Decorations/Filigree';
-import { DecoButton } from './Decorations/DecoButton';
+import BookList from './Components/BookList';
+
+const bookDatabase = require('../assets/_bookDatabase.json');
+const bookCover = {
+    "../assets/aGameOfThrones.jpg": require("../assets/aGameOfThrones.jpg"),
+    "../assets/aClashOfKings.jpg": require("../assets/aClashOfKings.jpg"),
+    "../assets/aStormOfSwords.jpg": require("../assets/aStormOfSwords.jpg"),
+    "../assets/aFeastForCrows.jpg": require("../assets/aFeastForCrows.jpg"),
+    "../assets/aDanceWithDragons.jpg": require("../assets/aDanceWithDragons.jpg"),
+    "../assets/fireAndBlood.jpg": require("../assets/fireAndBlood.jpg"),
+    "../assets/theHobbit.jpg": require("../assets/theHobbit.jpg"),
+    "../assets/theFellowshipOfTheRing.jpg": require("../assets/theFellowshipOfTheRing.jpg"),
+    "../assets/theTwoTowers.jpg": require("../assets/theTwoTowers.jpg"),
+    "../assets/theReturnOfTheKing.jpg": require("../assets/theReturnOfTheKing.jpg"),
+    "../assets/harryPotter1.jpg": require("../assets/harryPotter1.jpg"),
+    "../assets/harryPotter2.jpg": require("../assets/harryPotter2.jpg"),
+    "../assets/harryPotter3.jpg": require("../assets/harryPotter3.jpg"),
+    "../assets/harryPotter4.jpg": require("../assets/harryPotter4.jpg"),
+    "../assets/harryPotter5.jpg": require("../assets/harryPotter5.jpg"),
+    "../assets/harryPotter6.jpg": require("../assets/harryPotter6.jpg"),
+    "../assets/harryPotter7.jpg": require("../assets/harryPotter7.jpg"),
+    "../assets/dune1.jpg": require("../assets/dune1.jpg"),
+    "../assets/dune2.jpg": require("../assets/dune2.jpg"),
+    "../assets/dune3.jpg": require("../assets/dune3.jpg"),
+    "../assets/dune4.jpg": require("../assets/dune4.jpg"),
+    "../assets/dune5.jpg": require("../assets/dune5.jpg"),
+    "../assets/dune6.jpg": require("../assets/dune6.jpg"),
+}
 
 const searchInfo = {
     searchType: 'Tìm kiếm:',
     search: 'A Clash Of Kings',
     searchResultBookType: 'Sách chữ',
 
-    searchResultList_Book: [
-        {
-            title: 'A Game Of Thrones',
-            author: 'George R.R Martin',
-            cover: require('../assets/aGameOfThrones.jpg')
-        },
-        {
-            title: 'A Clash Of Kings',
-            author: 'George R.R Martin',
-            cover: require('../assets/aClashOfKings.jpg')
-        },
-        {
-            title: 'A Storm Of Swords',
-            author: 'George R.R Martin',
-            cover: require('../assets/aStormOfSwords.jpg')
-        },
-        {
-            title: 'A Feast For Crows',
-            author: 'George R.R Martin',
-            cover: require('../assets/aFeastForCrows.jpg')
-        },
-        {
-            title: 'A Dance With Dragons',
-            author: 'George R.R Martin',
-            cover: require('../assets/aDanceWithDragons.jpg')
-        },
-        {
-            title: 'A Game Of Thrones',
-            author: 'George R.R Martin',
-            cover: require('../assets/aGameOfThrones.jpg')
-        },
-        {
-            title: 'A Clash Of Kings',
-            author: 'George R.R Martin',
-            cover: require('../assets/aClashOfKings.jpg')
-        },
-        {
-            title: 'A Storm Of Swords',
-            author: 'George R.R Martin',
-            cover: require('../assets/aStormOfSwords.jpg')
-        },
-        {
-            title: 'A Feast For Crows',
-            author: 'George R.R Martin',
-            cover: require('../assets/aFeastForCrows.jpg')
-        },
-        {
-            title: 'A Dance With Dragons',
-            author: 'George R.R Martin',
-            cover: require('../assets/aDanceWithDragons.jpg')
-        },
-        {
-            title: 'A Game Of Thrones',
-            author: 'George R.R Martin',
-            cover: require('../assets/aGameOfThrones.jpg')
-        },
-        {
-            title: 'A Clash Of Kings',
-            author: 'George R.R Martin',
-            cover: require('../assets/aClashOfKings.jpg')
-        },
-        {
-            title: 'A Storm Of Swords',
-            author: 'George R.R Martin',
-            cover: require('../assets/aStormOfSwords.jpg')
-        },
-        {
-            title: 'A Feast For Crows',
-            author: 'George R.R Martin',
-            cover: require('../assets/aFeastForCrows.jpg')
-        },
-        {
-            title: 'A Dance With Dragons',
-            author: 'George R.R Martin',
-            cover: require('../assets/aDanceWithDragons.jpg')
-        },
-        {
-            title: 'A Game Of Thrones',
-            author: 'George R.R Martin',
-            cover: require('../assets/aGameOfThrones.jpg')
-        },
-        {
-            title: 'A Clash Of Kings',
-            author: 'George R.R Martin',
-            cover: require('../assets/aClashOfKings.jpg')
-        },
-        {
-            title: 'A Storm Of Swords',
-            author: 'George R.R Martin',
-            cover: require('../assets/aStormOfSwords.jpg')
-        },
-        {
-            title: 'A Feast For Crows',
-            author: 'George R.R Martin',
-            cover: require('../assets/aFeastForCrows.jpg')
-        },
-        {
-            title: 'A Dance With Dragons',
-            author: 'George R.R Martin',
-            cover: require('../assets/aDanceWithDragons.jpg')
-        },
-        {
-            title: 'A Game Of Thrones',
-            author: 'George R.R Martin',
-            cover: require('../assets/aGameOfThrones.jpg')
-        },
-        {
-            title: 'A Clash Of Kings',
-            author: 'George R.R Martin',
-            cover: require('../assets/aClashOfKings.jpg')
-        },
-        {
-            title: 'A Storm Of Swords',
-            author: 'George R.R Martin',
-            cover: require('../assets/aStormOfSwords.jpg')
-        },
-        {
-            title: 'A Feast For Crows',
-            author: 'George R.R Martin',
-            cover: require('../assets/aFeastForCrows.jpg')
-        },
-        {
-            title: 'A Dance With Dragons',
-            author: 'George R.R Martin',
-            cover: require('../assets/aDanceWithDragons.jpg')
-        },
-        {
-            title: 'A Game Of Thrones',
-            author: 'George R.R Martin',
-            cover: require('../assets/aGameOfThrones.jpg')
-        },
-        {
-            title: 'A Clash Of Kings',
-            author: 'George R.R Martin',
-            cover: require('../assets/aClashOfKings.jpg')
-        },
-        {
-            title: 'A Storm Of Swords',
-            author: 'George R.R Martin',
-            cover: require('../assets/aStormOfSwords.jpg')
-        },
-        {
-            title: 'A Feast For Crows',
-            author: 'George R.R Martin',
-            cover: require('../assets/aFeastForCrows.jpg')
-        },
-        {
-            title: 'A Dance With Dragons',
-            author: 'George R.R Martin',
-            cover: require('../assets/aDanceWithDragons.jpg')
-        },
-    ],
+    searchResultList_Book: bookDatabase.slice(0, 10),
 
-    searchResultList_Comic: [
-        {
-            title: 'A Game Of Thrones',
-            author: 'George R.R Martin',
-            cover: require('../assets/aGameOfThrones.jpg')
-        },
-        {
-            title: 'A Clash Of Kings',
-            author: 'George R.R Martin',
-            cover: require('../assets/aClashOfKings.jpg')
-        },
-        {
-            title: 'A Storm Of Swords',
-            author: 'George R.R Martin',
-            cover: require('../assets/aStormOfSwords.jpg')
-        },
-        {
-            title: 'A Feast For Crows',
-            author: 'George R.R Martin',
-            cover: require('../assets/aFeastForCrows.jpg')
-        },
-        {
-            title: 'A Dance With Dragons',
-            author: 'George R.R Martin',
-            cover: require('../assets/aDanceWithDragons.jpg')
-        },
-        {
-            title: 'A Game Of Thrones',
-            author: 'George R.R Martin',
-            cover: require('../assets/aGameOfThrones.jpg')
-        },
-        {
-            title: 'A Clash Of Kings',
-            author: 'George R.R Martin',
-            cover: require('../assets/aClashOfKings.jpg')
-        },
-        {
-            title: 'A Storm Of Swords',
-            author: 'George R.R Martin',
-            cover: require('../assets/aStormOfSwords.jpg')
-        },
-        {
-            title: 'A Feast For Crows',
-            author: 'George R.R Martin',
-            cover: require('../assets/aFeastForCrows.jpg')
-        },
-        {
-            title: 'A Dance With Dragons',
-            author: 'George R.R Martin',
-            cover: require('../assets/aDanceWithDragons.jpg')
-        },
-        {
-            title: 'A Game Of Thrones',
-            author: 'George R.R Martin',
-            cover: require('../assets/aGameOfThrones.jpg')
-        },
-        {
-            title: 'A Clash Of Kings',
-            author: 'George R.R Martin',
-            cover: require('../assets/aClashOfKings.jpg')
-        },
-        {
-            title: 'A Storm Of Swords',
-            author: 'George R.R Martin',
-            cover: require('../assets/aStormOfSwords.jpg')
-        },
-        {
-            title: 'A Feast For Crows',
-            author: 'George R.R Martin',
-            cover: require('../assets/aFeastForCrows.jpg')
-        },
-        {
-            title: 'A Dance With Dragons',
-            author: 'George R.R Martin',
-            cover: require('../assets/aDanceWithDragons.jpg')
-        },
-        {
-            title: 'A Game Of Thrones',
-            author: 'George R.R Martin',
-            cover: require('../assets/aGameOfThrones.jpg')
-        },
-        {
-            title: 'A Clash Of Kings',
-            author: 'George R.R Martin',
-            cover: require('../assets/aClashOfKings.jpg')
-        },
-        {
-            title: 'A Storm Of Swords',
-            author: 'George R.R Martin',
-            cover: require('../assets/aStormOfSwords.jpg')
-        },
-        {
-            title: 'A Feast For Crows',
-            author: 'George R.R Martin',
-            cover: require('../assets/aFeastForCrows.jpg')
-        },
-        {
-            title: 'A Dance With Dragons',
-            author: 'George R.R Martin',
-            cover: require('../assets/aDanceWithDragons.jpg')
-        },
-        {
-            title: 'A Game Of Thrones',
-            author: 'George R.R Martin',
-            cover: require('../assets/aGameOfThrones.jpg')
-        },
-        {
-            title: 'A Clash Of Kings',
-            author: 'George R.R Martin',
-            cover: require('../assets/aClashOfKings.jpg')
-        },
-        {
-            title: 'A Storm Of Swords',
-            author: 'George R.R Martin',
-            cover: require('../assets/aStormOfSwords.jpg')
-        },
-        {
-            title: 'A Feast For Crows',
-            author: 'George R.R Martin',
-            cover: require('../assets/aFeastForCrows.jpg')
-        },
-        {
-            title: 'A Dance With Dragons',
-            author: 'George R.R Martin',
-            cover: require('../assets/aDanceWithDragons.jpg')
-        },
-        {
-            title: 'A Game Of Thrones',
-            author: 'George R.R Martin',
-            cover: require('../assets/aGameOfThrones.jpg')
-        },
-        {
-            title: 'A Clash Of Kings',
-            author: 'George R.R Martin',
-            cover: require('../assets/aClashOfKings.jpg')
-        },
-        {
-            title: 'A Storm Of Swords',
-            author: 'George R.R Martin',
-            cover: require('../assets/aStormOfSwords.jpg')
-        },
-        {
-            title: 'A Feast For Crows',
-            author: 'George R.R Martin',
-            cover: require('../assets/aFeastForCrows.jpg')
-        },
-        {
-            title: 'A Dance With Dragons',
-            author: 'George R.R Martin',
-            cover: require('../assets/aDanceWithDragons.jpg')
-        },
-
-    ],
+    searchResultList_Comic: bookDatabase.slice(10, 20),
 }
 
 const ResultCount = () => {
@@ -357,80 +79,20 @@ const ResultCount = () => {
     )
 }
 
-const BookListing = ({ title, listOfBooks }) => {
-    if (listOfBooks.length == 0) return (null);
-
-    const navigation = useNavigation();
-
-    const BookItem = ({ book }) => {
-        if (book == null) return (null);
-        return (
-            <TouchableOpacity style={styles.bi_container}
-                activeOpacity={1}
-                onPress={() => navigation.navigate('BookDetailScreen')}
-            >
-                <View style={styles.bi_bookCover}>
-                    <Image
-                        source={book.cover}
-                        style={styles.bi_bookCoverImg}
-                        resizeMode="cover"
-                    />
-                </View>
-                <Text style={styles.bi_bookTitle}>{book.title}</Text>
-                <Text style={styles.bi_bookAuthor}>{book.author}</Text>
-            </TouchableOpacity>
-        );
-    }
-    return (
-        <View style={styles.bl_container}>
-            <View style={styles.line} />
-            <Filigree1 />
-            <Filigree5_Bottom />
-            <LinearGradient
-                colors={['rgba(0, 0, 0, 0.3)', 'transparent']}
-                style={[styles.shadow, styles.topShadow, { marginTop: 30, }]}
-            />
-            <LinearGradient
-                colors={['transparent', 'rgba(0,0,0,0.2)']}
-                style={[styles.shadow, styles.bottomShadow]}
-            />
-            <LinearGradient
-                colors={['transparent', 'rgba(0,0,0,1)']}
-                style={[styles.shadow, styles.bottomShadow, { top: -30, height: 30 }]}
-            />
-            <View style={styles.bl_header}>
-                <Text style={styles.bl_headerTitle}>
-                    {title}
-                </Text>
-            </View>
-
-            <FlatList
-                data={listOfBooks.splice(0, 6)}
-                renderItem={(bookItem) => <BookItem book={bookItem.item} />}
-                keyExtractor={bookItem => bookItem.id}
-                horizontal={true}
-                style={styles.bl_flatList}
-            />
-
-            <TouchableOpacity style={styles.decoButton}
-                activeOpacity={1}
-                onPress={() => navigation.navigate('SearchListingScreen')}
-            >
-                <DecoButton ButtonText="XEM THÊM" />
-            </TouchableOpacity>
-
-        </View>
-    )
-}
-
 const SearchResultScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <HeaderMain />
             <ScrollView bounces={false} overScrollMode="never" style={{ width: '100%' }}>
                 <ResultCount />
-                <BookListing title="TRUYỆN TRANH" listOfBooks={searchInfo.searchResultList_Comic} />
-                <BookListing title="SÁCH CHỮ" listOfBooks={searchInfo.searchResultList_Book} />
+                <BookList title="TRUYỆN TRANH"
+                    listOfBooks={searchInfo.searchResultList_Comic}
+                    customDestination="SearchListingScreen"
+                />
+                <BookList title="SÁCH CHỮ"
+                    listOfBooks={searchInfo.searchResultList_Book}
+                    customDestination="SearchListingScreen"
+                />
                 {
                     (searchInfo.searchResultList_Comic.length != 0 && searchInfo.searchResultList_Book.length != 0) &&
                     <View style={styles.bottomPadding}>

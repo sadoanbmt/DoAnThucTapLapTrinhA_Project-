@@ -7,8 +7,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { colors } from '../GlobalStyle';
 import { Filigree6_Bottom, Filigree6_Top, Filigree7_Top, Filigree7_Bottom } from '../Decorations/Filigree';
 
-const SideTabRight = () => {
-
+const SideTabRight = ({ setLeftIsVisible, setRightIsVisible }) => {
     return (
         <View style={styles.str_container}>
             <View style={styles.str_menuContainer}>
@@ -50,32 +49,57 @@ const SideTabRight = () => {
     )
 }
 
-const SideTabLeft = () => {
+const SideTabLeft = ({ setLeftIsVisible, setRightIsVisible }) => {
+    const navigation = useNavigation();
     return (
         <View style={styles.stl_container}>
             <View style={styles.stl_menuContainer}>
                 <Filigree7_Top />
                 <Filigree7_Bottom />
 
-                <TouchableOpacity style={styles.str_menuButton}>
+                <TouchableOpacity style={styles.str_menuButton}
+                    onPress={() => {
+                        navigation.navigate('MainScreen')
+                        setLeftIsVisible(false)
+                        setRightIsVisible(false)
+                    }}
+                >
                     <MaterialIcons name="home" color={colors.gold} size={20} />
                     <Text style={styles.str_menuButtonText}>
                         Trang Chủ
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.str_menuButton}>
+                <TouchableOpacity style={styles.str_menuButton}
+                    onPress={() => {
+                        navigation.navigate('BookListingScreen')
+                        setLeftIsVisible(false)
+                        setRightIsVisible(false)
+                    }}
+                >
                     <MaterialIcons name="photo-library" color={colors.gold} size={20} />
                     <Text style={styles.str_menuButtonText}>
                         Truyện Tranh
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.str_menuButton}>
+                <TouchableOpacity style={styles.str_menuButton}
+                    onPress={() => {
+                        navigation.navigate('BookListingScreen')
+                        setLeftIsVisible(false)
+                        setRightIsVisible(false)
+                    }}
+                >
                     <MaterialIcons name="library-books" color={colors.gold} size={20} />
                     <Text style={styles.str_menuButtonText}>
                         Sách Chữ
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.str_menuButton}>
+                <TouchableOpacity style={styles.str_menuButton}
+                    onPress={() => {
+                        // navigation.navigate('BookListingScreen')
+                        setLeftIsVisible(false)
+                        setRightIsVisible(false)
+                    }}
+                >
                     <MaterialIcons name="list" color={colors.gold} size={20} />
                     <Text style={styles.str_menuButtonText}>
                         Thể Loại
@@ -119,7 +143,7 @@ const HeaderMain = ({ hideLine }) => {
                     </TouchableOpacity>
                     <TextInput
                         placeholder='Tìm Kiếm'
-                        placeholderTextColor={colors.white}
+                        placeholderTextColor={colors.lightgray}
                         style={styles.textinput}
                         onChangeText={onChangeText}
                         value={text}
@@ -148,8 +172,14 @@ const HeaderMain = ({ hideLine }) => {
                         }}
                     />
                 )}
-                {right_isVisible && (<SideTabRight />)}
-                {left_isVisible && (<SideTabLeft />)}
+                {right_isVisible && (<SideTabRight
+                    setLeftIsVisible={setLeftIsVisible}
+                    setRightIsVisible={setRightIsVisible}
+                />)}
+                {left_isVisible && (<SideTabLeft
+                    setLeftIsVisible={setLeftIsVisible}
+                    setRightIsVisible={setRightIsVisible}
+                />)}
             </View>
 
         </View>

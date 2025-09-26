@@ -10,173 +10,39 @@ import HeaderMain from './Components/HeaderMain';
 import { Filigree1, Filigree4 } from './Decorations/Filigree';
 import { DirectionButton_Left, DirectionButton_Right } from './Decorations/DecoButton';
 
+const bookDatabase = require('../assets/_bookDatabase.json');
+const bookCover = {
+    "../assets/aGameOfThrones.jpg": require("../assets/aGameOfThrones.jpg"),
+    "../assets/aClashOfKings.jpg": require("../assets/aClashOfKings.jpg"),
+    "../assets/aStormOfSwords.jpg": require("../assets/aStormOfSwords.jpg"),
+    "../assets/aFeastForCrows.jpg": require("../assets/aFeastForCrows.jpg"),
+    "../assets/aDanceWithDragons.jpg": require("../assets/aDanceWithDragons.jpg"),
+    "../assets/fireAndBlood.jpg": require("../assets/fireAndBlood.jpg"),
+    "../assets/theHobbit.jpg": require("../assets/theHobbit.jpg"),
+    "../assets/theFellowshipOfTheRing.jpg": require("../assets/theFellowshipOfTheRing.jpg"),
+    "../assets/theTwoTowers.jpg": require("../assets/theTwoTowers.jpg"),
+    "../assets/theReturnOfTheKing.jpg": require("../assets/theReturnOfTheKing.jpg"),
+    "../assets/harryPotter1.jpg": require("../assets/harryPotter1.jpg"),
+    "../assets/harryPotter2.jpg": require("../assets/harryPotter2.jpg"),
+    "../assets/harryPotter3.jpg": require("../assets/harryPotter3.jpg"),
+    "../assets/harryPotter4.jpg": require("../assets/harryPotter4.jpg"),
+    "../assets/harryPotter5.jpg": require("../assets/harryPotter5.jpg"),
+    "../assets/harryPotter6.jpg": require("../assets/harryPotter6.jpg"),
+    "../assets/harryPotter7.jpg": require("../assets/harryPotter7.jpg"),
+    "../assets/dune1.jpg": require("../assets/dune1.jpg"),
+    "../assets/dune2.jpg": require("../assets/dune2.jpg"),
+    "../assets/dune3.jpg": require("../assets/dune3.jpg"),
+    "../assets/dune4.jpg": require("../assets/dune4.jpg"),
+    "../assets/dune5.jpg": require("../assets/dune5.jpg"),
+    "../assets/dune6.jpg": require("../assets/dune6.jpg"),
+}
+
 const searchInfo = {
     searchType: 'Tìm kiếm: ',
     search: 'A Clash Of Kings',
     searchResultBookType: 'Sách chữ',
 
-    searchResultList: [
-        {
-            title: 'A Game Of Thrones',
-            series: 'A Song of Ice & Fire',
-            author: 'George R.R Martin',
-            cover: require('../assets/aGameOfThrones.jpg'),
-
-            totalPage: 800,
-            totalView: 67231,
-            totalLike: 20189,
-        },
-        {
-            title: 'A Clash Of Kings',
-            series: 'A Song of Ice & Fire',
-            author: 'George R.R Martin',
-            cover: require('../assets/aClashOfKings.jpg'),
-
-            totalPage: 800,
-            totalView: 67231,
-            totalLike: 20189,
-        },
-        {
-            title: 'A Storm Of Swords',
-            series: 'A Song of Ice & Fire',
-            author: 'George R.R Martin',
-            cover: require('../assets/aStormOfSwords.jpg'),
-
-            totalPage: 800,
-            totalView: 67231,
-            totalLike: 20189,
-        },
-        {
-            title: 'A Feast For Crows',
-            series: 'A Song of Ice & Fire',
-            author: 'George R.R Martin',
-            cover: require('../assets/aFeastForCrows.jpg'),
-
-            totalPage: 800,
-            totalView: 67231,
-            totalLike: 20189,
-        },
-        {
-            title: 'A Dance With Dragons',
-            series: 'A Song of Ice & Fire',
-            author: 'George R.R Martin',
-            cover: require('../assets/aDanceWithDragons.jpg'),
-
-            totalPage: 800,
-            totalView: 67231,
-            totalLike: 20189,
-        },
-        {
-            title: 'Fire And Blood',
-            series: 'A Song of Ice & Fire',
-            author: 'George R.R Martin',
-            cover: require('../assets/fireAndBlood.jpg'),
-
-            totalPage: 800,
-            totalView: 67231,
-            totalLike: 20189,
-        },
-        {
-            title: 'A Game Of Thrones',
-            series: 'A Song of Ice & Fire',
-            author: 'George R.R Martin',
-            cover: require('../assets/aGameOfThrones.jpg'),
-
-            totalPage: 800,
-            totalView: 67231,
-            totalLike: 20189,
-        },
-        {
-            title: 'A Clash Of Kings',
-            series: 'A Song of Ice & Fire',
-            author: 'George R.R Martin',
-            cover: require('../assets/aClashOfKings.jpg'),
-
-            totalPage: 800,
-            totalView: 67231,
-            totalLike: 20189,
-        },
-        {
-            title: 'A Storm Of Swords',
-            series: 'A Song of Ice & Fire',
-            author: 'George R.R Martin',
-            cover: require('../assets/aStormOfSwords.jpg'),
-
-            totalPage: 800,
-            totalView: 67231,
-            totalLike: 20189,
-        },
-        {
-            title: 'A Feast For Crows',
-            series: 'A Song of Ice & Fire',
-            author: 'George R.R Martin',
-            cover: require('../assets/aFeastForCrows.jpg'),
-
-            totalPage: 800,
-            totalView: 67231,
-            totalLike: 20189,
-        },
-        {
-            title: 'A Dance With Dragons',
-            series: 'A Song of Ice & Fire',
-            author: 'George R.R Martin',
-            cover: require('../assets/aDanceWithDragons.jpg'),
-
-            totalPage: 800,
-            totalView: 67231,
-            totalLike: 20189,
-        },
-        {
-            title: 'Fire And Blood',
-            series: 'A Song of Ice & Fire',
-            author: 'George R.R Martin',
-            cover: require('../assets/fireAndBlood.jpg'),
-
-            totalPage: 800,
-            totalView: 67231,
-            totalLike: 20189,
-        },
-        {
-            title: 'A Game Of Thrones',
-            series: 'A Song of Ice & Fire',
-            author: 'George R.R Martin',
-            cover: require('../assets/aGameOfThrones.jpg'),
-
-            totalPage: 800,
-            totalView: 67231,
-            totalLike: 20189,
-        },
-        {
-            title: 'A Clash Of Kings',
-            series: 'A Song of Ice & Fire',
-            author: 'George R.R Martin',
-            cover: require('../assets/aClashOfKings.jpg'),
-
-            totalPage: 800,
-            totalView: 67231,
-            totalLike: 20189,
-        },
-        {
-            title: 'A Storm Of Swords',
-            series: 'A Song of Ice & Fire',
-            author: 'George R.R Martin',
-            cover: require('../assets/aStormOfSwords.jpg'),
-
-            totalPage: 800,
-            totalView: 67231,
-            totalLike: 20189,
-        },
-        {
-            title: 'A Feast For Crows',
-            series: 'A Song of Ice & Fire',
-            author: 'George R.R Martin',
-            cover: require('../assets/aFeastForCrows.jpg'),
-
-            totalPage: 800,
-            totalView: 67231,
-            totalLike: 20189,
-        },
-    ]
+    searchResultList: bookDatabase
 }
 
 const ResultCount = () => {
@@ -211,9 +77,7 @@ const ResultCount = () => {
     )
 }
 
-
 const ResultButton = ({ page, setPage, totalPage }) => {
-
     const movePage = (direction) => {
         let newPage = page + direction;
         if (newPage < 1 || newPage > totalPage) return;
@@ -242,13 +106,8 @@ const ResultButton = ({ page, setPage, totalPage }) => {
 }
 
 const ResultDisplay = ({ page }) => {
-    console.log((page - 1) * 7);
-    console.log(page * 7);
-
     const data = searchInfo.searchResultList.slice((page - 1) * 7, page * 7)
-
     const navigation = useNavigation();
-
     return (
         <View style={styles.rd_container}>
             {/* 
@@ -265,7 +124,6 @@ const ResultDisplay = ({ page }) => {
                 keyExtractor={bookItem => bookItem.id}
                 scrollEnabled={false}
             />
-
         </View>
     )
 }
@@ -288,7 +146,7 @@ const BookItem_Wide = ({ navigation, book }) => {
                     navigation.navigate("BookDetailScreen")
                 }}
             >
-                <Image source={book.cover}
+                <Image source={bookCover[book.cover]}
                     style={styles.bi_bookCoverImg}
                     resizeMode='cover'
                 />

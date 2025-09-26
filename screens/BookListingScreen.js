@@ -5,34 +5,40 @@ import Svg, { Circle, Line } from 'react-native-svg';
 
 import { colors } from './GlobalStyle';
 import HeaderMain from './Components/HeaderMain';
-import { Filigree1, Filigree5_Bottom } from './Decorations/Filigree';
+import { BookList_Alt } from './Components/BookList';
 import { LinearGradient } from 'expo-linear-gradient';
 
-const listOfBooks = [{
-  title: 'A Game Of Thrones',
-  author: 'George R.R Martin',
-  cover: require('../assets/aGameOfThrones.jpg')
-},
-{
-  title: 'A Clash Of Kings',
-  author: 'George R.R Martin',
-  cover: require('../assets/aClashOfKings.jpg')
-},
-{
-  title: 'A Storm Of Swords',
-  author: 'George R.R Martin',
-  cover: require('../assets/aStormOfSwords.jpg')
-},
-{
-  title: 'A Feast For Crows',
-  author: 'George R.R Martin',
-  cover: require('../assets/aFeastForCrows.jpg')
-},
-{
-  title: 'A Dance With Dragons',
-  author: 'George R.R Martin',
-  cover: require('../assets/aDanceWithDragons.jpg')
-},]
+const bookDatabase = require('../assets/_bookDatabase.json');
+const bookCover = {
+  "../assets/aGameOfThrones.jpg": require("../assets/aGameOfThrones.jpg"),
+  "../assets/aClashOfKings.jpg": require("../assets/aClashOfKings.jpg"),
+  "../assets/aStormOfSwords.jpg": require("../assets/aStormOfSwords.jpg"),
+  "../assets/aFeastForCrows.jpg": require("../assets/aFeastForCrows.jpg"),
+  "../assets/aDanceWithDragons.jpg": require("../assets/aDanceWithDragons.jpg"),
+  "../assets/fireAndBlood.jpg": require("../assets/fireAndBlood.jpg"),
+  "../assets/theHobbit.jpg": require("../assets/theHobbit.jpg"),
+  "../assets/theFellowshipOfTheRing.jpg": require("../assets/theFellowshipOfTheRing.jpg"),
+  "../assets/theTwoTowers.jpg": require("../assets/theTwoTowers.jpg"),
+  "../assets/theReturnOfTheKing.jpg": require("../assets/theReturnOfTheKing.jpg"),
+  "../assets/harryPotter1.jpg": require("../assets/harryPotter1.jpg"),
+  "../assets/harryPotter2.jpg": require("../assets/harryPotter2.jpg"),
+  "../assets/harryPotter3.jpg": require("../assets/harryPotter3.jpg"),
+  "../assets/harryPotter4.jpg": require("../assets/harryPotter4.jpg"),
+  "../assets/harryPotter5.jpg": require("../assets/harryPotter5.jpg"),
+  "../assets/harryPotter6.jpg": require("../assets/harryPotter6.jpg"),
+  "../assets/harryPotter7.jpg": require("../assets/harryPotter7.jpg"),
+  "../assets/dune1.jpg": require("../assets/dune1.jpg"),
+  "../assets/dune2.jpg": require("../assets/dune2.jpg"),
+  "../assets/dune3.jpg": require("../assets/dune3.jpg"),
+  "../assets/dune4.jpg": require("../assets/dune4.jpg"),
+  "../assets/dune5.jpg": require("../assets/dune5.jpg"),
+  "../assets/dune6.jpg": require("../assets/dune6.jpg"),
+}
+const createRandomList = (array, count) => {
+  return [...array]
+    .sort(() => Math.random() - 0.5)
+    .slice(0, count);
+};
 
 const BookType = ({ type }) => {
   return (
@@ -43,85 +49,10 @@ const BookType = ({ type }) => {
   )
 }
 
-const BookListing = ({ title, listOfBooks }) => {
-  if (listOfBooks == null || listOfBooks.length == 0) return (null);
-
-  const navigation = useNavigation();
-  const BookItem = ({ book }) => {
-    if (book == null) return (null);
-    return (
-      <TouchableOpacity style={styles.bi_container}
-        activeOpacity={1}
-        onPress={() => navigation.navigate('BookDetailScreen')}
-      >
-        <View style={styles.bi_bookCover}>
-          <Image
-            source={book.cover}
-            style={styles.bi_bookCoverImg}
-            resizeMode="cover"
-          />
-        </View>
-        <Text style={styles.bi_bookTitle}
-          numberOfLines={2}
-          ellipsizeMode="tail"
-        >
-          {book.title}
-        </Text>
-        <Text style={styles.bi_bookAuthor}
-          numberOfLines={1}
-          ellipsizeMode="tail">
-          {book.author}
-        </Text>
-      </TouchableOpacity>
-    );
-  }
-  return (
-    <View style={styles.bl_container}>
-      <Filigree1 customPosition={-95} />
-      <Filigree5_Bottom />
-      <LinearGradient
-        colors={['rgba(0, 0, 0, 0.4)', 'transparent']}
-        style={[styles.shadow, styles.topShadow]}
-      />
-      <LinearGradient
-        colors={['transparent', 'rgba(0,0,0,0.2)']}
-        style={[styles.shadow, styles.bottomShadow]}
-      />
-      <View style={styles.bl_header}>
-        <Svg width={38} height={38 * 0.184} viewBox="0 0 45 7">
-          <Circle
-            cx="30"
-            cy="3.5"
-            r="3"
-            fill={colors.black}
-            stroke={colors.black}
-          />
-          <Line
-            x1="30"
-            y1="3.5"
-            x2="0"
-            y2="3.5"
-            stroke={colors.black}
-            strokeWidth="1"
-          />
-        </Svg>
-        <Text style={styles.bl_headerText}>
-          {title}
-        </Text>
-      </View>
-
-      <FlatList
-        data={listOfBooks}
-        renderItem={(bookItem) => <BookItem book={bookItem.item} />}
-        keyExtractor={bookItem => bookItem.title}
-        horizontal={true}
-        style={styles.bl_flatList}
-      />
-    </View>
-  )
-}
-
 const BookListingScreen = ({ navigation }) => {
+  const listOfBooksNewlyUpdated = createRandomList(bookDatabase, 10);
+  const listOfBooksPopular = createRandomList(bookDatabase, 10);
+  const listOfBooksTopRated = createRandomList(bookDatabase, 10);
   return (
     <View style={styles.container}>
       <HeaderMain />
@@ -129,11 +60,11 @@ const BookListingScreen = ({ navigation }) => {
 
         <BookType type="TRUYỆN TRANH" />
 
-        <BookListing title="MỚI CẬP NHẬT" listOfBooks={listOfBooks} />
+        <BookList_Alt title="MỚI CẬP NHẬT" listOfBooks={listOfBooksNewlyUpdated} />
 
-        <BookListing title="NỔI BẬT" listOfBooks={listOfBooks} />
+        <BookList_Alt title="NỔI BẬT" listOfBooks={listOfBooksPopular} />
 
-        <BookListing title="HÀNG ĐẦU" listOfBooks={listOfBooks} />
+        <BookList_Alt title="HÀNG ĐẦU" listOfBooks={listOfBooksTopRated} />
 
         <View style={styles.bottomPadding}>
           <LinearGradient

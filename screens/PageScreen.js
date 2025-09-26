@@ -7,14 +7,22 @@ import MaterialIcons from '@react-native-vector-icons/material-icons';
 import { colors } from './GlobalStyle';
 import { Filigree5_Bottom, Filigree5_Top, Filigree6_Top, Filigree6_Bottom, Filigree1, Filigree2 } from './Decorations/Filigree';
 
-const SideTabRight = () => {
+const bookDatabase = require('../assets/_bookDatabase.json');
+
+const SideTabRight = ({ setRightIsVisible }) => {
+  const navigation = useNavigation();
   return (
     <View style={styles.str_container}>
       <View style={styles.str_menuContainer}>
         <Filigree6_Top />
         <Filigree6_Bottom />
 
-        <TouchableOpacity style={styles.str_menuButton}>
+        <TouchableOpacity style={styles.str_menuButton}
+          onPress={() => {
+            navigation.navigate('BookDetailScreen')
+            setRightIsVisible(false)
+          }}
+        >
           <MaterialIcons name="info" color={colors.gold} size={20} />
           <Text style={styles.str_menuButtonText}>
             Thông Tin Sách
@@ -36,7 +44,6 @@ const SideTabRight = () => {
     </View>
   )
 }
-
 const Header = ({ showChapterPicker, setShowChapterPicker, chapterPicked }) => {
   const navigation = useNavigation();
   const [right_isVisible, setRightIsVisible] = useState(false);
@@ -84,7 +91,7 @@ const Header = ({ showChapterPicker, setShowChapterPicker, chapterPicked }) => {
             }}
           />
         )}
-        {right_isVisible && (<SideTabRight />)}
+        {right_isVisible && (<SideTabRight setRightIsVisible={setRightIsVisible}/>)}
       </View>
     </View>
   )
@@ -92,7 +99,6 @@ const Header = ({ showChapterPicker, setShowChapterPicker, chapterPicked }) => {
 const chapterList = [
   {
     title: 'Prologue',
-    content: 'The comet’s tail spread across the dawn, a red slash that bled above the crags of Dragonstone like a wound in the pink and purple sky. The maester stood on the windswept balcony outside his chambers. It was here the ravens came, after long flight. Their droppings speckled the gargoyles that rose twelve feet tall on either side of him, a hellhound and a wyvern, two of the thousand that brooded over the walls of the ancient fortress. When first he came to Dragonstone, the army of stone grotesques had made him uneasy, but as the years passed he had grown used to them. Now he thought of them as old friends. The three of them watched the sky together with foreboding.The maester did not believe in omens. And yet. . . old as he was, Cressen had never seen a comet half so bright, nor yet that color, that terrible color, the color of blood and flame and sunsets. He wondered if his gargoyles had ever seen its like. They had been here so much longer than he had, and would still be here long after he was gone. If stone tongues could speak . . .'
   },
   {
     title: 'Arya',
@@ -161,7 +167,7 @@ const ChapterPicker = ({ setShowChapterPicker, setChapterPicked, chapterPicked }
             />)
           )
         }
-        <Filigree2/>
+        <Filigree2 />
       </ScrollView>
     </View>
   )
@@ -387,7 +393,7 @@ const styles = StyleSheet.create({
   cc_decoration_active: {
     backgroundColor: colors.gold,
   },
-  
+
   //-------------------------------------------------------//
 
   shadow: {
