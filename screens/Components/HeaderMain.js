@@ -4,35 +4,48 @@ import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@react-native-vector-icons/material-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
+import { useDispatch } from 'react-redux';
+
 import { colors } from '../GlobalStyle';
 import { Filigree6_Bottom, Filigree6_Top, Filigree7_Top, Filigree7_Bottom } from '../Decorations/Filigree';
+import { searchForBooks, viewBookType } from '../../slices/bookSlice';
 
 const SideTabRight = ({ setLeftIsVisible, setRightIsVisible }) => {
+    const navigation = useNavigation();
+
     return (
         <View style={styles.str_container}>
             <View style={styles.str_menuContainer}>
                 <Filigree6_Top />
                 <Filigree6_Bottom />
 
-                <TouchableOpacity style={styles.str_menuButton}>
+                <TouchableOpacity style={styles.str_menuButton}
+                    onPress={() => navigation.navigate('LibraryScreen')}
+                >
                     <MaterialIcons name="account-balance" color={colors.gold} size={20} />
                     <Text style={styles.str_menuButtonText}>
                         Thư Viện
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.str_menuButton}>
+                <TouchableOpacity style={styles.str_menuButton}
+                    onPress={() => navigation.navigate("CreateStoryScreen")}
+                >
                     <MaterialIcons name="create" color={colors.gold} size={20} />
                     <Text style={styles.str_menuButtonText}>
                         Đăng Truyện
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.str_menuButton}>
+                <TouchableOpacity style={styles.str_menuButton}
+                    onPress={() => navigation.navigate("NotificationScreen")}
+                >
                     <MaterialIcons name="notifications" color={colors.gold} size={20} />
                     <Text style={styles.str_menuButtonText}>
                         Thông Báo
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.str_menuButton}>
+                <TouchableOpacity style={styles.str_menuButton}
+                    onPress={() => navigation.navigate("AccountScreen")}
+                >
                     <MaterialIcons name="person" color={colors.gold} size={20} />
                     <Text style={styles.str_menuButtonText}>
                         Tài Khoản
@@ -51,6 +64,8 @@ const SideTabRight = ({ setLeftIsVisible, setRightIsVisible }) => {
 
 const SideTabLeft = ({ setLeftIsVisible, setRightIsVisible }) => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
+
     return (
         <View style={styles.stl_container}>
             <View style={styles.stl_menuContainer}>
@@ -71,6 +86,7 @@ const SideTabLeft = ({ setLeftIsVisible, setRightIsVisible }) => {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.str_menuButton}
                     onPress={() => {
+                        dispatch(viewBookType("TRUYỆN TRANH"))
                         navigation.navigate('BookListingScreen')
                         setLeftIsVisible(false)
                         setRightIsVisible(false)
@@ -83,6 +99,7 @@ const SideTabLeft = ({ setLeftIsVisible, setRightIsVisible }) => {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.str_menuButton}
                     onPress={() => {
+                        dispatch(viewBookType("SÁCH CHỮ"))
                         navigation.navigate('BookListingScreen')
                         setLeftIsVisible(false)
                         setRightIsVisible(false)
@@ -95,7 +112,6 @@ const SideTabLeft = ({ setLeftIsVisible, setRightIsVisible }) => {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.str_menuButton}
                     onPress={() => {
-                        // navigation.navigate('BookListingScreen')
                         setLeftIsVisible(false)
                         setRightIsVisible(false)
                     }}
@@ -112,6 +128,8 @@ const SideTabLeft = ({ setLeftIsVisible, setRightIsVisible }) => {
 
 const HeaderMain = ({ hideLine }) => {
     const navigation = useNavigation();
+
+    const dispatch = useDispatch()
 
     const [right_isVisible, setRightIsVisible] = useState(false);
     const [left_isVisible, setLeftIsVisible] = useState(false);
@@ -147,7 +165,10 @@ const HeaderMain = ({ hideLine }) => {
                         style={styles.textinput}
                         onChangeText={onChangeText}
                         value={text}
-                        onSubmitEditing={() => navigation.navigate('SearchResultScreen')}
+                        onSubmitEditing={() => {
+                            dispatch(searchForBooks({ searchType: "Tìm Kiếm", searchKeyword: text }))
+                            navigation.navigate('SearchResultScreen')
+                        }}
                     />
                 </View>
 

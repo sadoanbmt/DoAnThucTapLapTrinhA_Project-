@@ -2,13 +2,14 @@ import React from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Svg, { Circle, Line } from 'react-native-svg';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { colors } from './GlobalStyle';
 import HeaderMain from './Components/HeaderMain';
 import { BookList_Alt } from './Components/BookList';
 import { LinearGradient } from 'expo-linear-gradient';
+import ScreenTitle from './Components/ScreenTitle';
 
-const bookDatabase = require('../assets/_bookDatabase.json');
 const bookCover = {
   "../assets/aGameOfThrones.jpg": require("../assets/aGameOfThrones.jpg"),
   "../assets/aClashOfKings.jpg": require("../assets/aClashOfKings.jpg"),
@@ -50,6 +51,9 @@ const BookType = ({ type }) => {
 }
 
 const BookListingScreen = ({ navigation }) => {
+  const bookType = useSelector((state) => (state.books.viewBookType))
+  const bookDatabase = useSelector((state) => (state.books.viewBookList))
+
   const listOfBooksNewlyUpdated = createRandomList(bookDatabase, 10);
   const listOfBooksPopular = createRandomList(bookDatabase, 10);
   const listOfBooksTopRated = createRandomList(bookDatabase, 10);
@@ -57,8 +61,8 @@ const BookListingScreen = ({ navigation }) => {
     <View style={styles.container}>
       <HeaderMain />
       <ScrollView bounces={false} overScrollMode="never" style={{ width: '100%' }}>
-
-        <BookType type="TRUYỆN TRANH" />
+        <ScreenTitle title={bookType.toUpperCase()} icon="article"/>
+        {/* <BookType type={bookType.toUpperCase()} /> */}
 
         <BookList_Alt title="MỚI CẬP NHẬT" listOfBooks={listOfBooksNewlyUpdated} />
 
@@ -67,10 +71,10 @@ const BookListingScreen = ({ navigation }) => {
         <BookList_Alt title="HÀNG ĐẦU" listOfBooks={listOfBooksTopRated} />
 
         <View style={styles.bottomPadding}>
-          <LinearGradient
+          {/* <LinearGradient
             colors={['transparent', 'rgba(0,0,0,1)']}
             style={[styles.shadow, styles.bottomShadow]}
-          />
+          /> */}
         </View>
       </ScrollView>
     </View>

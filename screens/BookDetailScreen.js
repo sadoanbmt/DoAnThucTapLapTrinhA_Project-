@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, FlatList } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
+import { useRoute } from "@react-navigation/native";
 
 import { colors } from './GlobalStyle';
 import HeaderMain from './Components/HeaderMain';
@@ -11,7 +12,13 @@ import { DecoButton, DecoButton_Dark } from './Decorations/DecoButton';
 
 import MaterialIcons from '@react-native-vector-icons/material-icons';
 
-const bookDatabase = require('../assets/_bookDatabase.json');
+import { useDispatch, useSelector } from 'react-redux';
+import { selectBook } from '../slices/bookSlice';
+
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
+
+// const bookDatabase = require('../assets/_bookDatabase.json');
 const bookCover = {
     "../assets/aGameOfThrones.jpg": require("../assets/aGameOfThrones.jpg"),
     "../assets/aClashOfKings.jpg": require("../assets/aClashOfKings.jpg"),
@@ -190,7 +197,7 @@ const formatCompactNumber = (number) => {
     return number.toString();
 };
 
-const MoreDetails = ({ theBook }) => {
+const MoreDetails = ({ theBook, bookDatabase }) => {
     const [option, setOption] = useState(1);
 
     return (
@@ -223,7 +230,7 @@ const MoreDetails = ({ theBook }) => {
             <View style={styles.md_content}>
                 {option == 1 && <MoreDetailsOption1 theBook={theBook} />}
                 {option == 2 && <MoreDetailsOption2 theBook={theBook} />}
-                {option == 3 && <MoreDetailsOption3 theBook={theBook} />}
+                {option == 3 && <MoreDetailsOption3 theBook={theBook} bookDatabase={bookDatabase} />}
             </View>
         </View>
     )
@@ -267,16 +274,16 @@ const MoreDetailsOption2 = ({ theBook }) => {
         </View>
     )
 }
-const MoreDetailsOption3 = ({ theBook }) => {
+const MoreDetailsOption3 = ({ theBook, bookDatabase }) => {
     const listOfBooksByAuthor = bookDatabase.filter(book => book.author === theBook.author);
     const listOfBooksBySeries = bookDatabase.filter(book => book.series === theBook.series);
     return (
         <View>
-            <BookList title={"Tác Giả: " + theBook.author} listOfBooks={listOfBooksByAuthor.slice(0, 10)} />
-            {theBook.series != "" && <BookList title={"Series: " + theBook.series} listOfBooks={listOfBooksBySeries.slice(0, 10)} />}
+            <BookList bookType={"Tác Giả: " + theBook.author} listOfBooks={listOfBooksByAuthor.slice(0, 10)} />
+            {theBook.series != "" && <BookList bookType={"Series: " + theBook.series} listOfBooks={listOfBooksBySeries.slice(0, 10)} />}
             {
                 theBook.genreList.slice(0, 3).map((genre) => (
-                    <BookList title={"Thể Loại: " + genre}
+                    <BookList bookType={"Thể Loại: " + genre}
                         listOfBooks={
                             bookDatabase.filter(
                                 book => book.genreList.includes(genre)
@@ -290,12 +297,25 @@ const MoreDetailsOption3 = ({ theBook }) => {
 }
 
 const BookDetailScreen = ({ navigation }) => {
-    const theBook = bookDatabase[getRandomInt(0, bookDatabase.length - 1)];
+    const theBook = useSelector((state) => state.books.selectedBook);
+    const bookDatabase = useSelector((state) => state.books.bookDatabase);
+
+    const route = useRoute();
+    const { book } = route.params || {};
+    const scrollRef = useRef(null);
+
+    useEffect(() => {
+        scrollRef.current?.scrollTo({ y: 0, animated: true });
+    }, [book]);
 
     return (
         <View style={styles.container}>
             <HeaderMain />
-            <ScrollView bounces={false} overScrollMode="never" style={{ width: '100%' }}>
+            <ScrollView ref={scrollRef}
+                bounces={false}
+                overScrollMode="never"
+                style={{ width: '100%' }}
+            >
                 <BookDetail theBook={theBook} />
 
                 <BookStat theBook={theBook} />
@@ -313,7 +333,9 @@ const BookDetailScreen = ({ navigation }) => {
                     <DecoButton_Dark ButtonText="THƯ VIỆN" ButtonIcon="add" />
                 </TouchableOpacity>
 
-                <MoreDetails theBook={theBook} />
+                <MoreDetails theBook={theBook}
+                    bookDatabase={bookDatabase}
+                />
             </ScrollView>
         </View>
     );
@@ -347,7 +369,7 @@ const styles = StyleSheet.create({
         top: 30,
 
         height: 250,
-        width: 170,
+        width: 150,
 
         borderRadius: 6,
         backgroundColor: "white",

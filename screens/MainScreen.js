@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector, useDispatch } from "react-redux";
+import { searchForBooks } from '../slices/bookSlice';
 
 import { colors } from './GlobalStyle';
 import HeaderMain from './Components/HeaderMain';
@@ -9,8 +11,16 @@ import { Filigree2, Filigree4 } from './Decorations/Filigree';
 import { DecoButton } from './Decorations/DecoButton';
 import BookList from './Components/BookList';
 
-const bookDatabase = require('../assets/_bookDatabase.json');
-
+const Quotes = [
+  "A mind needs books\nas a sword needs a whetstone.",
+  "Knowledge is power.",
+  "A room without a book\nis like a body without a soul.",
+  "A book is a dream\nthat you hold in your hand.",
+  "Never trust anyone who has\nnot brought a book with them.",
+  "There is only one thing that\ncould replace a book: the next book.",
+  "Books are the mirrors of the soul.",
+  "There is no friend as loyal as a book."
+]
 const bookCover = {
   "../assets/aGameOfThrones.jpg": require("../assets/aGameOfThrones.jpg"),
   "../assets/aClashOfKings.jpg": require("../assets/aClashOfKings.jpg"),
@@ -36,6 +46,7 @@ const bookCover = {
   "../assets/dune5.jpg": require("../assets/dune5.jpg"),
   "../assets/dune6.jpg": require("../assets/dune6.jpg"),
 }
+
 const createRandomList = (array, count) => {
   return [...array]
     .sort(() => Math.random() - 0.5)
@@ -45,24 +56,11 @@ const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const Phrases = [
-  "A mind needs books\nas a sword needs a whetstone.",
-  "Knowledge is power.",
-  "A room without a book\nis like a body without a soul.",
-  "A book is a dream\nthat you hold in your hand.",
-  "Never trust anyone who has\nnot brought a book with them.",
-  "There is only one thing that\ncould replace a book: the next book.",
-  "Books are the mirrors of the soul.",
-  "There is no friend as loyal as a book."
-]
-
-const Catalogue = () => {
-  const CatalogueList = createRandomList(bookDatabase, 10);
-  const random = getRandomInt(0, Phrases.length - 1);
-
-  const CatalogueRow_1 = CatalogueList.slice(0, 3);
-  const CatalogueRow_2 = CatalogueList.slice(3, 7);
-  const CatalogueRow_3 = CatalogueList.slice(7, 10);
+const Catalogue = ({ catalogueList }) => {
+  const randomQuote = getRandomInt(0, Quotes.length - 1);
+  const catalogueRow_1 = catalogueList.slice(0, 3);
+  const catalogueRow_2 = catalogueList.slice(3, 7);
+  const catalogueRow_3 = catalogueList.slice(7, 10);
   return (
     <View style={styles.c_container}>
       <LinearGradient
@@ -72,14 +70,13 @@ const Catalogue = () => {
       <LinearGradient
         colors={['transparent', 'rgba(0,0,0,0.3)']}
         style={[styles.shadow, styles.bottomShadow]}
-
       />
-      <Text style={styles.c_text}>{Phrases[random]}</Text>
+      <Text style={styles.c_text}>{Quotes[randomQuote]}</Text>
 
       <View style={[styles.c_row, { top: -45 }]}>
         {
-          CatalogueRow_1.map((catalogue) => (
-            <View style={styles.c_book} key={catalogue.title}>
+          catalogueRow_1.map((catalogue) => (
+            <View style={styles.c_book} key={catalogue.cover}>
               <Image
                 source={bookCover[catalogue.cover]}
                 style={styles.c_bookImg}
@@ -91,7 +88,7 @@ const Catalogue = () => {
       </View>
       <View style={[styles.c_row]}>
         {
-          CatalogueRow_2.map((catalogue) => (
+          catalogueRow_2.map((catalogue) => (
             <View style={styles.c_book} key={catalogue.title}>
               <Image
                 source={bookCover[catalogue.cover]}
@@ -104,7 +101,7 @@ const Catalogue = () => {
       </View>
       <View style={[styles.c_row, { bottom: -45 }]}>
         {
-          CatalogueRow_3.map((catalogue) => (
+          catalogueRow_3.map((catalogue) => (
             <View style={styles.c_book} key={catalogue.id}>
               <Image
                 source={bookCover[catalogue.cover]}
@@ -120,15 +117,12 @@ const Catalogue = () => {
   )
 }
 
-const CurrentBook = ({ title, book }) => {
+const CurrentBook = ({ book }) => {
   if (book == null) return (null);
-
   const navigation = useNavigation();
-
   const currentPage = "Trang 2 ";
   const currentChapter = "| Chương 3 "
   const currentProgress = "| 10%"
-
   return (
     <View style={styles.cb_container}>
       <View style={styles.line} />
@@ -181,74 +175,11 @@ const CurrentBook = ({ title, book }) => {
   )
 }
 
-// const BookListing = ({ title, listOfBooks }) => {
-//   if (listOfBooks == null) return (null);
-
-//   const navigation = useNavigation();
-
-//   const BookItem = ({ book }) => {
-//     if (book == null) return (null);
-//     return (
-//       <TouchableOpacity style={styles.bi_container}
-//         activeOpacity={1}
-//         onPress={() => navigation.navigate('BookDetailScreen')}
-//       >
-//         <View style={styles.bi_bookCover}>
-//           <Image
-//             source={bookCover[book.cover]}
-//             style={styles.bi_bookCoverImg}
-//             resizeMode="cover"
-//           />
-//         </View>
-//         <Text style={styles.bi_bookTitle}>{book.title}</Text>
-//         <Text style={styles.bi_bookAuthor}>{book.author}</Text>
-//       </TouchableOpacity>
-//     );
-//   }
-
-//   return (
-//     <View style={styles.bl_container}>
-//       <View style={styles.line} />
-//       <Filigree1 />
-//       <Filigree5_Bottom />
-//       <LinearGradient
-//         colors={['rgba(0, 0, 0, 0.3)', 'transparent']}
-//         style={[styles.shadow, styles.topShadow, { marginTop: 30, }]}
-//       />
-//       <LinearGradient
-//         colors={['transparent', 'rgba(0,0,0,0.2)']}
-//         style={[styles.shadow, styles.bottomShadow]}
-//       />
-//       <LinearGradient
-//         colors={['transparent', 'rgba(0,0,0,1)']}
-//         style={[styles.shadow, styles.bottomShadow, { top: -30, height: 30 }]}
-//       />
-//       <View style={styles.bl_header}>
-//         <Text style={styles.bl_headerTitle}>
-//           {title}
-//         </Text>
-//       </View>
-
-//       <FlatList
-//         data={listOfBooks}
-//         renderItem={(bookItem) => <BookItem book={bookItem.item} />}
-//         keyExtractor={bookItem => bookItem.title}
-//         horizontal={true}
-//         style={styles.bl_flatList}
-//       />
-
-//       <TouchableOpacity style={styles.decoButton}
-//         activeOpacity={1}
-//         onPress={() => navigation.navigate('BookListingScreen')}
-//       >
-//         <DecoButton ButtonText="XEM THÊM" />
-//       </TouchableOpacity>
-
-//     </View>
-//   )
-// }
-
 const MainScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const bookDatabase = useSelector((state) => state.books.bookDatabase);
+
+  const catalogueList = createRandomList(bookDatabase, 10);
   const listOfBooks = createRandomList(bookDatabase, 10);
   const listOfComics = createRandomList(bookDatabase, 10);
   const currentBook = bookDatabase.at(getRandomInt(0, bookDatabase.length - 1));
@@ -258,16 +189,16 @@ const MainScreen = ({ navigation }) => {
       <HeaderMain />
       <ScrollView bounces={false} overScrollMode="never" style={{ width: '100%' }}>
 
-        <Catalogue />
+        <Catalogue catalogueList={catalogueList} />
         <CurrentBook book={currentBook} />
-        <BookList title="TRUYỆN TRANH" listOfBooks={listOfComics} />
-        <BookList title="SÁCH CHỮ" listOfBooks={listOfBooks} />
+        <BookList bookType="TRUYỆN TRANH" listOfBooks={listOfComics} />
+        <BookList bookType="SÁCH CHỮ" listOfBooks={listOfBooks} />
 
         <View style={styles.bottomPadding}>
-          <LinearGradient
+          {/* <LinearGradient
             colors={['transparent', 'rgba(0,0,0,1)']}
             style={[styles.shadow, styles.bottomShadow]}
-          />
+          /> */}
         </View>
       </ScrollView>
     </View>

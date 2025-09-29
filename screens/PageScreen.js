@@ -99,6 +99,7 @@ const Header = ({ showChapterPicker, setShowChapterPicker, chapterPicked }) => {
 const chapterList = [
   {
     title: 'Prologue',
+    content: 'The morning of King Joffrey’s name day dawned bright and windy, with the long tail of the great comet visible through the high scuttling clouds. Sansa was watching it from her tower window when Ser Arys Oakheart arrived to escort her down to the tourney grounds. “What do you think it means?” she asked him. “Glory to your betrothed,” Ser Arys answered at once. “See how it flames across the sky today on His Grace’s name day, as if the gods themselves had raised a banner in his honor. The smallfolk have named it King Joffrey’s Comet.” Doubtless that was what they told Joffrey; Sansa was not so sure. “I’ve heard servants calling it the Dragon’s Tail.”'
   },
   {
     title: 'Arya',

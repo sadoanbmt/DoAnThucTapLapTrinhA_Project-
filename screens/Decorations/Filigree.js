@@ -72,7 +72,7 @@ export const Filigree1 = ({ customPosition }) => {
 };
 export const Filigree2 = ({ customPosition }) => {
     const { width } = useWindowDimensions();
-    const svgWidth = Math.min(width - 40, 370);
+    const svgWidth = Math.min(width - 40, 394);
     const svgHeight = 88;
 
     const position = customPosition == null ? -105 : customPosition;
@@ -164,73 +164,80 @@ export const Filigree2 = ({ customPosition }) => {
 };
 export const Filigree3 = ({ customPosition }) => {
     const { width } = useWindowDimensions();
-    const svgWidth = Math.min(width - 40, 370);
-    const svgHeight = 29;
+    const svgWidth = Math.min(width - 40, 376);
+    const svgHeight = 37;
 
-    const position = customPosition == null ? -29 : customPosition;
+    const position = customPosition == null ? -27 : customPosition;
 
     return (
         <View style={[styles.filigree, { bottom: position }]}>
             <Svg
                 width={svgWidth}
                 height={svgHeight}
-                viewBox="0 0 374 34"
+                viewBox="0 0 376 37"
+                preserveAspectRatio="xMidYMid meet"
             >
+                <Circle
+                    cx="187.5"
+                    cy="18.5"
+                    r="17.5"
+                    stroke="#27282C"
+                    strokeWidth="2"
+                    fill="none"
+                />
+                <Circle
+                    cx="187.5"
+                    cy="18.5"
+                    r="14.5"
+                    fill="#27282C"
+                />
                 <Path
-                    d="M1 2V2C1 7.52285 5.47716 12 11 12H170"
-                    stroke={colors.gray}
+                    d="M0 9H173"
+                    stroke="#27282C"
                     strokeWidth="2"
                     fill="none"
                 />
                 <Path
-                    d="M373 2V2C373 7.52285 368.523 12 363 12H205"
-                    stroke={colors.gray}
+                    d="M205 20C205 11.1634 213.059 9 223 9"
+                    stroke="#27282C"
                     strokeWidth="2"
                     fill="none"
                 />
                 <Path
-                    d="M347 13V13C347 18.5228 342.523 23 337 23H200"
-                    stroke={colors.gray}
+                    d="M170 20C170 11.1634 161.941 9 152 9"
+                    stroke="#27282C"
                     strokeWidth="2"
                     fill="none"
                 />
                 <Path
-                    d="M28 13V13C28 18.5228 32.4772 23 38 23H175"
-                    stroke={colors.gray}
+                    d="M202 9H374"
+                    stroke="#27282C"
                     strokeWidth="2"
                     fill="none"
                 />
                 <Path
-                    d="M205 12C205 3.16344 213.059 1 223 1"
-                    stroke={colors.gray}
+                    d="M1 10C1 15.5228 5.47716 20 11 20H170"
+                    stroke="#27282C"
                     strokeWidth="2"
                     fill="none"
                 />
                 <Path
-                    d="M170 12C170 3.16344 161.941 1 152 1"
-                    stroke={colors.gray}
+                    d="M373 10C373 15.5228 368.523 20 363 20H205"
+                    stroke="#27282C"
                     strokeWidth="2"
                     fill="none"
                 />
                 <Path
-                    d="M201.946 1C203.873 3.77309 205 7.1263 205 10.7412C205 20.2607 197.177 28 187.5 28C177.823 28 170 20.2607 170 10.7412C170 7.1263 171.127 3.77309 173.054 1H201.946Z"
-                    stroke={colors.gray}
+                    d="M28 21C28 26.5228 32.4772 31 38 31H175"
+                    stroke="#27282C"
                     strokeWidth="2"
                     fill="none"
                 />
                 <Path
-                    d="M198.707 3C200.155 5.14776 201 7.73331 201 10.5186C201 17.9629 194.957 24 187.5 24C180.043 24 174 17.9629 174 10.5186C174 7.73331 174.845 5.14776 176.293 3H198.707Z"
-                    fill={colors.gray}
-                    stroke={colors.gray}
+                    d="M347 21C347 26.5228 342.523 31 337 31H200"
+                    stroke="#27282C"
                     strokeWidth="2"
-                />
-                <Line
-                    x1="0"
-                    y1="1"
-                    x2="374"
-                    y2="1"
-                    stroke={colors.gray}
-                    strokeWidth="2"
+                    fill="none"
                 />
             </Svg>
         </View>
@@ -355,15 +362,17 @@ export const Filigree4 = ({ customBottomPosition, customLeftPosition, customOpac
         </View>
     );
 };
-export const Filigree5_Bottom = ({ customPosition }) => {
+export const Filigree5_Bottom = ({ customPosition, customColor, customOpacity }) => {
     const { width } = useWindowDimensions();
     const svgWidth = Math.min(width, 394);
     const svgHeight = 200;
 
-    const position = customPosition == null ? 0 : customPosition;
+    const position = customPosition == null ? -2 : customPosition;
+    const color = customColor == null ? colors.gray : customColor;
+    const opacity = customOpacity == null ? 0.12 : customOpacity;
 
     return (
-        <View style={[styles.filigree, { bottom: position, opacity: 0.12 }]}>
+        <View style={[styles.filigree, { bottom: position, opacity: opacity }]}>
             <Svg
                 width={svgWidth}
                 height={svgHeight}
@@ -372,31 +381,33 @@ export const Filigree5_Bottom = ({ customPosition }) => {
             >
                 <Path
                     d="M26.9999 210L110 210C116.075 210 121 214.925 121 221L119 221C119 216.029 114.971 212 110 212L26.9999 212C18.7157 212 12 205.284 12 197L12.0005 108.301L12.0005 103L12.0005 13.894C12.0004 7.32509 6.67481 1.9995 0.105925 1.99942L0.105924 -0.000579834C7.77938 -0.000504135 14.0004 6.22052 14.0005 13.894L14 103L14 108.301L14 197C14 204.18 19.8202 210 26.9999 210Z"
-                    fill={colors.gray}
+                    fill={color}
                 />
                 <Path
                     d="M367 210L284 210C277.925 210 273 214.925 273 221L275 221C275 216.029 279.029 212 284 212L367 212C375.284 212 382 205.284 382 197L382 108.301L382 103L382 13.894C382 7.32509 387.325 1.9995 393.894 1.99942L393.894 -0.000579834C386.221 -0.000504135 380 6.22052 380 13.894L380 103L380 108.301L380 197C380 204.18 374.18 210 367 210Z"
-                    fill={colors.gray}
+                    fill={color}
                 />
                 <Path
                     fillRule="evenodd"
                     clipRule="evenodd"
                     d="M0 192.254C2.99243 198.043 9.03406 202 16 202H378C384.966 202 391.008 198.043 394 192.254V184C394 192.837 386.837 200 378 200H16C7.16345 200 0 192.837 0 184V192.254Z"
-                    fill={colors.gray}
+                    fill={color}
                 />
             </Svg>
         </View>
     );
 };
-export const Filigree5_Top = ({ customPosition }) => {
+export const Filigree5_Top = ({ customPosition, customColor, customOpacity }) => {
     const { width } = useWindowDimensions();
     const svgWidth = Math.min(width, 394);
     const svgHeight = 204;
 
     const position = customPosition == null ? -10 : customPosition;
+    const color = customColor == null ? colors.gray : customColor;
+    const opacity = customOpacity == null ? 0.12 : customOpacity;
 
     return (
-        <View style={[styles.filigree, { top: position, opacity: 0.12 }]}>
+        <View style={[styles.filigree, { top: position, opacity: opacity }]}>
             <Svg
                 width={svgWidth}
                 height={svgHeight}
@@ -405,15 +416,15 @@ export const Filigree5_Top = ({ customPosition }) => {
             >
                 <Path
                     d="M368 10L218 10C212.477 10 208 5.52285 208 -1.72225e-06L210 -1.70372e-06C210 4.41828 213.582 8 218 8L368 7.99999C375.732 7.99999 382 14.268 382 22L382 104L382 108.603L382 190.058C382 196.626 387.325 201.952 393.894 201.952L393.894 203.952C386.221 203.952 380 197.731 380 190.058L380 108.603L380 104L380 22C380 15.3726 374.628 10 368 10Z"
-                    fill={colors.gray}
+                    fill={color}
                 />
                 <Path
                     d="M25.8941 10L175.894 10C181.417 10 185.894 5.52285 185.894 -1.72225e-06L183.894 -1.70372e-06C183.894 4.41828 180.312 8 175.894 8L25.8941 7.99999C18.1621 7.99999 11.8941 14.268 11.8941 22L11.894 104L11.894 108.603L11.8937 190.058C11.8937 196.626 6.56897 201.952 0.000119744 201.952L0.000119613 203.952C7.67354 203.952 13.8937 197.731 13.8937 190.058L13.8937 108.603L13.8937 104L13.8941 22C13.8941 15.3726 19.2666 10 25.8941 10Z"
-                    fill={colors.gray}
+                    fill={color}
                 />
                 <Path
                     d="M37 0V0C37 9.94113 45.0589 18 55 18H318C327.941 18 336 9.94113 336 0V0"
-                    stroke={colors.gray}
+                    stroke={color}
                     strokeWidth="2"
                     fill="none"
                 />
@@ -421,7 +432,6 @@ export const Filigree5_Top = ({ customPosition }) => {
         </View>
     );
 };
-
 export const Filigree6_Top = ({ customTopPosition, customRightPosition, }) => {
     const { width } = useWindowDimensions();
     const svgWidth = Math.min(width, 246);
@@ -449,7 +459,6 @@ export const Filigree6_Top = ({ customTopPosition, customRightPosition, }) => {
         </View>
     );
 };
-
 export const Filigree6_Bottom = ({ customBottomPosition, customRightPosition, }) => {
     const { width } = useWindowDimensions();
     const svgWidth = Math.min(width, 245);
@@ -477,7 +486,6 @@ export const Filigree6_Bottom = ({ customBottomPosition, customRightPosition, })
         </View>
     );
 };
-
 export const Filigree7_Top = ({ customTopPosition, customLeftPosition, }) => {
     const { width } = useWindowDimensions();
     const svgWidth = Math.min(width, 266);
@@ -540,7 +548,6 @@ export const Filigree7_Top = ({ customTopPosition, customLeftPosition, }) => {
         </View>
     );
 };
-
 export const Filigree7_Bottom = ({ customBottomPosition, customLeftPosition, }) => {
     const { width } = useWindowDimensions();
     const svgWidth = Math.min(width, 162);
@@ -566,6 +573,122 @@ export const Filigree7_Bottom = ({ customBottomPosition, customLeftPosition, }) 
         </View>
     );
 };
+export const Filigree8_TopLeft = ({ customTopPosition, customLeftPosition, customOpacity }) => {
+    const { width } = useWindowDimensions();
+    const svgWidth = Math.min(width, 28);
+    const svgHeight = 28;
+
+    const positionBottom = customTopPosition == null ? -1 : customTopPosition;
+    const positionLeft = customLeftPosition == null ? -1 : customLeftPosition;
+    const opacity = customOpacity == null ? 1 : customOpacity;
+    return (
+        <View style={[styles.filigree_corner, { top: positionBottom, left: positionLeft, opacity: opacity }]}>
+            <Svg
+                width={svgWidth}
+                height={svgHeight}
+                viewBox="0 0 28 28"
+            >
+                <Path
+                    d="M27.4844 0.5C27.2256 4.95121 23.5346 8.48145 19.0186 8.48145H8.48145V19.0186C8.48145 23.5346 4.95113 27.2245 0.5 27.4834V0.5H27.4844Z"
+                    stroke={colors.lightgray}
+                />
+            </Svg>
+        </View>
+    );
+};
+export const Filigree8_TopRight = ({ customTopPosition, customRightPosition, customOpacity }) => {
+    const { width } = useWindowDimensions();
+    const svgWidth = Math.min(width, 110);
+    const svgHeight = 74;
+
+    const positionTop = customTopPosition == null ? -1 : customTopPosition;
+    const positionRight = customRightPosition == null ? -1 : customRightPosition;
+    const opacity = customOpacity == null ? 1 : customOpacity;
+    return (
+        <View style={[styles.filigree_corner, { top: positionTop, right: positionRight, opacity: opacity }]}>
+            <Svg
+                width={svgWidth}
+                height={svgHeight}
+                viewBox="0 0 110 74"
+            >
+                <Path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M110 7V0H0C0 4.28003 3.36133 7.77478 7.58789 7.98926L8 8H37.0708C37.5562 11.3923 40.4731 14 44 14H94V58C94 66.8365 101.164 74 110 74V8V7ZM37 7H8C4.47363 7 1.55762 4.39221 1.07227 1H109V7H37ZM38.085 8C38.561 10.8375 41.0269 13 44 13H95V58C95 65.9482 101.182 72.4512 109 72.9658V8H38.085Z"
+                    fill={colors.lightgray}
+                />
+            </Svg>
+        </View>
+    );
+};
+export const Filigree8_BottomLeft = ({ customBottomPosition, customLeftPosition, customOpacity }) => {
+    const { width } = useWindowDimensions();
+    const svgWidth = Math.min(width, 110);
+    const svgHeight = 74;
+
+    const positionBottom = customBottomPosition == null ? -1 : customBottomPosition;
+    const positionLeft = customLeftPosition == null ? -1 : customLeftPosition;
+    const opacity = customOpacity == null ? 1 : customOpacity;
+    return (
+        <View style={[styles.filigree_corner, { bottom: positionBottom, left: positionLeft, opacity: opacity }]}>
+            <Svg
+                width={svgWidth}
+                height={svgHeight}
+                viewBox="0 0 110 74"
+            >
+                <Path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M6.11959e-07 67L0 74L110 74C110 69.72 106.639 66.2252 102.412 66.0107L102 66L72.9292 66C72.4438 62.6077 69.5269 60 66 60L16 60L16 16C16 7.16344 8.83643 -8.844e-06 6.46929e-06 -9.61651e-06L6.99382e-07 66L6.11959e-07 67ZM73 67L102 67C105.526 67 108.442 69.6078 108.928 73L1 73L1 67L73 67ZM71.915 66C71.439 63.1625 68.9731 61 66 61L15 61L15 16C15 8.05175 8.81788 1.54882 1.00001 1.03417L1 66L71.915 66Z"
+                    fill={colors.lightgray}
+                />
+            </Svg>
+        </View>
+    );
+};
+export const Filigree8_BottomRight = ({ customBottomPosition, customRightPosition, customOpacity }) => {
+    const { width } = useWindowDimensions();
+    const svgWidth = Math.min(width, 28);
+    const svgHeight = 28;
+
+    const positionBottom = customBottomPosition == null ? -1 : customBottomPosition;
+    const positionRight = customRightPosition == null ? -1 : customRightPosition;
+    const opacity = customOpacity == null ? 1 : customOpacity;
+    return (
+        <View style={[styles.filigree_corner, { bottom: positionBottom, right: positionRight, opacity: opacity }]}>
+            <Svg
+                width={svgWidth}
+                height={svgHeight}
+                viewBox="0 0 28 28"
+            >
+                <Path
+                    d="M0.515625 27.5C0.774448 23.0488 4.4654 19.5186 8.98145 19.5186L19.5186 19.5186L19.5186 8.98144C19.5186 4.46536 23.0489 0.775451 27.5 0.516602L27.5 27.5L0.515625 27.5Z"
+                    stroke={colors.lightgray}
+                />
+            </Svg>
+        </View>
+    );
+};
+export const Filigree9 = ({ customBottomPosition, customOpacity }) => {
+    const { width } = useWindowDimensions();
+    const svgWidth = Math.min(width, 393);
+    const svgHeight = 414;
+
+    const positionBottom = customBottomPosition == null ? 0 : customBottomPosition;
+    const opacity = customOpacity == null ? 1 : customOpacity;
+    return (
+        <View style={[styles.filigree, { bottom: positionBottom, opacity: opacity }]}>
+            <Svg width={svgWidth} height={svgHeight} viewBox="0 0 393 414" fill="none">
+                <Path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M120.002 76C120.002 76.1503 120.001 76.3004 120 76.4502C119.955 82.8339 118.953 88.7023 117.132 94.0181C114.253 102.428 109.327 109.455 102.908 114.951C92.313 124.023 77.5538 129 61 129H60.5H57.5H0V132H57.5316C59.1138 206.994 119.877 267.43 195 268.486L195 414H199L199 268.486C274.123 267.43 334.886 206.994 336.468 132H393V129H336.5H333.5H332C315.446 129 300.687 124.023 290.092 114.951C288.77 113.82 287.512 112.624 286.322 111.364C282.8 107.634 279.874 103.348 277.67 98.5377C274.721 92.1025 273.064 84.7299 273 76.5L273 76.45L272.999 76.3659C272.999 76.3324 272.999 76.2976 272.999 76.2627L273 76.142L273 76.0945L273 76C272.815 47.1115 256.617 22.0228 232.836 9.16351C230.675 7.99451 228.45 6.92656 226.169 5.96602C217.046 2.12378 207.021 0 196.5 0C154.417 0 120.271 33.9803 120.002 76ZM61 132H94.5433C96.1159 186.448 140.359 230.202 195 230.989V265.486C121.534 264.431 62.1137 205.337 60.5323 132H61ZM195 221.988C145.329 221.203 105.115 181.477 103.547 132H143.85C157.228 144.695 175.192 152.605 195 152.986V221.988ZM199 152.96V221.967C248.209 220.668 287.895 181.144 289.453 132H249.15C235.997 144.481 218.412 152.337 199 152.96ZM199 230.97C253.18 229.667 296.894 186.116 298.457 132H332H333.468C331.886 205.337 272.466 264.431 199 265.486V230.97ZM103.5 129H140.858C130.975 118.529 124.015 105.27 121.283 90.5271C118.581 101.414 112.811 110.422 104.859 117.23C98.6252 122.568 91.0792 126.531 82.6682 129H94.5H103.5ZM298.5 129H289.5H252.142C262.025 118.529 268.985 105.27 271.717 90.5271C274.419 101.414 280.189 110.422 288.141 117.23C294.375 122.568 301.921 126.531 310.332 129H298.5ZM125 76.5C125 115.988 157.012 148 196.5 148C235.988 148 268 115.988 268 76.5C268 37.0116 235.988 5 196.5 5C157.012 5 125 37.0116 125 76.5Z"
+                    fill={colors.gray}
+                />
+            </Svg>
+        </View>
+    );
+};
 const styles = StyleSheet.create({
     filigree: {
         position: 'absolute',
@@ -574,5 +697,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
 
         width: '100%',
+    },
+    filigree_corner: {
+        position: 'absolute',
+
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 });

@@ -1,6 +1,6 @@
 [
     {
-        "type": "book",
+        "type": "sách chữ",
         "title": "A Game of Thrones",
         "author": "George R.R. Martin",
         "series": "A Song of Ice and Fire",
@@ -34,7 +34,7 @@
         ]
     },
     {
-        "type": "book",
+        "type": "sách chữ",
         "title": "A Clash of Kings",
         "author": "George R.R. Martin",
         "series": "A Song of Ice and Fire",
@@ -56,7 +56,7 @@
         "chapterContent": []
     },
     {
-        "type": "book",
+        "type": "sách chữ",
         "title": "A Storm of Swords",
         "author": "George R.R. Martin",
         "series": "A Song of Ice and Fire",
@@ -78,7 +78,7 @@
         "chapterContent": []
     },
     {
-        "type": "book",
+        "type": "sách chữ",
         "title": "A Feast for Crows",
         "author": "George R.R. Martin",
         "series": "A Song of Ice and Fire",
@@ -100,7 +100,7 @@
         "chapterContent": []
     },
     {
-        "type": "book",
+        "type": "sách chữ",
         "title": "A Dance with Dragons",
         "author": "George R.R. Martin",
         "series": "A Song of Ice and Fire",
@@ -122,7 +122,7 @@
         "chapterContent": []
     },
     {
-        "type": "book",
+        "type": "sách chữ",
         "title": "Fire and Blood",
         "author": "George R.R. Martin",
         "series": "A Song of Ice and Fire",
@@ -143,7 +143,7 @@
         "chapterContent": []
     },
     {
-        "type": "book",
+        "type": "sách chữ",
         "title": "Harry Potter and the Philosopher's Stone",
         "author": "J.K. Rowling",
         "series": "Harry Potter",
@@ -164,7 +164,7 @@
         "chapterContent": []
     },
     {
-        "type": "book",
+        "type": "sách chữ",
         "title": "Harry Potter and the Chamber of Secrets",
         "author": "J.K. Rowling",
         "series": "Harry Potter",
@@ -186,7 +186,7 @@
         "chapterContent": []
     },
     {
-        "type": "book",
+        "type": "sách chữ",
         "title": "Harry Potter and the Prisoner of Azkaban",
         "author": "J.K. Rowling",
         "series": "Harry Potter",
@@ -208,7 +208,7 @@
         "chapterContent": []
     },
     {
-        "type": "book",
+        "type": "sách chữ",
         "title": "Harry Potter and the Goblet of Fire",
         "author": "J.K. Rowling",
         "series": "Harry Potter",
@@ -230,7 +230,7 @@
         "chapterContent": []
     },
     {
-        "type": "book",
+        "type": "sách chữ",
         "title": "Harry Potter and the Order of the Phoenix",
         "author": "J.K. Rowling",
         "series": "Harry Potter",
@@ -252,7 +252,7 @@
         "chapterContent": []
     },
     {
-        "type": "book",
+        "type": "sách chữ",
         "title": "Harry Potter and the Half-Blood Prince",
         "author": "J.K. Rowling",
         "series": "Harry Potter",
@@ -274,7 +274,7 @@
         "chapterContent": []
     },
     {
-        "type": "book",
+        "type": "sách chữ",
         "title": "Harry Potter and the Deathly Hallows",
         "author": "J.K. Rowling",
         "series": "Harry Potter",
@@ -296,7 +296,7 @@
         "chapterContent": []
     },
     {
-        "type": "book",
+        "type": "sách chữ",
         "title": "The Hobbit",
         "author": "J.R.R. Tolkien",
         "series": "The Lord of the Rings",
@@ -317,7 +317,7 @@
         "chapterContent": []
     },
     {
-        "type": "book",
+        "type": "sách chữ",
         "title": "The Lord of the Rings: The Fellowship of the Ring",
         "author": "J.R.R. Tolkien",
         "series": "The Lord of the Rings",
@@ -338,7 +338,7 @@
         "chapterContent": []
     },
     {
-        "type": "book",
+        "type": "sách chữ",
         "title": "The Lord of the Rings: The Two Towers",
         "author": "J.R.R. Tolkien",
         "series": "The Lord of the Rings",
@@ -359,7 +359,7 @@
         "chapterContent": []
     },
     {
-        "type": "book",
+        "type": "sách chữ",
         "title": "The Lord of the Rings: The Return of the King",
         "author": "J.R.R. Tolkien",
         "series": "The Lord of the Rings",
@@ -380,7 +380,7 @@
         "chapterContent": []
     },
     {
-        "type": "book",
+        "type": "sách chữ",
         "title": "Dune",
         "author": "Frank Herbert",
         "series": "Dune",
@@ -401,7 +401,7 @@
         "chapterContent": []
     },
     {
-        "type": "book",
+        "type": "sách chữ",
         "title": "Dune Messiah",
         "author": "Frank Herbert",
         "series": "Dune",
@@ -423,7 +423,7 @@
         "chapterContent": []
     },
     {
-        "type": "book",
+        "type": "sách chữ",
         "title": "Children of Dune",
         "author": "Frank Herbert",
         "series": "Dune",
@@ -445,7 +445,7 @@
         "chapterContent": []
     },
     {
-        "type": "book",
+        "type": "sách chữ",
         "title": "God Emperor of Dune",
         "author": "Frank Herbert",
         "series": "Dune",
@@ -467,7 +467,7 @@
         "chapterContent": []
     },
     {
-        "type": "book",
+        "type": "sách chữ",
         "title": "Heretics of Dune",
         "author": "Frank Herbert",
         "series": "Dune",
@@ -489,7 +489,7 @@
         "chapterContent": []
     },
     {
-        "type": "book",
+        "type": "sách chữ",
         "title": "Chapterhouse: Dune",
         "author": "Frank Herbert",
         "series": "Dune",

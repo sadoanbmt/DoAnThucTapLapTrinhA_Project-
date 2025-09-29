@@ -6,6 +6,7 @@ import Svg, { Circle, Line } from 'react-native-svg';
 import { colors } from './GlobalStyle';
 import HeaderMain from './Components/HeaderMain';
 import BookList from './Components/BookList';
+import { useSelector } from 'react-redux';
 
 const bookDatabase = require('../assets/_bookDatabase.json');
 const bookCover = {
@@ -44,11 +45,11 @@ const searchInfo = {
     searchResultList_Comic: bookDatabase.slice(10, 20),
 }
 
-const ResultCount = () => {
+const ResultCount = ({ searchResultKeyword, searchType, searchResultCount }) => {
     return (
         <View style={styles.rc_container}>
             <Text style={styles.rc_title}>
-                {searchInfo.searchType} {searchInfo.search}
+                {searchType} : {searchResultKeyword}
             </Text>
             <View style={styles.row}>
                 <Svg width={40} height={40 * 0.184} viewBox="0 0 38 7">
@@ -69,10 +70,7 @@ const ResultCount = () => {
                     />
                 </Svg>
                 <Text style={[styles.rc_subtitle, { marginLeft: 10 }]}>
-                    {
-                        searchInfo.searchResultList_Book.length +
-                        searchInfo.searchResultList_Comic.length
-                    } Kết quả
+                    {searchResultCount} Kết quả
                 </Text>
             </View>
         </View>
@@ -80,36 +78,31 @@ const ResultCount = () => {
 }
 
 const SearchResultScreen = ({ navigation }) => {
+    const searchType = useSelector((state) => state.books.searchType)
+    const searchResultKeyword = useSelector((state) => state.books.searchKeyword)
+    const searchResultList = useSelector((state) => state.books.searchResultList)
+
+    const searchResultList_Book = searchResultList.filter(book => book.type == "sách chữ");
+    const searchResultList_Comic = searchResultList.filter(book => book.type == "truyện tranh");
+    const searchResultCount = searchResultList_Book.length + searchResultList_Comic.length;
     return (
         <View style={styles.container}>
             <HeaderMain />
             <ScrollView bounces={false} overScrollMode="never" style={{ width: '100%' }}>
-                <ResultCount />
-                <BookList title="TRUYỆN TRANH"
-                    listOfBooks={searchInfo.searchResultList_Comic}
+                <ResultCount searchType={searchType}
+                    searchResultKeyword={searchResultKeyword}
+                    searchResultCount={searchResultCount}
+                />
+                <BookList bookType="TRUYỆN TRANH"
+                    listOfBooks={searchResultList_Book}
                     customDestination="SearchListingScreen"
                 />
-                <BookList title="SÁCH CHỮ"
-                    listOfBooks={searchInfo.searchResultList_Book}
+                <BookList bookType="SÁCH CHỮ"
+                    listOfBooks={searchResultList_Book}
                     customDestination="SearchListingScreen"
                 />
-                {
-                    (searchInfo.searchResultList_Comic.length != 0 && searchInfo.searchResultList_Book.length != 0) &&
-                    <View style={styles.bottomPadding}>
-                        <LinearGradient
-                            colors={['transparent', 'rgba(0,0,0,1)']}
-                            style={[styles.shadow, styles.bottomShadow]}
-                        />
-                    </View>}
+                <View style={styles.bottomPadding} />
             </ScrollView>
-            {
-                (searchInfo.searchResultList_Comic.length == 0 || searchInfo.searchResultList_Book.length == 0) &&
-                <View style={styles.bottomPadding}>
-                    <LinearGradient
-                        colors={['transparent', 'rgba(0,0,0,1)']}
-                        style={[styles.shadow, styles.bottomShadow]}
-                    />
-                </View>}
         </View>
     );
 };

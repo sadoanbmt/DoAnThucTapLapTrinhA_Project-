@@ -247,12 +247,7 @@ const SearchListingScreen = ({ navigation }) => {
                     totalPage={totalPage}
                 />
 
-                <View style={styles.bottomPadding}>
-                    <LinearGradient
-                        colors={['transparent', 'rgba(0,0,0,1)']}
-                        style={[styles.shadow, styles.bottomShadow]}
-                    />
-                </View>
+                <View style={styles.bottomPadding}/>
             </ScrollView>
         </View>
     );

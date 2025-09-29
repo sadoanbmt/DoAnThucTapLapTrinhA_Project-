@@ -4,11 +4,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import Svg, { Circle, Line } from 'react-native-svg';
 
+import { useSelector, useDispatch } from "react-redux";
+import { selectBook, viewBookType } from "../../slices/bookSlice";
+
 import { colors } from '../GlobalStyle';
 import { Filigree1, Filigree5_Bottom } from '../Decorations/Filigree';
 import { DecoButton } from '../Decorations/DecoButton';
 
-const bookDatabase = require('../../assets/_bookDatabase.json');
 const bookCover = {
     "../assets/aGameOfThrones.jpg": require("../../assets/aGameOfThrones.jpg"),
     "../assets/aClashOfKings.jpg": require("../../assets/aClashOfKings.jpg"),
@@ -34,16 +36,25 @@ const bookCover = {
     "../assets/dune5.jpg": require("../../assets/dune5.jpg"),
     "../assets/dune6.jpg": require("../../assets/dune6.jpg"),
 }
-const BookList = ({ title, listOfBooks, customDestination }) => {
+const BookList = ({ bookType, listOfBooks, customDestination }) => {
     if (listOfBooks == null || listOfBooks.length <= 1) return (null);
-    const navigation = useNavigation();
     const navDestination = customDestination == null ? "BookListingScreen" : customDestination;
+
+    const navigation = useNavigation();
+    const dispatch = useDispatch();
+
+    const bookTypeFormat = bookType.toLowerCase();
+
     const BookItem = ({ book }) => {
         if (book == null) return (null);
+
         return (
             <TouchableOpacity style={styles.bi_container}
                 activeOpacity={1}
-                onPress={() => navigation.navigate('BookDetailScreen')}
+                onPress={() => {
+                    navigation.navigate('BookDetailScreen', { book: book.title })
+                    dispatch(selectBook(book.title))
+                }}
             >
                 <View style={styles.bi_bookCover}>
                     <Image
@@ -86,7 +97,7 @@ const BookList = ({ title, listOfBooks, customDestination }) => {
             />
             <View style={styles.bl_header}>
                 <Text style={styles.bl_headerTitle}>
-                    {title}
+                    {bookType}
                 </Text>
             </View>
 
@@ -100,7 +111,10 @@ const BookList = ({ title, listOfBooks, customDestination }) => {
 
             <TouchableOpacity style={styles.decoButton}
                 activeOpacity={1}
-                onPress={() => navigation.navigate(navDestination)}
+                onPress={() => {
+                    dispatch(viewBookType(bookTypeFormat))
+                    navigation.navigate(navDestination)
+                }}
             >
                 <DecoButton ButtonText="XEM THÊM" />
             </TouchableOpacity>
@@ -111,12 +125,17 @@ const BookList = ({ title, listOfBooks, customDestination }) => {
 export const BookList_Alt = ({ title, listOfBooks }) => {
     if (listOfBooks == null || listOfBooks.length <= 1) return (null);
     const navigation = useNavigation();
+    
+    const dispatch = useDispatch();
     const BookItem = ({ book }) => {
         if (book == null) return (null);
         return (
             <TouchableOpacity style={styles.bi_container}
                 activeOpacity={1}
-                onPress={() => navigation.navigate('BookDetailScreen')}
+                onPress={() => {
+                    navigation.navigate('BookDetailScreen', { book: book.title })
+                    dispatch(selectBook(book.title))
+                }}
             >
                 <View style={styles.bi_bookCover}>
                     <Image
@@ -184,7 +203,6 @@ export const BookList_Alt = ({ title, listOfBooks }) => {
         </View>
     )
 }
-
 
 const styles = StyleSheet.create({
     //-------------------------------------------------------//
