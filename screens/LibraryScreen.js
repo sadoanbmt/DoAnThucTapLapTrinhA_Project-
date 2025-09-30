@@ -4,12 +4,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from "react-redux";
 
-import { colors } from './GlobalStyle';
+import { colors, globalStyles } from './GlobalStyle';
 import HeaderMain from './Components/HeaderMain';
 import { } from './Decorations/Filigree';
 import { } from './Decorations/DecoButton';
 import ScreenTitle from './Components/ScreenTitle';
 import CurrentBook from './Components/CurrentBook';
+import BookList from './Components/BookList';
 
 const book = {
     "type": "sách chữ",
@@ -46,7 +47,17 @@ const book = {
     ]
 }
 
+const createRandomList = (array, count) => {
+    return [...array]
+        .sort(() => Math.random() - 0.5)
+        .slice(0, count);
+};
+
 const LibraryScreen = () => {
+    const bookDatabase = useSelector((state) => state.books.bookDatabase);
+
+    const listOfBooks = createRandomList(bookDatabase, 10);
+
     return (
         <View style={styles.container}>
             <HeaderMain />
@@ -54,6 +65,10 @@ const LibraryScreen = () => {
                 <ScreenTitle title={"THƯ VIỆN"} icon={"account-balance"} />
 
                 <CurrentBook book={book} />
+
+                <BookList bookType="Hello world" listOfBooks={listOfBooks} customDestination={"LibraryListingScreen"}/>
+                
+                <View style={globalStyles.bottomPadding}/>
             </ScrollView>
         </View>
     );

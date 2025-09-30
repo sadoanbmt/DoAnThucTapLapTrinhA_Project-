@@ -28,11 +28,12 @@ const bookSlice = createSlice({
             state.searchType = searchType;
             state.searchKeyword = searchKeyword;
 
-            // state.searchResultList = state.bookDatabase.filter(book => book.title == searchKeyword);
-            // state.searchResultList = [...state.searchResultList, ...(state.bookDatabase.filter(book => book.series == searchKeyword)) || null];
-            // state.searchResultList = [...state.searchResultList, ...(state.bookDatabase.filter(book => book.author == searchKeyword)) || null];
+            state.searchResultList = state.bookDatabase.filter(book => book.title.toLowerCase().trim() == searchKeyword.toLowerCase().trim());
+            state.searchResultList = [...state.searchResultList, ...(state.bookDatabase.filter(book => book.series.toLowerCase().trim() == searchKeyword.toLowerCase().trim())) || null];
+            state.searchResultList = [...state.searchResultList, ...(state.bookDatabase.filter(book => book.author.toLowerCase().trim() == searchKeyword.toLowerCase().trim())) || null];
 
-            state.searchResultList = [...state.bookDatabase];
+            state.searchResultList = [...new Set(state.searchResultList)];
+            // state.searchResultList = [...state.bookDatabase];
         },
         clearSearchResultList: (state) => {
             state.searchType = null;

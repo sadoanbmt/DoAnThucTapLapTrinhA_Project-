@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@react-native-vector-icons/material-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 
 import { useDispatch } from 'react-redux';
 
@@ -72,6 +71,17 @@ const SideTabRight = ({ setLeftIsVisible, setRightIsVisible }) => {
                     <MaterialIcons name="settings" color={colors.gold} size={20} />
                     <Text style={styles.str_menuButtonText}>
                         Cài Đặt
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.str_menuButton}
+                    onPress={() => {
+                        navigation.navigate("LoginScreen")
+                        setRightIsVisible(false)
+                    }}
+                >
+                    <MaterialIcons name="person" color={colors.gold} size={20} />
+                    <Text style={styles.str_menuButtonText}>
+                        Đăng Nhập
                     </Text>
                 </TouchableOpacity>
             </View>

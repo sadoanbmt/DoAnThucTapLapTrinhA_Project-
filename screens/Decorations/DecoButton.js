@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, useWindowDimensions } from 'react-native';
 import Svg, { Rect, Mask, Path, G } from 'react-native-svg';
-import { colors } from '../GlobalStyle';
+import { colors, globalStyles } from '../GlobalStyle';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -57,7 +57,6 @@ export const DecoButton = ({ ButtonText, ButtonIcon }) => {
         </View>
     );
 };
-
 export const DecoButton_Dark = ({ ButtonText, ButtonIcon }) => {
     const { width } = useWindowDimensions();
     const svgWidth = Math.min(width - 40, 193);
@@ -106,7 +105,6 @@ export const DecoButton_Dark = ({ ButtonText, ButtonIcon }) => {
         </View>
     );
 };
-
 export const DirectionButton_Left = ({ }) => {
     const { width } = useWindowDimensions();
     const svgWidth = Math.min(width - 40, 63);
@@ -133,7 +131,6 @@ export const DirectionButton_Left = ({ }) => {
         </View>
     );
 };
-
 export const DirectionButton_Right = ({ }) => {
     const { width } = useWindowDimensions();
     const svgWidth = Math.min(width - 40, 63);
@@ -160,7 +157,6 @@ export const DirectionButton_Right = ({ }) => {
         </View>
     );
 };
-
 export const OrnateButton = ({ ButtonText, ButtonIcon }) => {
     return (
         <View style={{ width: '100%' }}>
@@ -200,7 +196,6 @@ export const OrnateButton = ({ ButtonText, ButtonIcon }) => {
         </View>
     );
 }
-
 export const OrnateOption = ({ ButtonText, ButtonIcon, Active }) => {
     return (
         <View style={{ width: '100%' }}>
@@ -242,6 +237,63 @@ export const OrnateOption = ({ ButtonText, ButtonIcon, Active }) => {
             </View>
         </View>
     );
+}
+
+export const SidedButton_Left = ({ ButtonText, Active }) => {
+    const color = Active ? colors.white : colors.lightgray;
+
+    return (
+        <View style={styles.sideButtonContainer}>
+            <View style={[styles.sb_textContainer, { right: 0 }]}>
+                <Text style={[styles.sb_text]}>{ButtonText}</Text>
+            </View>
+            <Svg
+                width="178" height="34" viewBox="0 0 178 34" fill="none"
+            >
+                <Path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M45.4314 0C39.0438 18.9163 21.681 32.7612 0.939453 33.9212V34H178.097V0H45.4314Z"
+                    fill={color}
+                />
+            </Svg>
+            {
+                !Active &&
+                <LinearGradient
+                    colors={['transparent', 'rgba(0,0,0,0.2)']}
+                    style={[globalStyles.shadow, globalStyles.bottomShadow]}
+                />
+            }
+        </View>
+    )
+}
+
+export const SidedButton_Right = ({ ButtonText, Active }) => {
+    const color = Active ? colors.white : colors.lightgray;
+    return (
+        <View style={styles.sideButtonContainer}>
+            <View style={[styles.sb_textContainer, { left: 0 }]}>
+                <Text style={[styles.sb_text]}>{ButtonText}</Text>
+            </View>
+            <Svg
+                width="178" height="34" viewBox="0 0 178 34" fill="none"
+            >
+                <Path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M132.608 0C138.99 18.9163 156.337 32.7612 177.061 33.9212V34H0.0605512V0H132.608Z"
+                    fill={color}
+                />
+            </Svg>
+            {
+                !Active &&
+                <LinearGradient
+                    colors={['transparent', 'rgba(0,0,0,0.2)']}
+                    style={[globalStyles.shadow, globalStyles.bottomShadow]}
+                />
+            }
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -357,6 +409,31 @@ const styles = StyleSheet.create({
     },
     oo_text_active: {
         color: colors.white,
+    },
+
+    sideButtonContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+
+        overflow: 'hidden'
+    },
+    sb_textContainer: {
+        zIndex: 999,
+        position: 'absolute',
+
+        alignItems: 'center',
+        justifyContent: 'center',
+
+        width: 140,
+        height: 34,
+
+        // borderColor: 'red',
+        // borderWidth: 1
+    },
+    sb_text: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: colors.gray
     },
 
     shadow: {

@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { useRoute } from "@react-navigation/native";
 
-import { colors, globalStyles } from './GlobalStyle';
+import { colors, globalStyles, bookCover } from './GlobalStyle';
 import HeaderMain from './Components/HeaderMain';
 import { BookList_Detail } from './Components/BookList';
 import { Filigree1, Filigree2, Filigree3_Simple, Filigree5_Bottom } from './Decorations/Filigree';
@@ -15,31 +15,6 @@ import MaterialIcons from '@react-native-vector-icons/material-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchForBooks } from '../slices/bookSlice';
 
-const bookCover = {
-    "../assets/aGameOfThrones.jpg": require("../assets/aGameOfThrones.jpg"),
-    "../assets/aClashOfKings.jpg": require("../assets/aClashOfKings.jpg"),
-    "../assets/aStormOfSwords.jpg": require("../assets/aStormOfSwords.jpg"),
-    "../assets/aFeastForCrows.jpg": require("../assets/aFeastForCrows.jpg"),
-    "../assets/aDanceWithDragons.jpg": require("../assets/aDanceWithDragons.jpg"),
-    "../assets/fireAndBlood.jpg": require("../assets/fireAndBlood.jpg"),
-    "../assets/theHobbit.jpg": require("../assets/theHobbit.jpg"),
-    "../assets/theFellowshipOfTheRing.jpg": require("../assets/theFellowshipOfTheRing.jpg"),
-    "../assets/theTwoTowers.jpg": require("../assets/theTwoTowers.jpg"),
-    "../assets/theReturnOfTheKing.jpg": require("../assets/theReturnOfTheKing.jpg"),
-    "../assets/harryPotter1.jpg": require("../assets/harryPotter1.jpg"),
-    "../assets/harryPotter2.jpg": require("../assets/harryPotter2.jpg"),
-    "../assets/harryPotter3.jpg": require("../assets/harryPotter3.jpg"),
-    "../assets/harryPotter4.jpg": require("../assets/harryPotter4.jpg"),
-    "../assets/harryPotter5.jpg": require("../assets/harryPotter5.jpg"),
-    "../assets/harryPotter6.jpg": require("../assets/harryPotter6.jpg"),
-    "../assets/harryPotter7.jpg": require("../assets/harryPotter7.jpg"),
-    "../assets/dune1.jpg": require("../assets/dune1.jpg"),
-    "../assets/dune2.jpg": require("../assets/dune2.jpg"),
-    "../assets/dune3.jpg": require("../assets/dune3.jpg"),
-    "../assets/dune4.jpg": require("../assets/dune4.jpg"),
-    "../assets/dune5.jpg": require("../assets/dune5.jpg"),
-    "../assets/dune6.jpg": require("../assets/dune6.jpg"),
-}
 const BookDetail = ({ theBook }) => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
@@ -58,10 +33,6 @@ const BookDetail = ({ theBook }) => {
     }
     return (
         <View style={styles.bd_container}>
-            <LinearGradient
-                colors={['transparent', 'rgba(0,0,0,0.3)']}
-                style={[globalStyles.shadow, globalStyles.bottomShadow, { height: 40 }]}
-            />
             <View style={styles.bd_bookCover}>
                 <Image source={bookCover[theBook.cover]}
                     style={styles.bd_bookCoverImg}
@@ -71,11 +42,11 @@ const BookDetail = ({ theBook }) => {
             <View style={styles.bd_blurBg}>
                 <LinearGradient
                     colors={['transparent', 'rgba(0,0,0,0.3)']}
-                    style={[styles.shadow, styles.bottomShadow, { height: 40 }]}
+                    style={[globalStyles.shadow, globalStyles.bottomShadow, { height: 40 }]}
                 />
                 <LinearGradient
                     colors={['rgba(0, 0, 0, 0.3)', 'transparent']}
-                    style={[styles.shadow, styles.topShadow, { height: 40 }]}
+                    style={[globalStyles.shadow, globalStyles.topShadow, { height: 40 }]}
                 />
                 <Image source={bookCover[theBook.cover]}
                     style={styles.bd_blurBgImg}
@@ -89,6 +60,10 @@ const BookDetail = ({ theBook }) => {
                     colors={['rgba(0, 0, 0, 0.3)', 'transparent']}
                     style={[globalStyles.shadow, globalStyles.topShadow, { height: 40 }]}
                 />
+                <LinearGradient
+                    colors={['transparent', 'rgba(0,0,0,0.3)']}
+                    style={[globalStyles.shadow, globalStyles.bottomShadow, { height: 20 }]}
+                />
                 <View style={styles.bd_header}>
                     <Text style={styles.bd_headerText}>
                         {theBook.title}
@@ -96,7 +71,10 @@ const BookDetail = ({ theBook }) => {
                 </View>
 
                 <TouchableOpacity style={styles.bd_series}
-                    onPress={() => navigation.navigate('SearchResultScreen')}
+                    onPress={() => {
+                        dispatch(searchForBooks({ searchType: "Series", searchKeyword: theBook.series }))
+                        navigation.navigate('SearchResultScreen')
+                    }}
                 >
                     <MaterialIcons name="collections-bookmark"
                         color={colors.black}
@@ -109,7 +87,10 @@ const BookDetail = ({ theBook }) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.bd_author}
-                    onPress={() => navigation.navigate('SearchResultScreen')}
+                    onPress={() => {
+                        dispatch(searchForBooks({ searchType: "Tác Giả", searchKeyword: theBook.author }))
+                        navigation.navigate('SearchResultScreen')
+                    }}
                 >
                     <MaterialIcons name="create"
                         color={colors.black}

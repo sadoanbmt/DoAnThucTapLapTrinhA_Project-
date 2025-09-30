@@ -10,8 +10,9 @@ import HeaderMain from './Components/HeaderMain';
 import { Filigree1, Filigree4 } from './Decorations/Filigree';
 import { DirectionButton_Left, DirectionButton_Right } from './Decorations/DecoButton';
 import { useSelector } from 'react-redux';
+import ScreenTitle from './Components/ScreenTitle';
 
-const ResultCount = ({ searchType, searchKeyword, searchResultList}) => {
+const ResultCount = ({ searchType, searchKeyword, searchResultList }) => {
     return (
         <View style={styles.rc_container}>
             <Text style={styles.rc_title}>
@@ -175,23 +176,8 @@ const formatCompactNumber = (number) => {
     }
     return number.toString();
 };
-// const BookItem = ({ navigation }) => {
-//     return (
-//         <View style={styles.bi_container}>
-//             <TouchableOpacity style={styles.bi_bookCover}
-//                 onPress={() => {
-//                     navigation.navigate("BookDetailScreen")
-//                 }}
-//             >
-//             </TouchableOpacity>
-//             <Text style={styles.bi_bookTitle}>Book Title</Text>
-//             <Text style={styles.bi_bookAuthor}>Book Author</Text>
-//             <Text style={styles.bi_bookPage}>1000 trang</Text>
-//         </View>
-//     )
-// }
 
-const SearchListingScreen = ({ navigation }) => {
+const LibraryListingScreen = ({ navigation }) => {
     const searchResultList = useSelector((state) => state.books.searchResultList);
     const searchType = useSelector((state) => state.books.searchType);
     const searchKeyword = useSelector((state) => state.books.searchKeyword);
@@ -202,11 +188,7 @@ const SearchListingScreen = ({ navigation }) => {
         <View style={styles.container}>
             <HeaderMain />
             <ScrollView bounces={false} overScrollMode="never">
-                <ResultCount
-                    searchResultList={searchResultList}
-                    searchType={searchType}
-                    searchKeyword={searchKeyword}
-                />
+                <ScreenTitle title={"THƯ VIỆN"} icon={"account-balance"} />
 
                 <ResultButton page={page}
                     setPage={setPage}
@@ -496,4 +478,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SearchListingScreen;
+export default LibraryListingScreen;
