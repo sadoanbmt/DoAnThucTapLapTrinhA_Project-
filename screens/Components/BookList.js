@@ -5,9 +5,9 @@ import { useNavigation } from '@react-navigation/native';
 import Svg, { Circle, Line } from 'react-native-svg';
 
 import { useSelector, useDispatch } from "react-redux";
-import { selectBook, viewBookType } from "../../slices/bookSlice";
+import { searchForBooks, selectBook, viewBookType } from "../../slices/bookSlice";
 
-import { colors } from '../GlobalStyle';
+import { colors, globalStyles } from '../GlobalStyle';
 import { Filigree1, Filigree5_Bottom } from '../Decorations/Filigree';
 import { DecoButton } from '../Decorations/DecoButton';
 
@@ -37,7 +37,7 @@ const bookCover = {
     "../assets/dune6.jpg": require("../../assets/dune6.jpg"),
 }
 const BookList = ({ bookType, listOfBooks, customDestination }) => {
-    if (listOfBooks == null || listOfBooks.length <= 1) return (null);
+    if (listOfBooks == null || listOfBooks.length <= 0) return (null);
     const navDestination = customDestination == null ? "BookListingScreen" : customDestination;
 
     const navigation = useNavigation();
@@ -85,15 +85,15 @@ const BookList = ({ bookType, listOfBooks, customDestination }) => {
             <Filigree5_Bottom />
             <LinearGradient
                 colors={['rgba(0, 0, 0, 0.3)', 'transparent']}
-                style={[styles.shadow, styles.topShadow, { marginTop: 30, }]}
+                style={[globalStyles.shadow, globalStyles.topShadow, { marginTop: 30, }]}
             />
             <LinearGradient
                 colors={['transparent', 'rgba(0,0,0,0.2)']}
-                style={[styles.shadow, styles.bottomShadow]}
+                style={[globalStyles.shadow, globalStyles.bottomShadow]}
             />
             <LinearGradient
                 colors={['transparent', 'rgba(0,0,0,1)']}
-                style={[styles.shadow, styles.bottomShadow, { top: -30, height: 30 }]}
+                style={[globalStyles.shadow, globalStyles.bottomShadow, { top: -30, height: 30 }]}
             />
             <View style={styles.bl_header}>
                 <Text style={styles.bl_headerTitle}>
@@ -109,23 +109,26 @@ const BookList = ({ bookType, listOfBooks, customDestination }) => {
                 style={styles.bl_flatList}
             />
 
-            <TouchableOpacity style={styles.decoButton}
-                activeOpacity={1}
-                onPress={() => {
-                    dispatch(viewBookType(bookTypeFormat))
-                    navigation.navigate(navDestination)
-                }}
-            >
-                <DecoButton ButtonText="XEM THÊM" />
-            </TouchableOpacity>
+            {listOfBooks.length > 6 &&
+                <TouchableOpacity style={styles.decoButton}
+                    activeOpacity={1}
+                    onPress={() => {
+                        dispatch(viewBookType(bookTypeFormat))
+                        navigation.navigate(navDestination)
+                    }}
+                >
+                    <DecoButton ButtonText="XEM THÊM" />
+                </TouchableOpacity>
+            }
+
 
         </View>
     )
 }
 export const BookList_Alt = ({ title, listOfBooks }) => {
-    if (listOfBooks == null || listOfBooks.length <= 1) return (null);
+    if (listOfBooks == null || listOfBooks.length <= 0) return (null);
     const navigation = useNavigation();
-    
+
     const dispatch = useDispatch();
     const BookItem = ({ book }) => {
         if (book == null) return (null);
@@ -164,11 +167,11 @@ export const BookList_Alt = ({ title, listOfBooks }) => {
             <Filigree5_Bottom />
             <LinearGradient
                 colors={['rgba(0, 0, 0, 0.4)', 'transparent']}
-                style={[styles.shadow, styles.topShadow]}
+                style={[globalStyles.shadow, globalStyles.topShadow]}
             />
             <LinearGradient
                 colors={['transparent', 'rgba(0,0,0,0.2)']}
-                style={[styles.shadow, styles.bottomShadow]}
+                style={[globalStyles.shadow, globalStyles.bottomShadow]}
             />
             <View style={styles.bl_header_alt}>
                 <Svg width={38} height={38 * 0.184} viewBox="0 0 45 7">
@@ -200,6 +203,91 @@ export const BookList_Alt = ({ title, listOfBooks }) => {
                 horizontal={true}
                 style={styles.bl_flatList}
             />
+        </View>
+    )
+}
+export const BookList_Detail = ({ searchType, searchKeyword, listOfBooks, customDestination }) => {
+    if (listOfBooks == null || listOfBooks.length <= 1) return (null);
+    const navDestination = customDestination == null ? "SearchResultScreen" : customDestination;
+
+    const navigation = useNavigation();
+    const dispatch = useDispatch();
+
+    const BookItem = ({ book }) => {
+        if (book == null) return (null);
+
+        return (
+            <TouchableOpacity style={styles.bi_container}
+                activeOpacity={1}
+                onPress={() => {
+                    navigation.navigate('BookDetailScreen', { book: book.title })
+                    dispatch(selectBook(book.title))
+                }}
+            >
+                <View style={styles.bi_bookCover}>
+                    <Image
+                        source={bookCover[book.cover]}
+                        style={styles.bi_bookCoverImg}
+                        resizeMode="cover"
+                    />
+                </View>
+                <Text style={styles.bi_bookTitle}
+                    numberOfLines={2}
+                    ellipsizeMode="tail"
+                >
+                    {book.title}
+                </Text>
+                <Text style={styles.bi_bookAuthor}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                >
+                    {book.author}
+                </Text>
+            </TouchableOpacity>
+        );
+    }
+    return (
+        <View style={styles.bl_container}>
+            <View style={styles.line} />
+            <Filigree1 />
+            <Filigree5_Bottom />
+            <LinearGradient
+                colors={['rgba(0, 0, 0, 0.3)', 'transparent']}
+                style={[globalStyles.shadow, globalStyles.topShadow, { marginTop: 30, }]}
+            />
+            <LinearGradient
+                colors={['transparent', 'rgba(0,0,0,0.2)']}
+                style={[globalStyles.shadow, globalStyles.bottomShadow]}
+            />
+            <LinearGradient
+                colors={['transparent', 'rgba(0,0,0,1)']}
+                style={[globalStyles.shadow, globalStyles.bottomShadow, { top: -30, height: 30 }]}
+            />
+            <View style={styles.bl_header}>
+                <Text style={styles.bl_headerTitle}>
+                    {searchType}: {searchKeyword}
+                </Text>
+            </View>
+
+            <FlatList
+                data={listOfBooks}
+                renderItem={(bookItem) => <BookItem book={bookItem.item} />}
+                keyExtractor={bookItem => bookItem.title}
+                horizontal={true}
+                style={styles.bl_flatList}
+            />
+
+            {listOfBooks.length > 6 &&
+                <TouchableOpacity style={styles.decoButton}
+                    activeOpacity={1}
+                    onPress={() => {
+                        dispatch(searchForBooks({ searchType: searchType, searchKeyword: searchKeyword }))
+                        navigation.navigate(navDestination)
+                    }}
+                >
+                    <DecoButton ButtonText="XEM THÊM" />
+                </TouchableOpacity>
+            }
         </View>
     )
 }
@@ -329,41 +417,12 @@ const styles = StyleSheet.create({
     },
 
     //-------------------------------------------------------//
-    // GENERAL
 
-    shadow: {
-        position: 'absolute',
-    },
-    topShadow: {
-        height: 70,
-        width: '100%',
-        top: 0,
-        left: 0,
-    },
-    bottomShadow: {
-        height: 150,
-        width: '100%',
-        bottom: 0,
-        left: 0,
-    },
-    line: {
-        position: 'absolute',
-        top: -10,
-        zIndex: 99,
-
-        height: 2,
-        width: '100%',
-
-        backgroundColor: colors.gray
-    },
     decoButton: {
         position: 'absolute',
         bottom: -15,
         zIndex: 999,
     },
-    bottomPadding: {
-        paddingBottom: 120
-    }
 });
 
 export default BookList;

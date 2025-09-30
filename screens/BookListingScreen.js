@@ -1,13 +1,10 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import Svg, { Circle, Line } from 'react-native-svg';
-import { useDispatch, useSelector } from 'react-redux';
+import { View, StyleSheet, ScrollView } from 'react-native';
+import { useSelector } from 'react-redux';
 
-import { colors } from './GlobalStyle';
+import { colors, globalStyles } from './GlobalStyle';
 import HeaderMain from './Components/HeaderMain';
 import { BookList_Alt } from './Components/BookList';
-import { LinearGradient } from 'expo-linear-gradient';
 import ScreenTitle from './Components/ScreenTitle';
 
 const bookCover = {
@@ -41,15 +38,6 @@ const createRandomList = (array, count) => {
     .slice(0, count);
 };
 
-const BookType = ({ type }) => {
-  return (
-    <View style={styles.bt_container}>
-      <Text style={styles.bt_text}>{type}</Text>
-      <View style={styles.line} />
-    </View>
-  )
-}
-
 const BookListingScreen = ({ navigation }) => {
   const bookType = useSelector((state) => (state.books.viewBookType))
   const bookDatabase = useSelector((state) => (state.books.viewBookList))
@@ -60,9 +48,10 @@ const BookListingScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <HeaderMain />
+
       <ScrollView bounces={false} overScrollMode="never" style={{ width: '100%' }}>
-        <ScreenTitle title={bookType.toUpperCase()} icon="article"/>
-        {/* <BookType type={bookType.toUpperCase()} /> */}
+
+        <ScreenTitle title={bookType.toUpperCase()} icon="article" />
 
         <BookList_Alt title="MỚI CẬP NHẬT" listOfBooks={listOfBooksNewlyUpdated} />
 
@@ -70,12 +59,8 @@ const BookListingScreen = ({ navigation }) => {
 
         <BookList_Alt title="HÀNG ĐẦU" listOfBooks={listOfBooksTopRated} />
 
-        <View style={styles.bottomPadding}>
-          {/* <LinearGradient
-            colors={['transparent', 'rgba(0,0,0,1)']}
-            style={[styles.shadow, styles.bottomShadow]}
-          /> */}
-        </View>
+        <View style={globalStyles.bottomPadding}/>
+        
       </ScrollView>
     </View>
   );
@@ -199,40 +184,8 @@ const styles = StyleSheet.create({
   },
 
   //-------------------------------------------------------//
-  // GENERAL
-
-  shadow: {
-    position: 'absolute',
-  },
-  topShadow: {
-    height: 70,
-    width: '100%',
-    top: 0,
-    left: 0,
-  },
-  bottomShadow: {
-    height: 150,
-    width: '100%',
-    bottom: 0,
-    left: 0,
-  },
-  line: {
-    position: 'absolute',
-    top: -10,
-    zIndex: 99,
-
-    height: 2,
-    width: '100%',
-
-    backgroundColor: colors.gray
-  },
-  decoButton: {
-    position: 'absolute',
-    bottom: -17,
-    zIndex: 999,
-  },
   bottomPadding: {
-    paddingBottom: 180
+
   }
 });
 

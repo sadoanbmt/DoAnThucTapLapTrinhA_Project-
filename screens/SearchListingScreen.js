@@ -5,12 +5,12 @@ import { useNavigation } from '@react-navigation/native';
 import Svg, { Circle, Line } from 'react-native-svg';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
 
-import { colors } from './GlobalStyle';
+import { colors, globalStyles } from './GlobalStyle';
 import HeaderMain from './Components/HeaderMain';
 import { Filigree1, Filigree4 } from './Decorations/Filigree';
 import { DirectionButton_Left, DirectionButton_Right } from './Decorations/DecoButton';
+import { useSelector } from 'react-redux';
 
-const bookDatabase = require('../assets/_bookDatabase.json');
 const bookCover = {
     "../assets/aGameOfThrones.jpg": require("../assets/aGameOfThrones.jpg"),
     "../assets/aClashOfKings.jpg": require("../assets/aClashOfKings.jpg"),
@@ -37,19 +37,11 @@ const bookCover = {
     "../assets/dune6.jpg": require("../assets/dune6.jpg"),
 }
 
-const searchInfo = {
-    searchType: 'Tìm kiếm: ',
-    search: 'A Clash Of Kings',
-    searchResultBookType: 'Sách chữ',
-
-    searchResultList: bookDatabase
-}
-
-const ResultCount = () => {
+const ResultCount = ({ searchType, searchKeyword, searchResultList}) => {
     return (
         <View style={styles.rc_container}>
             <Text style={styles.rc_title}>
-                {searchInfo.searchType}: {searchInfo.search}
+                {searchType}: {searchKeyword}
             </Text>
             <View style={styles.row}>
                 <Svg width={40} height={40 * 0.184} viewBox="0 0 38 7">
@@ -70,7 +62,7 @@ const ResultCount = () => {
                     />
                 </Svg>
                 <Text style={[styles.rc_subtitle, { marginLeft: 10 }]}>
-                    {searchInfo.searchResultList.length} Kết quả trong {searchInfo.searchResultBookType}
+                    {searchResultList.length} Kết quả trong { }
                 </Text>
             </View>
         </View>
@@ -105,8 +97,8 @@ const ResultButton = ({ page, setPage, totalPage }) => {
     )
 }
 
-const ResultDisplay = ({ page }) => {
-    const data = searchInfo.searchResultList.slice((page - 1) * 7, page * 7)
+const ResultDisplay = ({ page, bookList }) => {
+    const data = bookList.slice((page - 1) * 7, page * 7)
     const navigation = useNavigation();
     return (
         <View style={styles.rd_container}>
@@ -138,7 +130,7 @@ const BookItem_Wide = ({ navigation, book }) => {
             />
             <LinearGradient
                 colors={['rgba(0,0,0,0.2)', 'transparent']}
-                style={[styles.shadow, styles.topShadow]}
+                style={[globalStyles.shadow, globalStyles.topShadow]}
             />
 
             <TouchableOpacity style={styles.bi_bookCover}
@@ -226,28 +218,35 @@ const formatCompactNumber = (number) => {
 // }
 
 const SearchListingScreen = ({ navigation }) => {
+    const searchResultList = useSelector((state) => state.books.searchResultList);
+    const searchType = useSelector((state) => state.books.searchType);
+    const searchKeyword = useSelector((state) => state.books.searchKeyword);
     const [page, setPage] = useState(1);
-    const totalPage = Math.ceil(searchInfo.searchResultList.length / 7);
+    const totalPage = Math.ceil(searchResultList.length / 7);
 
     return (
         <View style={styles.container}>
             <HeaderMain />
             <ScrollView bounces={false} overScrollMode="never">
-                <ResultCount />
+                <ResultCount
+                    searchResultList={searchResultList}
+                    searchType={searchType}
+                    searchKeyword={searchKeyword}
+                />
 
                 <ResultButton page={page}
                     setPage={setPage}
                     totalPage={totalPage}
                 />
 
-                <ResultDisplay page={page} />
+                <ResultDisplay page={page} bookList={searchResultList} />
 
                 <ResultButton page={page}
                     setPage={setPage}
                     totalPage={totalPage}
                 />
 
-                <View style={styles.bottomPadding}/>
+                <View style={globalStyles.bottomPadding} />
             </ScrollView>
         </View>
     );

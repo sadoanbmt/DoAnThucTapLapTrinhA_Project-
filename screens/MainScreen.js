@@ -1,14 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { useSelector } from "react-redux";
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation } from '@react-navigation/native';
-import { useSelector, useDispatch } from "react-redux";
-import { searchForBooks } from '../slices/bookSlice';
 
-import { colors } from './GlobalStyle';
+import { colors, globalStyles } from './GlobalStyle';
 import HeaderMain from './Components/HeaderMain';
-import { Filigree2, Filigree4 } from './Decorations/Filigree';
-import { DecoButton } from './Decorations/DecoButton';
+import CurrentBook from './Components/CurrentBook';
 import BookList from './Components/BookList';
 
 const Quotes = [
@@ -65,11 +62,11 @@ const Catalogue = ({ catalogueList }) => {
     <View style={styles.c_container}>
       <LinearGradient
         colors={['rgba(0,0,0,0.8)', 'transparent']}
-        style={[styles.shadow, styles.topShadow, { zIndex: 999, top: 0, height: 40 }]}
+        style={[globalStyles.shadow, globalStyles.topShadow, { zIndex: 999, top: 0, height: 40 }]}
       />
       <LinearGradient
         colors={['transparent', 'rgba(0,0,0,0.3)']}
-        style={[styles.shadow, styles.bottomShadow]}
+        style={[globalStyles.shadow, globalStyles.bottomShadow]}
       />
       <Text style={styles.c_text}>{Quotes[randomQuote]}</Text>
 
@@ -116,67 +113,7 @@ const Catalogue = ({ catalogueList }) => {
     </View>
   )
 }
-
-const CurrentBook = ({ book }) => {
-  if (book == null) return (null);
-  const navigation = useNavigation();
-  const currentPage = "Trang 2 ";
-  const currentChapter = "| Chương 3 "
-  const currentProgress = "| 10%"
-  return (
-    <View style={styles.cb_container}>
-      <View style={styles.line} />
-      <Filigree2 />
-      <Filigree4
-        customLeftPosition={-12}
-        customBottomPosition={10}
-      />
-      <LinearGradient
-        colors={['rgba(0,0,0,0.2)', 'transparent']}
-        style={[styles.shadow, styles.topShadow, { marginTop: 20, }]}
-      />
-      <LinearGradient
-        colors={['transparent', 'rgba(0,0,0,0.2)']}
-        style={[styles.shadow, styles.bottomShadow, { height: 130 }]}
-      />
-      <LinearGradient
-        colors={['transparent', 'rgba(0,0,0,1)']}
-        style={[styles.shadow, styles.bottomShadow, { top: -40, height: 40 }]}
-      />
-
-      <View style={[styles.bl_header, { paddingLeft: 160 }]}>
-        <Text style={styles.bl_headerTitle}>
-          ĐANG ĐỌC
-        </Text>
-      </View>
-      <TouchableOpacity style={styles.cb_bookCover}
-        activeOpacity={1}
-        onPress={() => navigation.navigate('PageScreen')}>
-        <Image
-          source={bookCover[book.cover]}
-          style={styles.cb_bookCoverImg}
-          resizeMode="cover"
-        />
-      </TouchableOpacity>
-      <View style={styles.cb_desContainer}>
-        <Text style={styles.cb_desTitle}
-          numberOfLines={4}
-        >{book.title}</Text>
-        <Text style={styles.cb_desAuthor}>{book.author}</Text>
-        <Text style={styles.cb_desProgress}>{currentPage}{currentChapter}{currentProgress}</Text>
-      </View>
-      <TouchableOpacity style={styles.decoButton}
-        activeOpacity={1}
-        onPress={() => navigation.navigate('PageScreen')}
-      >
-        <DecoButton ButtonText="ĐỌC TIẾP" ButtonIcon="import-contacts" />
-      </TouchableOpacity>
-    </View>
-  )
-}
-
 const MainScreen = ({ navigation }) => {
-  const dispatch = useDispatch();
   const bookDatabase = useSelector((state) => state.books.bookDatabase);
 
   const catalogueList = createRandomList(bookDatabase, 10);
@@ -190,16 +127,14 @@ const MainScreen = ({ navigation }) => {
       <ScrollView bounces={false} overScrollMode="never" style={{ width: '100%' }}>
 
         <Catalogue catalogueList={catalogueList} />
+
         <CurrentBook book={currentBook} />
+        
         <BookList bookType="TRUYỆN TRANH" listOfBooks={listOfComics} />
+        
         <BookList bookType="SÁCH CHỮ" listOfBooks={listOfBooks} />
 
-        <View style={styles.bottomPadding}>
-          {/* <LinearGradient
-            colors={['transparent', 'rgba(0,0,0,1)']}
-            style={[styles.shadow, styles.bottomShadow]}
-          /> */}
-        </View>
+        <View style={globalStyles.bottomPadding}/>
       </ScrollView>
     </View>
   );

@@ -5,12 +5,12 @@ const initialState = {
 
     selectedBook: null,
 
+    viewBookType: null,
+    viewBookList: [],
+
     searchType: null,
     searchKeyword: null,
     searchResultList: [],
-
-    viewBookType: null,
-    viewBookList: []
 };
 
 const bookSlice = createSlice({
@@ -18,6 +18,8 @@ const bookSlice = createSlice({
     initialState,
     reducers: {
         searchForBooks: (state, action) => {
+            state.searchResultList = [];
+
             console.log(action.payload)
 
             const searchType = action.payload.searchType;
@@ -26,15 +28,16 @@ const bookSlice = createSlice({
             state.searchType = searchType;
             state.searchKeyword = searchKeyword;
 
-            console.log(state.searchType)
-            console.log(state.searchKeyword)
+            // state.searchResultList = state.bookDatabase.filter(book => book.title == searchKeyword);
+            // state.searchResultList = [...state.searchResultList, ...(state.bookDatabase.filter(book => book.series == searchKeyword)) || null];
+            // state.searchResultList = [...state.searchResultList, ...(state.bookDatabase.filter(book => book.author == searchKeyword)) || null];
 
-            state.searchResultList = [...searchResultList, ...(state.bookDatabase.filter(book => book.title == searchKeyword)) || null];
-            state.searchResultList = [...searchResultList, ...(state.bookDatabase.filter(book => book.series == searchKeyword)) || null];
-            state.searchResultList = [...searchResultList, ...(state.bookDatabase.filter(book => book.author == searchKeyword)) || null];
+            state.searchResultList = [...state.bookDatabase];
         },
         clearSearchResultList: (state) => {
-            state.searchResultList = null;
+            state.searchType = null;
+            state.searchKeyword = null;
+            state.searchResultList = [];
         },
         selectBook: (state, action) => {
             const bookSelected = action.payload;

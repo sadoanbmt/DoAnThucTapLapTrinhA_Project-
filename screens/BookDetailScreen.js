@@ -4,21 +4,17 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { useRoute } from "@react-navigation/native";
 
-import { colors } from './GlobalStyle';
+import { colors, globalStyles } from './GlobalStyle';
 import HeaderMain from './Components/HeaderMain';
-import BookList from './Components/BookList';
+import { BookList_Detail } from './Components/BookList';
 import { Filigree1, Filigree2, Filigree3_Simple, Filigree5_Bottom } from './Decorations/Filigree';
 import { DecoButton, DecoButton_Dark } from './Decorations/DecoButton';
 
 import MaterialIcons from '@react-native-vector-icons/material-icons';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { selectBook } from '../slices/bookSlice';
+import { searchForBooks } from '../slices/bookSlice';
 
-import { useFocusEffect } from "@react-navigation/native";
-import { useCallback } from "react";
-
-// const bookDatabase = require('../assets/_bookDatabase.json');
 const bookCover = {
     "../assets/aGameOfThrones.jpg": require("../assets/aGameOfThrones.jpg"),
     "../assets/aClashOfKings.jpg": require("../assets/aClashOfKings.jpg"),
@@ -44,22 +40,17 @@ const bookCover = {
     "../assets/dune5.jpg": require("../assets/dune5.jpg"),
     "../assets/dune6.jpg": require("../assets/dune6.jpg"),
 }
-const createRandomList = (array, count) => {
-    return [...array]
-        .sort(() => Math.random() - 0.5)
-        .slice(0, count);
-};
-const getRandomInt = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
 const BookDetail = ({ theBook }) => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
 
     const BookGenre = ({ genre }) => {
         return (
             <TouchableOpacity style={styles.bg_container}
-                onPress={() => navigation.navigate('SearchResultScreen')}
+                onPress={() => {
+                    dispatch(searchForBooks({ searchType: "Thể Loại", searchKeyword: genre }))
+                    navigation.navigate('SearchResultScreen')
+                }}
             >
                 <Text style={styles.bg_text}>{genre}</Text>
             </TouchableOpacity>
@@ -69,7 +60,7 @@ const BookDetail = ({ theBook }) => {
         <View style={styles.bd_container}>
             <LinearGradient
                 colors={['transparent', 'rgba(0,0,0,0.3)']}
-                style={[styles.shadow, styles.bottomShadow, { height: 40 }]}
+                style={[globalStyles.shadow, globalStyles.bottomShadow, { height: 40 }]}
             />
             <View style={styles.bd_bookCover}>
                 <Image source={bookCover[theBook.cover]}
@@ -96,7 +87,7 @@ const BookDetail = ({ theBook }) => {
                 <Filigree5_Bottom />
                 <LinearGradient
                     colors={['rgba(0, 0, 0, 0.3)', 'transparent']}
-                    style={[styles.shadow, styles.topShadow, { height: 40 }]}
+                    style={[globalStyles.shadow, globalStyles.topShadow, { height: 40 }]}
                 />
                 <View style={styles.bd_header}>
                     <Text style={styles.bd_headerText}>
@@ -204,7 +195,7 @@ const MoreDetails = ({ theBook, bookDatabase }) => {
         <View style={styles.md_container}>
             <LinearGradient
                 colors={['transparent', 'rgba(0,0,0,0.4)']}
-                style={[styles.shadow, styles.bottomShadow, { top: -40, height: 40 }]}
+                style={[globalStyles.shadow, globalStyles.bottomShadow, { top: -40, height: 40 }]}
             />
             <View style={styles.md_header}>
                 <Filigree3_Simple customBottomPosition={-20} />
@@ -279,11 +270,19 @@ const MoreDetailsOption3 = ({ theBook, bookDatabase }) => {
     const listOfBooksBySeries = bookDatabase.filter(book => book.series === theBook.series);
     return (
         <View>
-            <BookList bookType={"Tác Giả: " + theBook.author} listOfBooks={listOfBooksByAuthor.slice(0, 10)} />
-            {theBook.series != "" && <BookList bookType={"Series: " + theBook.series} listOfBooks={listOfBooksBySeries.slice(0, 10)} />}
+            <BookList_Detail searchType="Tác Giả"
+                searchKeyword={theBook.author}
+                listOfBooks={listOfBooksByAuthor.slice(0, 10)} />
+            {
+                theBook.series != "" &&
+                <BookList_Detail searchType="Series"
+                    searchKeyword={theBook.series}
+                    listOfBooks={listOfBooksBySeries.slice(0, 10)} />
+            }
             {
                 theBook.genreList.slice(0, 3).map((genre) => (
-                    <BookList bookType={"Thể Loại: " + genre}
+                    <BookList_Detail searchType="Thể Loại"
+                        searchKeyword={genre}
                         listOfBooks={
                             bookDatabase.filter(
                                 book => book.genreList.includes(genre)
@@ -309,7 +308,7 @@ const BookDetailScreen = ({ navigation }) => {
     }, [book]);
 
     return (
-        <View style={styles.container}>
+        <View style={globalStyles.container}>
             <HeaderMain />
             <ScrollView ref={scrollRef}
                 bounces={false}
@@ -320,14 +319,14 @@ const BookDetailScreen = ({ navigation }) => {
 
                 <BookStat theBook={theBook} />
 
-                <TouchableOpacity style={styles.decoButton}
+                <TouchableOpacity style={{ zIndex: 999, marginVertical: 5 }}
                     activeOpacity={1}
                     onPress={() => navigation.navigate('PageScreen')}
                 >
                     <DecoButton ButtonText="ĐỌC NGAY" ButtonIcon="import-contacts" />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.decoButton}
+                <TouchableOpacity style={{ zIndex: 999, marginVertical: 5 }}
                     activeOpacity={1}
                 >
                     <DecoButton_Dark ButtonText="THƯ VIỆN" ButtonIcon="add" />
@@ -336,21 +335,13 @@ const BookDetailScreen = ({ navigation }) => {
                 <MoreDetails theBook={theBook}
                     bookDatabase={bookDatabase}
                 />
+                <View style={globalStyles.bottomPadding} />
             </ScrollView>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    //-------------------------------------------------------//
-
-    container: {
-        flex: 1,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        backgroundColor: colors.black,
-    },
-
     //-------------------------------------------------------//
     // BOOK DETAIL
 
@@ -622,133 +613,6 @@ const styles = StyleSheet.create({
     },
 
     //-------------------------------------------------------//
-    // BOOK LISTING
-
-    bl_container: {
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-
-        // height: 320,
-        width: '100%',
-        marginBottom: 60,
-
-        backgroundColor: colors.white,
-        borderBottomColor: colors.gray,
-        borderBottomWidth: 2
-    },
-    bl_header: {
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-
-        zIndex: 9,
-
-        width: '100%',
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-
-        backgroundColor: colors.gray,
-    },
-    bl_headerTitle: {
-        color: colors.gold,
-        fontWeight: 'bold',
-        letterSpacing: 2,
-        fontSize: 17,
-    },
-    bl_flatList: {
-        // height: '100%',
-        marginHorizontal: 6,
-        marginVertical: 20,
-    },
-
-    //-------------------------------------------------------//
-    // BOOK ITEM
-
-    bi_container: {
-        alignItems: 'flex-start',
-        justifyContent: 'flex-start',
-
-        height: "100%",
-        width: 150,
-        marginHorizontal: 8,
-        paddingBottom: 10
-    },
-    bi_bookCover: {
-        height: 250,
-        width: 150,
-        marginBottom: 10,
-
-        borderRadius: 4,
-
-        backgroundColor: 'white',
-
-        elevation: 5,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-    },
-    bi_bookCoverImg: {
-        width: "100%",
-        height: '100%',
-        borderRadius: 4,
-    },
-    bi_bookTitle: {
-        fontWeight: 'bold',
-        fontSize: 14
-    },
-    bi_bookAuthor: {
-        fontWeight: 'light',
-        fontSize: 12,
-        fontStyle: 'italic'
-    },
-
-    //-------------------------------------------------------//
-    // GENERAL
-
-    shadow: {
-        position: 'absolute',
-        zIndex: 1,
-    },
-    topShadow: {
-        height: 70,
-        width: '100%',
-        top: 0,
-        left: 0,
-    },
-    bottomShadow: {
-        height: 170,
-        width: '100%',
-        bottom: 0,
-        left: 0,
-    },
-    line: {
-        position: 'absolute',
-        top: -10,
-        zIndex: 99,
-
-        height: 2,
-        width: '100%',
-
-        backgroundColor: colors.gray
-    },
-    decoButton: {
-        // position: 'absolute',
-        // bottom: ,
-        zIndex: 999,
-
-        marginVertical: 5
-    },
-    decoButton_bl: {
-        position: 'absolute',
-        bottom: -17,
-        zIndex: 999,
-    },
-    bottomPadding: {
-        paddingBottom: 120
-    }
 });
 
 export default BookDetailScreen;

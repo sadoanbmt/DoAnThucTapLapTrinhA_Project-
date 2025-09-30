@@ -1,9 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, FlatList, Image } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Svg, { Circle, Line } from 'react-native-svg';
 
-import { colors } from './GlobalStyle';
+import { colors, globalStyles } from './GlobalStyle';
 import HeaderMain from './Components/HeaderMain';
 import BookList from './Components/BookList';
 import { useSelector } from 'react-redux';
@@ -33,16 +32,6 @@ const bookCover = {
     "../assets/dune4.jpg": require("../assets/dune4.jpg"),
     "../assets/dune5.jpg": require("../assets/dune5.jpg"),
     "../assets/dune6.jpg": require("../assets/dune6.jpg"),
-}
-
-const searchInfo = {
-    searchType: 'Tìm kiếm:',
-    search: 'A Clash Of Kings',
-    searchResultBookType: 'Sách chữ',
-
-    searchResultList_Book: bookDatabase.slice(0, 10),
-
-    searchResultList_Comic: bookDatabase.slice(10, 20),
 }
 
 const ResultCount = ({ searchResultKeyword, searchType, searchResultCount }) => {
@@ -82,11 +71,12 @@ const SearchResultScreen = ({ navigation }) => {
     const searchResultKeyword = useSelector((state) => state.books.searchKeyword)
     const searchResultList = useSelector((state) => state.books.searchResultList)
 
-    const searchResultList_Book = searchResultList.filter(book => book.type == "sách chữ");
-    const searchResultList_Comic = searchResultList.filter(book => book.type == "truyện tranh");
-    const searchResultCount = searchResultList_Book.length + searchResultList_Comic.length;
+    const searchResultList_Book = searchResultList.filter(book => book.type == "sách chữ") || 0;
+    const searchResultList_Comic = searchResultList.filter(book => book.type == "truyện tranh") || 0;
+    const searchResultCount = searchResultList.length;
+
     return (
-        <View style={styles.container}>
+        <View style={globalStyles.container}>
             <HeaderMain />
             <ScrollView bounces={false} overScrollMode="never" style={{ width: '100%' }}>
                 <ResultCount searchType={searchType}
@@ -94,14 +84,14 @@ const SearchResultScreen = ({ navigation }) => {
                     searchResultCount={searchResultCount}
                 />
                 <BookList bookType="TRUYỆN TRANH"
-                    listOfBooks={searchResultList_Book}
+                    listOfBooks={searchResultList_Comic}
                     customDestination="SearchListingScreen"
                 />
                 <BookList bookType="SÁCH CHỮ"
                     listOfBooks={searchResultList_Book}
                     customDestination="SearchListingScreen"
                 />
-                <View style={styles.bottomPadding} />
+                <View style={globalStyles.bottomPadding} />
             </ScrollView>
         </View>
     );
@@ -233,44 +223,6 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontStyle: 'italic'
     },
-
-    //-------------------------------------------------------//
-
-    shadow: {
-        position: 'absolute',
-    },
-    topShadow: {
-        height: 70,
-        width: '100%',
-        top: 0,
-        left: 0,
-    },
-    bottomShadow: {
-        height: 150,
-        width: '100%',
-        bottom: 0,
-        left: 0,
-    },
-    line: {
-        position: 'absolute',
-        top: -10,
-        zIndex: 99,
-
-        height: 2,
-        width: '100%',
-
-        backgroundColor: colors.gray
-    },
-    decoButton: {
-        position: 'absolute',
-        bottom: -17,
-        zIndex: 999,
-    },
-
-    bottomPadding: {
-        width: '100%',
-        paddingBottom: 120
-    }
 });
 
 export default SearchResultScreen;

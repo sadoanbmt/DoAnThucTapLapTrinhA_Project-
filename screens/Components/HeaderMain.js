@@ -20,7 +20,10 @@ const SideTabRight = ({ setLeftIsVisible, setRightIsVisible }) => {
                 <Filigree6_Bottom />
 
                 <TouchableOpacity style={styles.str_menuButton}
-                    onPress={() => navigation.navigate('LibraryScreen')}
+                    onPress={() => {
+                        navigation.navigate('LibraryScreen')
+                        setRightIsVisible(false)
+                    }}
                 >
                     <MaterialIcons name="account-balance" color={colors.gold} size={20} />
                     <Text style={styles.str_menuButtonText}>
@@ -28,7 +31,10 @@ const SideTabRight = ({ setLeftIsVisible, setRightIsVisible }) => {
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.str_menuButton}
-                    onPress={() => navigation.navigate("CreateStoryScreen")}
+                    onPress={() => {
+                        navigation.navigate("CreateStoryScreen")
+                        setRightIsVisible(false)
+                    }}
                 >
                     <MaterialIcons name="create" color={colors.gold} size={20} />
                     <Text style={styles.str_menuButtonText}>
@@ -36,7 +42,10 @@ const SideTabRight = ({ setLeftIsVisible, setRightIsVisible }) => {
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.str_menuButton}
-                    onPress={() => navigation.navigate("NotificationScreen")}
+                    onPress={() => {
+                        navigation.navigate("NotificationScreen")
+                        setRightIsVisible(false)
+                    }}
                 >
                     <MaterialIcons name="notifications" color={colors.gold} size={20} />
                     <Text style={styles.str_menuButtonText}>
@@ -44,14 +53,22 @@ const SideTabRight = ({ setLeftIsVisible, setRightIsVisible }) => {
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.str_menuButton}
-                    onPress={() => navigation.navigate("AccountScreen")}
+                    onPress={() => {
+                        navigation.navigate("AccountScreen")
+                        setRightIsVisible(false)
+                    }}
                 >
                     <MaterialIcons name="person" color={colors.gold} size={20} />
                     <Text style={styles.str_menuButtonText}>
                         Tài Khoản
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.str_menuButton}>
+                <TouchableOpacity style={styles.str_menuButton}
+                    onPress={() => {
+                        // navigation.navigate("SettingScreen")
+                        setRightIsVisible(false)
+                    }}
+                >
                     <MaterialIcons name="settings" color={colors.gold} size={20} />
                     <Text style={styles.str_menuButtonText}>
                         Cài Đặt
@@ -112,6 +129,7 @@ const SideTabLeft = ({ setLeftIsVisible, setRightIsVisible }) => {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.str_menuButton}
                     onPress={() => {
+                        //navigation.navigate('BookListingScreen')
                         setLeftIsVisible(false)
                         setRightIsVisible(false)
                     }}

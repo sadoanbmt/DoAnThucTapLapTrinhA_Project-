@@ -17,10 +17,17 @@ const CreateStoryScreen = () => {
             <ScrollView bounces={false} overScrollMode="never" style={{ width: '100%' }}>
                 <ScreenTitle title={"ĐĂNG TRUYỆN"} icon={"edit-note"} />
 
-                <OrnateButton ButtonText={"Sáng Tác Truyện"} ButtonIcon={"edit-note"} />
+                <TouchableOpacity>
+                    <OrnateButton ButtonText={"Sáng Tác Truyện"} ButtonIcon={"edit-note"} />
+                </TouchableOpacity>
 
-                <OrnateOption ButtonText={"Đây Là Sáng Tác Của Bạn"} ButtonIcon={null} Active={true} />
-                <OrnateOption ButtonText={"Đây Là Sáng Tác Của Bạn"} ButtonIcon={null} Active={false} />
+                <TouchableOpacity style={{zIndex: 2}}>
+                    <OrnateOption ButtonText={"Đây Là Sáng Tác Của Bạn"} ButtonIcon={null} Active={true} />
+                </TouchableOpacity>
+                
+                <TouchableOpacity  style={{zIndex: 1}}>
+                    <OrnateOption ButtonText={"Đây Là Sáng Tác Của Bạn"} ButtonIcon={null} Active={false} />
+                </TouchableOpacity>
 
                 <View style={styles.pictureFrame}>
                     <View>
@@ -90,8 +97,8 @@ const CreateStoryScreen = () => {
                     />
                 </View>
 
-                <View style={{height: 90}}>
-                    <Filigree2 customPosition={0}/>
+                <View style={{ height: 90 }}>
+                    <Filigree2 customPosition={0} />
                 </View>
             </ScrollView>
         </View>
