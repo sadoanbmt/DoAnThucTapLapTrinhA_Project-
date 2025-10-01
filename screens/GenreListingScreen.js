@@ -30,7 +30,7 @@ const GenreDisplay = ({ genreList }) => {
                             bookDatabase={bookDatabase}
                         />
                 }
-                keyExtractor={genre => genre.id}
+                keyExtractor={genre => genre.name}
                 scrollEnabled={false}
             />
             <Filigree1 customPosition={-90} />
@@ -47,7 +47,7 @@ const GenreItem = ({ navigation, genre, bookDatabase }) => {
     const authorCount = authorWithTheGenre.size;
     const viewCount = bookWithTheGenre.reduce((sum, book) => sum + book.totalView, 0);
 
-    // if (bookCount <= 0) return null;
+    if (bookCount <= 0) return null;
 
     return (
         <TouchableOpacity style={styles.gi_container}
@@ -111,7 +111,7 @@ const GenreListingScreen = ({ navigation }) => {
         <View style={styles.container}>
             <HeaderMain />
             <ScrollView bounces={false} overScrollMode="never">
-                <ScreenTitle title={"THỂ LOẠI"} icon={"list"} customIconPosition={-4} />
+                <ScreenTitle title={"THỂ LOẠI"} icon={"list"} customIconPosition={-2} />
 
                 <GenreDisplay genreList={genreList} />
 
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
         borderTopWidth: 2
     },
     gi_header: {
-        paddingLeft: 20,
+        paddingLeft: 25,
         marginBottom: 15,
     },
     gi_genreName: {
@@ -200,7 +200,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
 
-        width: '30%'
+        width: '30%',
+        paddingHorizontal: 20,
     },
     gi_statNum: {
         fontSize: 18,

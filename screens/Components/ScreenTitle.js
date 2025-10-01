@@ -6,7 +6,7 @@ import { colors } from '../GlobalStyle';
 import { Filigree3 } from '../Decorations/Filigree';
 
 const ScreenTitle = ({ title, icon, customIconPosition }) => {
-    const position = customIconPosition == null ? -13 : customIconPosition;
+    const position = customIconPosition == null ? 0 : customIconPosition;
 
     return (
         <View style={styles.container}>

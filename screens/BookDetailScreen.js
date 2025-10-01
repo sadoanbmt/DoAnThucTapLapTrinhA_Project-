@@ -239,7 +239,7 @@ const MoreDetailsOption2 = ({ theBook }) => {
             <View style={styles.mdo_textBox}>
                 {
                     theBook.chapterList.map((chapterName, index) =>
-                        <ChapterComponent index={index} chapterName={chapterName} />
+                        <ChapterComponent index={index} chapterName={chapterName} key={index + chapterName}/>
                     )
                 }
             </View>
@@ -505,7 +505,6 @@ const styles = StyleSheet.create({
         width: '100%',
         height: "max-content",
         marginTop: 15,
-        marginBottom: 160,
 
         backgroundColor: colors.gray
     },

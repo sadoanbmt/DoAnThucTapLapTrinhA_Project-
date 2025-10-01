@@ -20,8 +20,6 @@ const bookSlice = createSlice({
         searchForBooks: (state, action) => {
             state.searchResultList = [];
 
-            console.log(action.payload)
-
             const searchType = action.payload.searchType;
             const searchKeyword = action.payload.searchKeyword;
 
@@ -40,6 +38,9 @@ const bookSlice = createSlice({
                 } break;
                 case "thể loại": {
                     state.searchResultList = state.bookDatabase.filter(book => book.genreList.includes(searchKeyword));
+                } break;
+                case "series": {
+                    state.searchResultList = [...state.searchResultList, ...(state.bookDatabase.filter(book => book.series.toLowerCase().trim() == searchKeyword.toLowerCase().trim())) || null];
                 } break;
                 default:
                     console.log("unknown searchType");

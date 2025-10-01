@@ -79,7 +79,7 @@ const BookList = ({ bookType, listOfBooks, customDestination }) => {
             <FlatList
                 data={listOfBooks}
                 renderItem={(bookItem) => <BookItem book={bookItem.item} />}
-                keyExtractor={bookItem => bookItem.title}
+                keyExtractor={bookItem => bookType + bookItem.title}
                 horizontal={true}
                 style={styles.bl_flatList}
             />
@@ -174,7 +174,7 @@ export const BookList_Alt = ({ title, listOfBooks }) => {
             <FlatList
                 data={listOfBooks}
                 renderItem={(bookItem) => <BookItem book={bookItem.item} />}
-                keyExtractor={bookItem => bookItem.title}
+                keyExtractor={bookItem => title + bookItem.title}
                 horizontal={true}
                 style={styles.bl_flatList}
             />
@@ -247,7 +247,7 @@ export const BookList_Detail = ({ searchType, searchKeyword, listOfBooks, custom
             <FlatList
                 data={listOfBooks}
                 renderItem={(bookItem) => <BookItem book={bookItem.item} />}
-                keyExtractor={bookItem => bookItem.title}
+                keyExtractor={bookItem => searchType + searchKeyword + bookItem.title}
                 horizontal={true}
                 style={styles.bl_flatList}
             />
