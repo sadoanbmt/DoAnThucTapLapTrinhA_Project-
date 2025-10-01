@@ -28,12 +28,23 @@ const bookSlice = createSlice({
             state.searchType = searchType;
             state.searchKeyword = searchKeyword;
 
-            state.searchResultList = state.bookDatabase.filter(book => book.title.toLowerCase().trim() == searchKeyword.toLowerCase().trim());
-            state.searchResultList = [...state.searchResultList, ...(state.bookDatabase.filter(book => book.series.toLowerCase().trim() == searchKeyword.toLowerCase().trim())) || null];
-            state.searchResultList = [...state.searchResultList, ...(state.bookDatabase.filter(book => book.author.toLowerCase().trim() == searchKeyword.toLowerCase().trim())) || null];
-
+            switch (searchType.toLowerCase()) {
+                case "tìm kiếm": {
+                    state.searchResultList = state.bookDatabase.filter(book => book.title.toLowerCase().trim() == searchKeyword.toLowerCase().trim());
+                    state.searchResultList = [...state.searchResultList, ...(state.bookDatabase.filter(book => book.series.toLowerCase().trim() == searchKeyword.toLowerCase().trim())) || null];
+                    state.searchResultList = [...state.searchResultList, ...(state.bookDatabase.filter(book => book.author.toLowerCase().trim() == searchKeyword.toLowerCase().trim())) || null];
+                    state.searchResultList = [...state.searchResultList, ...(state.bookDatabase.filter(book => book.genreList.includes(searchKeyword))) || null];
+                } break;
+                case "tác giả": {
+                    state.searchResultList = state.bookDatabase.filter(book => book.author.toLowerCase().trim() == searchKeyword.toLowerCase().trim());
+                } break;
+                case "thể loại": {
+                    state.searchResultList = state.bookDatabase.filter(book => book.genreList.includes(searchKeyword));
+                } break;
+                default:
+                    console.log("unknown searchType");
+            }
             state.searchResultList = [...new Set(state.searchResultList)];
-            // state.searchResultList = [...state.bookDatabase];
         },
         clearSearchResultList: (state) => {
             state.searchType = null;

@@ -8,10 +8,9 @@
         "cover": "../assets/aGameOfThrones.jpg",
         "publishDate": "1996-08-06",
         "genreList": [
-            "Giả tưởng",
+            "Kỳ ảo",
             "Chính trị",
-            "Sử thi",
-            "Kỳ ảo Tăm tối"
+            "Trưởng thành"
         ],
         "totalPage": 694,
         "totalView": 0,
@@ -42,10 +41,9 @@
         "cover": "../assets/aClashOfKings.jpg",
         "publishDate": "1998-11-16",
         "genreList": [
-            "Giả tưởng",
+            "Kỳ ảo",
             "Chính trị",
-            "Sử thi",
-            "Kỳ ảo Tăm tối"
+            "Trưởng thành"
         ],
         "totalPage": 768,
         "totalView": 0,
@@ -64,10 +62,9 @@
         "cover": "../assets/aStormOfSwords.jpg",
         "publishDate": "2000-08-08",
         "genreList": [
-            "Giả tưởng",
+            "Kỳ ảo",
             "Chính trị",
-            "Sử thi",
-            "Kỳ ảo Tăm tối"
+            "Trưởng thành"
         ],
         "totalPage": 973,
         "totalView": 0,
@@ -86,10 +83,9 @@
         "cover": "../assets/aFeastForCrows.jpg",
         "publishDate": "2005-10-17",
         "genreList": [
-            "Giả tưởng",
+            "Kỳ ảo",
             "Chính trị",
-            "Sử thi",
-            "Kỳ ảo Tăm tối"
+            "Trưởng thành"
         ],
         "totalPage": 753,
         "totalView": 0,
@@ -108,10 +104,9 @@
         "cover": "../assets/aDanceWithDragons.jpg",
         "publishDate": "2011-07-12",
         "genreList": [
-            "Giả tưởng",
+            "Kỳ ảo",
             "Chính trị",
-            "Sử thi",
-            "Kỳ ảo Tăm tối"
+            "Trưởng thành"
         ],
         "totalPage": 1056,
         "totalView": 0,
@@ -130,15 +125,13 @@
         "cover": "../assets/fireAndBlood.jpg",
         "publishDate": "2018-11-20",
         "genreList": [
-            "Giả tưởng",
-            "Lịch sử Giả tưởng",
-            "Biên niên sử"
+            "Kỳ ảo"
         ],
         "totalPage": 736,
         "totalView": 0,
         "totalLike": 0,
         "totalChapter": 26,
-        "description": "Một cuốn lịch sử giả tưởng về Nhà Targaryen, những người chinh phục Westeros và cai trị trong gần 300 năm với sức mạnh của rồng. Cuốn sách kể lại lịch sử đẫm máu, những cuộc nội chiến và các triều đại đầy biến động của dòng họ này.",
+        "description": "Một cuốn lịch sử Kỳ ảo về Nhà Targaryen, những người chinh phục Westeros và cai trị trong gần 300 năm với sức mạnh của rồng. Cuốn sách kể lại lịch sử đẫm máu, những cuộc nội chiến và các triều đại đầy biến động của dòng họ này.",
         "chapterList": [],
         "chapterContent": []
     },
@@ -151,7 +144,7 @@
         "cover": "../assets/harryPotter1.jpg",
         "publishDate": "1997-06-26",
         "genreList": [
-            "Giả tưởng",
+            "Kỳ ảo",
             "Phiêu lưu",
             "Thiếu nhi"
         ],
@@ -172,10 +165,9 @@
         "cover": "../assets/harryPotter2.jpg",
         "publishDate": "1998-07-02",
         "genreList": [
-            "Giả tưởng",
+            "Kỳ ảo",
             "Phiêu lưu",
-            "Thiếu nhi",
-            "Bí ẩn"
+            "Thiếu nhi"
         ],
         "totalPage": 251,
         "totalView": 0,
@@ -194,10 +186,9 @@
         "cover": "../assets/harryPotter3.jpg",
         "publishDate": "1999-07-08",
         "genreList": [
-            "Giả tưởng",
+            "Kỳ ảo",
             "Phiêu lưu",
-            "Thiếu nhi",
-            "Bí ẩn"
+            "Thiếu nhi"
         ],
         "totalPage": 317,
         "totalView": 0,
@@ -216,10 +207,9 @@
         "cover": "../assets/harryPotter4.jpg",
         "publishDate": "2000-07-08",
         "genreList": [
-            "Giả tưởng",
+            "Kỳ ảo",
             "Phiêu lưu",
-            "Thiếu niên",
-            "Kỳ ảo Đen tối"
+            "Thiếu niên"
         ],
         "totalPage": 636,
         "totalView": 0,
@@ -238,10 +228,9 @@
         "cover": "../assets/harryPotter5.jpg",
         "publishDate": "2003-06-21",
         "genreList": [
-            "Giả tưởng",
+            "Kỳ ảo",
             "Phiêu lưu",
-            "Thiếu niên",
-            "Kỳ ảo Đen tối"
+            "Trưởng thành"
         ],
         "totalPage": 766,
         "totalView": 0,
@@ -260,10 +249,9 @@
         "cover": "../assets/harryPotter6.jpg",
         "publishDate": "2005-07-16",
         "genreList": [
-            "Giả tưởng",
+            "Kỳ ảo",
             "Phiêu lưu",
-            "Thiếu niên",
-            "Kỳ ảo Đen tối"
+            "Trưởng thành"
         ],
         "totalPage": 607,
         "totalView": 0,
@@ -282,10 +270,9 @@
         "cover": "../assets/harryPotter7.jpg",
         "publishDate": "2007-07-21",
         "genreList": [
-            "Giả tưởng",
+            "Kỳ ảo",
             "Phiêu lưu",
-            "Thiếu niên",
-            "Kỳ ảo Đen tối"
+            "Trưởng thành"
         ],
         "totalPage": 607,
         "totalView": 0,
@@ -304,9 +291,9 @@
         "cover": "../assets/theHobbit.jpg",
         "publishDate": "1937-09-21",
         "genreList": [
-            "Giả tưởng",
+            "Kỳ ảo",
             "Phiêu lưu",
-            "Viễn tưởng Thiếu nhi"
+            "Thiếu nhi"
         ],
         "totalPage": 310,
         "totalView": 0,
@@ -325,9 +312,8 @@
         "cover": "../assets/theFellowshipOfTheRing.jpg",
         "publishDate": "1954-07-29",
         "genreList": [
-            "Giả tưởng",
-            "Phiêu lưu",
-            "Sử Thi"
+            "Kỳ ảo",
+            "Phiêu lưu"
         ],
         "totalPage": 423,
         "totalView": 0,
@@ -346,9 +332,8 @@
         "cover": "../assets/theTwoTowers.jpg",
         "publishDate": "1954-11-11",
         "genreList": [
-            "Giả tưởng",
-            "Phiêu lưu",
-            "Sử Thi"
+            "Kỳ ảo",
+            "Phiêu lưu"
         ],
         "totalPage": 352,
         "totalView": 0,
@@ -367,9 +352,8 @@
         "cover": "../assets/theReturnOfTheKing.jpg",
         "publishDate": "1955-10-20",
         "genreList": [
-            "Giả tưởng",
-            "Phiêu lưu",
-            "Sử Thi"
+            "Kỳ ảo",
+            "Phiêu lưu"
         ],
         "totalPage": 416,
         "totalView": 0,
@@ -388,8 +372,7 @@
         "cover": "../assets/dune1.jpg",
         "publishDate": "1965-08-01",
         "genreList": [
-            "Khoa học Viễn tưởng",
-            "Sử thi",
+            "Khoa học viễn tưởng",
             "Chính trị"
         ],
         "totalPage": 412,
@@ -409,10 +392,8 @@
         "cover": "../assets/dune2.jpg",
         "publishDate": "1969-01-01",
         "genreList": [
-            "Khoa học Viễn tưởng",
-            "Sử thi",
-            "Chính trị",
-            "Triết học"
+            "Khoa học viễn tưởng",
+            "Chính trị"
         ],
         "totalPage": 256,
         "totalView": 0,
@@ -431,10 +412,8 @@
         "cover": "../assets/dune3.jpg",
         "publishDate": "1976-01-01",
         "genreList": [
-            "Khoa học Viễn tưởng",
-            "Sử thi",
-            "Chính trị",
-            "Triết học"
+            "Khoa học viễn tưởng",
+            "Chính trị"
         ],
         "totalPage": 444,
         "totalView": 0,
@@ -453,10 +432,8 @@
         "cover": "../assets/dune4.jpg",
         "publishDate": "1981-01-01",
         "genreList": [
-            "Khoa học Viễn tưởng",
-            "Sử thi",
-            "Chính trị",
-            "Triết học"
+            "Khoa học viễn tưởng",
+            "Chính trị"
         ],
         "totalPage": 496,
         "totalView": 0,
@@ -475,10 +452,8 @@
         "cover": "../assets/dune5.jpg",
         "publishDate": "1984-01-01",
         "genreList": [
-            "Khoa học Viễn tưởng",
-            "Sử thi",
-            "Chính trị",
-            "Triết học"
+            "Khoa học viễn tưởng",
+            "Chính trị"
         ],
         "totalPage": 480,
         "totalView": 0,
@@ -497,10 +472,8 @@
         "cover": "../assets/dune6.jpg",
         "publishDate": "1985-01-01",
         "genreList": [
-            "Khoa học Viễn tưởng",
-            "Sử thi",
-            "Chính trị",
-            "Triết học"
+            "Khoa học viễn tưởng",
+            "Chính trị"
         ],
         "totalPage": 464,
         "totalView": 0,
