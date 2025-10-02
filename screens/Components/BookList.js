@@ -18,17 +18,14 @@ const BookList = ({ bookType, listOfBooks, customDestination }) => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
 
-    const bookTypeFormat = bookType.toLowerCase();
-
     const BookItem = ({ book }) => {
         if (book == null) return (null);
-
         return (
             <TouchableOpacity style={styles.bi_container}
                 activeOpacity={1}
                 onPress={() => {
                     navigation.navigate('BookDetailScreen', { book: book.title })
-                    dispatch(selectBook(book.title))
+                    dispatch(selectBook(book))
                 }}
             >
                 <View style={styles.bi_bookCover}>
@@ -88,15 +85,13 @@ const BookList = ({ bookType, listOfBooks, customDestination }) => {
                 <TouchableOpacity style={styles.decoButton}
                     activeOpacity={1}
                     onPress={() => {
-                        dispatch(viewBookType(bookTypeFormat))
+                        dispatch(viewBookType(bookType.toLowerCase()))
                         navigation.navigate(navDestination)
                     }}
                 >
                     <DecoButton ButtonText="XEM THÊM" />
                 </TouchableOpacity>
             }
-
-
         </View>
     )
 }
@@ -112,7 +107,7 @@ export const BookList_Alt = ({ title, listOfBooks }) => {
                 activeOpacity={1}
                 onPress={() => {
                     navigation.navigate('BookDetailScreen', { book: book.title })
-                    dispatch(selectBook(book.title))
+                    dispatch(selectBook(book))
                 }}
             >
                 <View style={styles.bi_bookCover}>
@@ -193,10 +188,11 @@ export const BookList_Detail = ({ searchType, searchKeyword, listOfBooks, custom
 
         return (
             <TouchableOpacity style={styles.bi_container}
+                key={searchType + searchKeyword + book.title}
                 activeOpacity={1}
                 onPress={() => {
+                    dispatch(selectBook(book))
                     navigation.navigate('BookDetailScreen', { book: book.title })
-                    dispatch(selectBook(book.title))
                 }}
             >
                 <View style={styles.bi_bookCover}>

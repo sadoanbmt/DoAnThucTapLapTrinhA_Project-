@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { bookCover, colors, globalStyles } from './GlobalStyle';
@@ -90,11 +90,11 @@ const Catalogue = ({ catalogueList }) => {
 }
 const MainScreen = ({ navigation }) => {
   const bookDatabase = useSelector((state) => state.books.bookDatabase);
+  const currentBook = useSelector((state) => state.books.selectedBook);
 
   const catalogueList = createRandomList(bookDatabase, 10);
   const listOfBooks = createRandomList(bookDatabase, 10);
   const listOfComics = createRandomList(bookDatabase, 10);
-  const currentBook = bookDatabase.at(getRandomInt(0, bookDatabase.length - 1));
 
   return (
     <View style={styles.container}>

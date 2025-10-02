@@ -5,6 +5,9 @@ const initialState = {
 
     selectedBook: null,
 
+    currentBook: null,
+    currentChapter: 0,
+
     viewBookType: null,
     viewBookList: [],
 
@@ -21,17 +24,24 @@ const bookSlice = createSlice({
             state.searchResultList = [];
 
             const searchType = action.payload.searchType;
-            const searchKeyword = action.payload.searchKeyword;
+            const searchKeyword = action.payload.searchKeyword.trim();
 
             state.searchType = searchType;
             state.searchKeyword = searchKeyword;
 
             switch (searchType.toLowerCase()) {
                 case "tìm kiếm": {
-                    state.searchResultList = state.bookDatabase.filter(book => book.title.toLowerCase().trim() == searchKeyword.toLowerCase().trim());
-                    state.searchResultList = [...state.searchResultList, ...(state.bookDatabase.filter(book => book.series.toLowerCase().trim() == searchKeyword.toLowerCase().trim())) || null];
-                    state.searchResultList = [...state.searchResultList, ...(state.bookDatabase.filter(book => book.author.toLowerCase().trim() == searchKeyword.toLowerCase().trim())) || null];
+                    const listOfKeywords = searchKeyword.split(" ");
+                    state.searchResultList = [...state.searchResultList,
+                    ...(state.bookDatabase.filter(book => listOfKeywords.every(keyword => book.title.toLowerCase().includes(keyword.toLowerCase()))))]
+                    state.searchResultList = [...state.searchResultList,
+                    ...(state.bookDatabase.filter(book => listOfKeywords.every(keyword => book.series.toLowerCase().includes(keyword.toLowerCase()))))]
+                    state.searchResultList = [...state.searchResultList,
+                    ...(state.bookDatabase.filter(book => listOfKeywords.every(keyword => book.author.toLowerCase().includes(keyword.toLowerCase()))))]
+
                     state.searchResultList = [...state.searchResultList, ...(state.bookDatabase.filter(book => book.genreList.includes(searchKeyword))) || null];
+
+
                 } break;
                 case "tác giả": {
                     state.searchResultList = state.bookDatabase.filter(book => book.author.toLowerCase().trim() == searchKeyword.toLowerCase().trim());
@@ -47,29 +57,26 @@ const bookSlice = createSlice({
             }
             state.searchResultList = [...new Set(state.searchResultList)];
         },
-        clearSearchResultList: (state) => {
-            state.searchType = null;
-            state.searchKeyword = null;
-            state.searchResultList = [];
-        },
         selectBook: (state, action) => {
             const bookSelected = action.payload;
-            state.selectedBook = state.bookDatabase.find(book => book.title == bookSelected);
+
+            state.selectedBook = bookSelected;
         },
-        clearSelectedBook: (state) => {
-            state.selectedBook = state.selectedBook = null;
+        selectChapter: (state, action) => {
+            const currentBook = action.payload.currentBook;
+            const currentChapter = action.payload.currentChapter;
+
+            if (currentBook != null) state.currentBook = currentBook;
+            state.currentChapter = currentChapter;
         },
         viewBookType: (state, action) => {
             const viewBookType = action.payload.toLowerCase();
+
             state.viewBookType = viewBookType;
             state.viewBookList = state.bookDatabase.filter(book => book.type == viewBookType) || null;
         },
-        clearViewBookType: (state) => {
-            state.viewBookType = null;
-            state.viewBookList = null;
-        }
     },
 });
 
-export const { searchForBooks, selectBook, viewBookType } = bookSlice.actions;
+export const { searchForBooks, selectBook, viewBookType, selectChapter, setCurrentBook } = bookSlice.actions;
 export default bookSlice.reducer;
