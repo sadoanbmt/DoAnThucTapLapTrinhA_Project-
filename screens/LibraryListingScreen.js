@@ -166,13 +166,13 @@ const formatCompactNumber = (number) => {
     if (typeof number !== 'number' || isNaN(number)) return 'Invalid';
 
     if (number >= 1000000000) {
-        return (number / 1000000000).toFixed(1) + 'B';
+        return (number / 1000000000).toFixed(1) + 't';
     }
     if (number >= 1000000) {
-        return (number / 1000000).toFixed(1) + 'M';
+        return (number / 1000000).toFixed(1) + 'tr';
     }
     if (number >= 1000) {
-        return (number / 1000).toFixed(1) + 'k';
+        return (number / 1000).toFixed(1) + 'n';
     }
     return number.toString();
 };

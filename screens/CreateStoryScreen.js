@@ -21,7 +21,7 @@ const CreateStoryScreen = () => {
                     <OrnateButton ButtonText={"Sáng Tác Truyện"} ButtonIcon={"edit-note"} />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={{zIndex: 2}}>
+                {/* <TouchableOpacity style={{zIndex: 2}}>
                     <OrnateOption ButtonText={"Đây Là Sáng Tác Của Bạn"} ButtonIcon={null} Active={true} />
                 </TouchableOpacity>
                 
@@ -32,8 +32,6 @@ const CreateStoryScreen = () => {
                 <View style={styles.pictureFrame}>
                     <View>
 
-                        {/* làm việc trong đây*/}
-
                     </View>
                     <Filigree8_TopLeft />
                     <Filigree8_TopRight />
@@ -43,8 +41,6 @@ const CreateStoryScreen = () => {
 
                 <View style={styles.ornateTextbox}>
                     <View>
-
-                        {/* làm việc trong đây*/}
 
                     </View>
                     <LinearGradient
@@ -66,8 +62,6 @@ const CreateStoryScreen = () => {
                 <View style={styles.ornateTextbox_2}>
                     <View>
 
-                        {/* làm việc trong đây*/}
-
                     </View>
                     <LinearGradient
                         start={{ x: 0, y: 0 }}
@@ -87,15 +81,13 @@ const CreateStoryScreen = () => {
                 <View style={styles.ornateTextbox_white}>
                     <View>
 
-                        {/* làm việc trong đây*/}
-
                     </View>
                     <Filigree5_Bottom />
                     <LinearGradient
                         colors={['rgba(0,0,0,0.3)', 'transparent']}
                         style={[styles.shadow, styles.topShadow]}
                     />
-                </View>
+                </View> */}
 
                 <View style={{ height: 90 }}>
                     <Filigree2 customPosition={0} />
