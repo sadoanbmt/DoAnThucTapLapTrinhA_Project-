@@ -11,87 +11,36 @@ import { OrnateButton, OrnateOption } from './Decorations/DecoButton';
 import ScreenTitle from './Components/ScreenTitle';
 
 const CreateStoryScreen = () => {
+    const navigation = useNavigation();
     return (
         <View style={styles.container}>
             <HeaderMain />
             <ScrollView bounces={false} overScrollMode="never" style={{ width: '100%' }}>
                 <ScreenTitle title={"ĐĂNG TRUYỆN"} icon={"edit-note"} />
 
-                <TouchableOpacity>
+                <TouchableOpacity style={{ marginVertical: 10 }}
+                    onPress={() => {
+                        navigation.navigate("CreateStoryScreen_2")
+                    }}
+                >
                     <OrnateButton ButtonText={"Sáng Tác Truyện"} ButtonIcon={"edit-note"} />
                 </TouchableOpacity>
 
-                {/* <TouchableOpacity style={{zIndex: 2}}>
-                    <OrnateOption ButtonText={"Đây Là Sáng Tác Của Bạn"} ButtonIcon={null} Active={true} />
+                <TouchableOpacity style={{ marginVertical: 10 }}
+                    onPress={() => {
+                        navigation.navigate("EditStoryScreen")
+                    }}
+                >
+                    <OrnateButton ButtonText={"Sửa Truyện"} ButtonIcon={"edit-note"} />
                 </TouchableOpacity>
-                
-                <TouchableOpacity  style={{zIndex: 1}}>
-                    <OrnateOption ButtonText={"Đây Là Sáng Tác Của Bạn"} ButtonIcon={null} Active={false} />
+
+                <TouchableOpacity style={{ marginVertical: 10 }}
+
+                >
+                    <OrnateButton ButtonText={"Sáng Tác Của Bạn"} ButtonIcon={"list"} />
                 </TouchableOpacity>
 
-                <View style={styles.pictureFrame}>
-                    <View>
-
-                    </View>
-                    <Filigree8_TopLeft />
-                    <Filigree8_TopRight />
-                    <Filigree8_BottomLeft />
-                    <Filigree8_BottomRight />
-                </View>
-
-                <View style={styles.ornateTextbox}>
-                    <View>
-
-                    </View>
-                    <LinearGradient
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }}
-                        colors={[colors.black, 'transparent']}
-                        style={[styles.shadow, styles.leftShadow]}
-                    />
-                    <LinearGradient
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }}
-                        colors={['transparent', colors.black]}
-                        style={[styles.shadow, styles.rightShadow]}
-                    />
-                    <Filigree5_Top customColor={colors.lightgray} />
-                    <Filigree5_Bottom customColor={colors.lightgray} />
-                </View>
-
-                <View style={styles.ornateTextbox_2}>
-                    <View>
-
-                    </View>
-                    <LinearGradient
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }}
-                        colors={[colors.black, 'transparent']}
-                        style={[styles.shadow, styles.leftShadow]}
-                    />
-                    <LinearGradient
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }}
-                        colors={['transparent', colors.black]}
-                        style={[styles.shadow, styles.rightShadow]}
-                    />
-                    <Filigree4 customBottomPosition={0} customOpacity={0.12} />
-                </View>
-
-                <View style={styles.ornateTextbox_white}>
-                    <View>
-
-                    </View>
-                    <Filigree5_Bottom />
-                    <LinearGradient
-                        colors={['rgba(0,0,0,0.3)', 'transparent']}
-                        style={[styles.shadow, styles.topShadow]}
-                    />
-                </View> */}
-
-                <View style={{ height: 90 }}>
-                    <Filigree2 customPosition={0} />
-                </View>
+                <Filigree2 />
             </ScrollView>
         </View>
     );

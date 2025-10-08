@@ -12,7 +12,11 @@ import SearchListingScreen from './screens/SearchListingScreen';
 import SearchResultScreen from './screens/SearchResultScreen';
 import LibraryScreen from './screens/LibraryScreen';
 import LibraryListingScreen from './screens/LibraryListingScreen'
+import EditStoryScreen from './screens/EditStoryScreen';
 import CreateStoryScreen from './screens/CreateStoryScreen';
+import CreateStoryScreen_2 from './screens/CreateStoryScreen_2';
+import CreateStoryScreen_3 from './screens/CreateStoryScreen_3';
+import CreateStoryScreen_4 from './screens/CreateStoryScreen_4';
 import AccountScreen from './screens/AccountScreen';
 import NotificationScreen from './screens/NotificationScreen';
 import LoginScreen from './screens/LoginScreen';
@@ -41,7 +45,11 @@ export default function App() {
           <Stack.Screen name="SearchResultScreen" component={SearchResultScreen} options={{ title: 'SearchResultScreen' }} />
           <Stack.Screen name="LibraryScreen" component={LibraryScreen} options={{ title: 'LibraryScreen' }} />
           <Stack.Screen name="LibraryListingScreen" component={LibraryListingScreen} options={{ title: 'LibraryListingScreen' }} />
+          <Stack.Screen name="EditStoryScreen" component={EditStoryScreen} options={{ title: 'EditStoryScreen' }} />
           <Stack.Screen name="CreateStoryScreen" component={CreateStoryScreen} options={{ title: 'CreateStoryScreen' }} />
+          <Stack.Screen name="CreateStoryScreen_2" component={CreateStoryScreen_2} options={{ title: 'CreateStoryScreen_2' }} />
+          <Stack.Screen name="CreateStoryScreen_3" component={CreateStoryScreen_3} options={{ title: 'CreateStoryScreen_3' }} />
+          <Stack.Screen name="CreateStoryScreen_4" component={CreateStoryScreen_4} options={{ title: 'CreateStoryScreen_4' }} />
           <Stack.Screen name="AccountScreen" component={AccountScreen} options={{ title: 'AccountScreen' }} />
           <Stack.Screen name="NotificationScreen" component={NotificationScreen} options={{ title: 'NotificationScreen' }} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ title: 'LoginScreen' }} />

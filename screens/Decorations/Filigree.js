@@ -591,6 +591,7 @@ export const Filigree8_TopLeft = ({ customTopPosition, customLeftPosition, custo
                 <Path
                     d="M27.4844 0.5C27.2256 4.95121 23.5346 8.48145 19.0186 8.48145H8.48145V19.0186C8.48145 23.5346 4.95113 27.2245 0.5 27.4834V0.5H27.4844Z"
                     stroke={colors.lightgray}
+                    fill="none"
                 />
             </Svg>
         </View>
@@ -664,6 +665,7 @@ export const Filigree8_BottomRight = ({ customBottomPosition, customRightPositio
                 <Path
                     d="M0.515625 27.5C0.774448 23.0488 4.4654 19.5186 8.98145 19.5186L19.5186 19.5186L19.5186 8.98144C19.5186 4.46536 23.0489 0.775451 27.5 0.516602L27.5 27.5L0.515625 27.5Z"
                     stroke={colors.lightgray}
+                    fill="none"
                 />
             </Svg>
         </View>
