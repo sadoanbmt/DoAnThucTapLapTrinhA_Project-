@@ -31,7 +31,7 @@ const CreateStoryHeader = () => {
                 onPress={() => navigation.navigate("CreateStoryScreen_4")}
             >
                 <Text style={[styles.csh_buttonText, { fontWeight: 'normal' }]}>
-                    Bỏ Qua
+                    Tiếp
                 </Text>
             </TouchableOpacity>
         </View>
@@ -42,6 +42,7 @@ const CreateStoryScreen_3 = () => {
     const navigation = useNavigation();
     const [authorIsAccount, setAuthorIsAccount] = useState(true);
     const [author, setAuthor] = useState(null);
+    const [genre, setGenre] = useState(null);
 
     return (
         <View style={styles.container}>
@@ -78,7 +79,7 @@ const CreateStoryScreen_3 = () => {
                                 <Text style={[styles.ot_textInputLabel, (author == null || author == '') && { color: colors.gray }]}>Tác Giả</Text>
                                 <TextInput style={styles.ot_textInput}
                                     placeholder='Tác Giả'
-                                    placeholderTextColor={colors.white}
+                                    placeholderTextColor={colors.lightgray}
                                     onChangeText={(text) => setAuthor(text)}
                                     value={author}
                                 />
@@ -103,18 +104,19 @@ const CreateStoryScreen_3 = () => {
 
                     <View style={styles.ot_container}>
                         <View style={styles.ot_fieldContainer}>
-                            <Text style={[styles.ot_textInputLabel, (author == null || author == '') && { color: colors.gray }]}>Thể Loại</Text>
+                            <Text style={[styles.ot_textInputLabel, (genre == null || genre == '') && { color: colors.gray }]}>Thể Loại</Text>
                             <TextInput style={styles.ot_textInput}
                                 placeholder='Thể Loại'
-                                placeholderTextColor={colors.white}
+                                placeholderTextColor={colors.lightgray}
+                                onChangeText={(text) => setGenre(text)}
+                                value={genre}
                             />
                         </View>
                     </View>
                 </View>
 
-                <View style={{ height: 90 }}>
-                    <Filigree2 customPosition={0} />
-                </View>
+                <Filigree2 customPosition={60} />
+                <View style={globalStyles.bottomPadding} />
             </ScrollView>
         </View>
     );
@@ -225,7 +227,7 @@ const styles = StyleSheet.create({
     },
 
     ot_textInputLabel: {
-        color: colors.lightgray,
+        color: colors.gold,
         fontSize: 11,
         fontWeight: 'bold'
     },

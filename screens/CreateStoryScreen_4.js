@@ -28,10 +28,10 @@ const CreateStoryHeader = () => {
             </View>
 
             <TouchableOpacity style={styles.csh_button}
-                onPress={() => navigation.navigate("CreateStoryScreen")}
+                onPress={() => navigation.navigate("EditStoryScreen")}
             >
                 <Text style={[styles.csh_buttonText, { fontWeight: 'normal' }]}>
-                    Bỏ Qua
+                    Đăng
                 </Text>
             </TouchableOpacity>
         </View>

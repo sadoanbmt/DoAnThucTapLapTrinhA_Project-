@@ -31,7 +31,7 @@ const CreateStoryHeader = () => {
                 onPress={() => navigation.navigate("CreateStoryScreen_3")}
             >
                 <Text style={[styles.csh_buttonText, { fontWeight: 'normal' }]}>
-                    Bỏ Qua
+                    Tiếp
                 </Text>
             </TouchableOpacity>
         </View>
@@ -43,6 +43,7 @@ const CreateStoryScreen_2 = () => {
 
     const [storyType, setStoryType] = useState(0);
     const [title, setTitle] = useState(null);
+    const [series, setSeries] = useState(null);
     const [description, setDescription] = useState(null);
 
     return (
@@ -98,16 +99,25 @@ const CreateStoryScreen_2 = () => {
                             <Text style={[styles.ot_textInputLabel, (title == null || title == '') && { color: colors.gray }]}>Tựa Đề</Text>
                             <TextInput style={styles.ot_textInput}
                                 placeholder='Tựa Đề'
-                                placeholderTextColor={colors.white}
+                                placeholderTextColor={colors.lightgray}
                                 onChangeText={(text) => setTitle(text)}
                                 value={title}
+                            />
+                        </View>
+                        <View style={styles.ot_fieldContainer}>
+                            <Text style={[styles.ot_textInputLabel, (series == null || series == '') && { color: colors.gray }]}>Series</Text>
+                            <TextInput style={styles.ot_textInput}
+                                placeholder='Series'
+                                placeholderTextColor={colors.lightgray}
+                                onChangeText={(text) => setSeries(text)}
+                                value={series}
                             />
                         </View>
                         <View style={styles.ot_fieldContainer}>
                             <Text style={[styles.ot_textInputLabel, (description == null || description == '') && { color: colors.gray }]}>Mô Tả</Text>
                             <TextInput style={styles.ot_textInput}
                                 placeholder='Mô Tả'
-                                placeholderTextColor={colors.white}
+                                placeholderTextColor={colors.lightgray}
                                 multiline={true}
                                 textAlignVertical="top"
                                 onChangeText={(text) => setDescription(text)}
@@ -117,7 +127,7 @@ const CreateStoryScreen_2 = () => {
                     </View>
                 </View>
 
-                <View style={{marginTop: 5}}>
+                <View style={{ marginTop: 5 }}>
                     <TouchableOpacity style={{ zIndex: 2 }} activeOpacity={0.9}
                         onPress={() => {
                             setStoryType(0)
@@ -144,9 +154,8 @@ const CreateStoryScreen_2 = () => {
                     />
                 </View> */}
 
-                <View style={{ height: 90, marginTop: 10 }}>
-                    <Filigree2 customPosition={0} />
-                </View>
+                <Filigree2 customPosition={50} />
+                <View style={globalStyles.bottomPadding} />
             </ScrollView>
         </View>
     );
@@ -249,7 +258,7 @@ const styles = StyleSheet.create({
     },
 
     ot_textInputLabel: {
-        color: colors.lightgray,
+        color: colors.gold,
         fontSize: 11,
         fontWeight: 'bold'
     },

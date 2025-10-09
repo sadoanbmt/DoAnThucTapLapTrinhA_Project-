@@ -11,7 +11,8 @@ import PageScreen from './screens/PageScreen';
 import SearchListingScreen from './screens/SearchListingScreen';
 import SearchResultScreen from './screens/SearchResultScreen';
 import LibraryScreen from './screens/LibraryScreen';
-import LibraryListingScreen from './screens/LibraryListingScreen'
+import LibraryListingScreen from './screens/LibraryListingScreen';
+import CreationListingScreen from './screens/CreationListingScreen';
 import EditStoryScreen from './screens/EditStoryScreen';
 import CreateStoryScreen from './screens/CreateStoryScreen';
 import CreateStoryScreen_2 from './screens/CreateStoryScreen_2';
@@ -45,6 +46,7 @@ export default function App() {
           <Stack.Screen name="SearchResultScreen" component={SearchResultScreen} options={{ title: 'SearchResultScreen' }} />
           <Stack.Screen name="LibraryScreen" component={LibraryScreen} options={{ title: 'LibraryScreen' }} />
           <Stack.Screen name="LibraryListingScreen" component={LibraryListingScreen} options={{ title: 'LibraryListingScreen' }} />
+          <Stack.Screen name="CreationListingScreen" component={CreationListingScreen} options={{ title: 'CreationListingScreen' }} />
           <Stack.Screen name="EditStoryScreen" component={EditStoryScreen} options={{ title: 'EditStoryScreen' }} />
           <Stack.Screen name="CreateStoryScreen" component={CreateStoryScreen} options={{ title: 'CreateStoryScreen' }} />
           <Stack.Screen name="CreateStoryScreen_2" component={CreateStoryScreen_2} options={{ title: 'CreateStoryScreen_2' }} />

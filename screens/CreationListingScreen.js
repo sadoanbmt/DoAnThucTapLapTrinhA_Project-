@@ -33,6 +33,31 @@ const _presetCreation = {
     "chapterContent": []
 }
 
+const CreateStoryHeader = () => {
+    const navigation = useNavigation();
+    return (
+        <View style={styles.CreateStoryHeaderContainer}>
+            <TouchableOpacity style={styles.csh_button}
+                onPress={() => navigation.goBack()}
+            >
+                <MaterialIcons name='arrow-back' color={colors.white} size={30} />
+            </TouchableOpacity>
+
+            <View style={styles.csh_textContainer}>
+                <Text style={styles.csh_text}>
+                    Sáng Tác Của Bạn
+                </Text>
+            </View>
+
+            <TouchableOpacity style={styles.csh_button}>
+                <Text style={[styles.csh_buttonText, { fontWeight: 'normal' }]}>
+                    {/* Bỏ Qua */}
+                </Text>
+            </TouchableOpacity>
+        </View>
+    )
+}
+
 const BookItem_Wide = ({ navigation, book }) => {
     return (
         <View style={styles.bi_container}>
@@ -98,19 +123,27 @@ const formatCompactNumber = (number) => {
     return number.toString();
 };
 
-const CreateStoryScreen = () => {
+const CreationListingScreen = () => {
     const navigation = useNavigation();
     return (
         <View style={styles.container}>
-            <HeaderMain />
+            <CreateStoryHeader />
             <ScrollView bounces={false} overScrollMode="never" style={{ width: '100%' }}>
-                <ScreenTitle title={"ĐĂNG TRUYỆN"} icon={"edit-note"} />
+                {/* <ScreenTitle title={"ĐĂNG TRUYỆN"} icon={"edit-note"} /> */}
 
-                <TouchableOpacity style={styles.currentCreationContainer}
-                    onPress={() => navigation.navigate("CreateStoryScreen_4")}
-                >
-                    <BookItem_Wide navigation={navigation} book={_presetCreation} />
-                </TouchableOpacity>
+                <View style={{ marginTop: 15 }}>
+                    <TouchableOpacity style={styles.currentCreationContainer}
+                        onPress={() => navigation.navigate("CreateStoryScreen_4")}
+                    >
+                        <BookItem_Wide navigation={navigation} book={_presetCreation} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.currentCreationContainer}
+                        onPress={() => navigation.navigate("CreateStoryScreen_4")}
+                    >
+                        <BookItem_Wide navigation={navigation} book={_presetCreation} />
+                    </TouchableOpacity>
+                </View>
 
                 <TouchableOpacity style={{ marginTop: 5 }}
                     onPress={() => {
@@ -119,23 +152,6 @@ const CreateStoryScreen = () => {
                 >
                     <OrnateButton ButtonText={"Sáng Tác Truyện"} ButtonIcon={"edit-note"} />
                 </TouchableOpacity>
-
-                <TouchableOpacity style={{ marginTop: 5 }}
-                    onPress={() => {
-                        navigation.navigate("EditStoryScreen")
-                    }}
-                >
-                    <OrnateButton ButtonText={"Sửa Truyện"} ButtonIcon={"edit-note"} />
-                </TouchableOpacity>
-
-                <TouchableOpacity style={{ marginTop: 5 }}
-                    onPress={() => {
-                        navigation.navigate("CreationListingScreen")
-                    }}
-                >
-                    <OrnateButton ButtonText={"Sáng Tác Của Bạn"} ButtonIcon={"list"} />
-                </TouchableOpacity>
-
                 <Filigree2 customPosition={60} />
                 <View style={globalStyles.bottomPadding} />
             </ScrollView>
@@ -150,6 +166,47 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: colors.black,
+    },
+
+    CreateStoryHeaderContainer: {
+        zIndex: 999999,
+
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+
+        paddingTop: 45,
+        paddingBottom: 10,
+
+        width: '100%',
+        height: 'max-content',
+
+        backgroundColor: colors.gray,
+        // borderColor: colors.black,
+        // borderBottomWidth: 1
+    },
+
+    csh_button: {
+        flex: 1,
+        paddingHorizontal: 20
+    },
+
+    csh_buttonText: {
+        textAlign: 'right',
+        color: colors.white,
+        fontWeight: "bold"
+    },
+
+    csh_textContainer: {
+        flex: 4
+    },
+
+    csh_text: {
+        textAlign: 'left',
+        color: colors.white,
+        fontWeight: "bold",
+        fontSize: 16,
+        letterSpacing: 1.2
     },
 
     pictureFrame: {
@@ -317,4 +374,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default CreateStoryScreen;
+export default CreationListingScreen;

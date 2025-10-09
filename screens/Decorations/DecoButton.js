@@ -175,7 +175,7 @@ export const OrnateButton = ({ ButtonText, ButtonIcon }) => {
                     />
                 </Svg>
                 <View style={styles.ob_textContainer}>
-                    {ButtonIcon != null && <MaterialIcons style={styles.ob_icon} color={colors.white} size={24} name={ButtonIcon} />}
+                    {ButtonIcon != null && <MaterialIcons style={styles.ob_icon} color={colors.gold} size={24} name={ButtonIcon} />}
                     <Text style={styles.ob_text}>{ButtonText}</Text>
                     <LinearGradient
                         start={{ x: 0, y: 0 }}
@@ -342,6 +342,7 @@ const styles = StyleSheet.create({
 
         width: '100%',
         height: '85%',
+        // paddingLeft: "25%",
 
         borderRadius: 4,
 
@@ -351,12 +352,12 @@ const styles = StyleSheet.create({
         borderBottomWidth: 2,
     },
     ob_icon: {
-        marginRight: 10
+        marginRight: 15
     },
     ob_text: {
         color: colors.white,
         fontWeight: 'bold',
-        fontSize: 20
+        fontSize: 18
     },
 
     ornateOptionContainer: {
