@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput, FlatList } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from "react-redux";
 
 import { colors, globalStyles } from './GlobalStyle';
-import HeaderMain from './Components/HeaderMain';
-import { Filigree2, Filigree4, Filigree5_Bottom, Filigree5_Top, Filigree8_BottomLeft, Filigree8_BottomRight, Filigree8_TopLeft, Filigree8_TopRight, Filigree9 } from './Decorations/Filigree';
+import { Filigree2, Filigree4, Filigree5_Bottom } from './Decorations/Filigree';
 import { OrnateButton, OrnateOption } from './Decorations/DecoButton';
-import ScreenTitle from './Components/ScreenTitle';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
 
 const CreateStoryHeader = () => {
@@ -56,6 +54,16 @@ const _presetCreation = {
     "description": "Năm 1970, Việt Nam bị bắt cóc và mang lên bầu trời bởi một con Cua. Kể từ đó người Việt bắt đầu thích nghi và khám phá một thế giới mới trên bầu trời. Nhân vật chính là một thuyền trưởng và thuyền của ông là một đầu máy xe lửa. Công việc của ông là giao hàng tới giữa các thuộc địa trên bầu trời, tham vọng của ông là phiêu lưu và chứng kiến mọi cái đẹp và cái đáng sợ của một thế giới mới.",
     "chapterList": [],
     "chapterContent": []
+}
+
+const GenreComponent = ({ genre }) => {
+    return (
+        <View style={styles.genreComponent}>
+            <Text style={styles.gc_text}>
+                {genre}
+            </Text>
+        </View>
+    )
 }
 
 const EditStoryScreen = () => {
@@ -167,10 +175,18 @@ const EditStoryScreen = () => {
 
                     <View style={styles.ot_container}>
                         <View style={styles.ot_fieldContainer}>
-                            <Text style={[styles.ot_textInputLabel, (genre == null || genre == '') && { color: colors.gray }]}>Thể Loại</Text>
+                            <Text style={[styles.ot_textInputLabel, _presetCreation.genreList.length == 0 && { color: colors.gray }]}>Thể Loại</Text>
                             <View style={styles.ot_textInput}>
-                                {(genre == null || genre == '') &&
-                                    <Text style={{ color: colors.lightgray }}>Thể Loại</Text>
+                                {
+                                    _presetCreation.genreList.length == 0 &&
+                                    <Text style={{ color: colors.lightgray, marginTop: 5 }}>
+                                        Thể Loại
+                                    </Text>
+                                }
+                                {
+                                    _presetCreation.genreList.map(
+                                        (genre) => <GenreComponent key={genre} genre={genre} />
+                                    )
                                 }
                             </View>
                         </View>
@@ -184,27 +200,7 @@ const EditStoryScreen = () => {
                 <View style={styles.chapterContainer}>
                     <TouchableOpacity style={styles.ornateTextbox_white}
                         onPress={() => {
-                            navigation.navigate("CreateStoryScreen_4")
-                        }}
-                    >
-                        <View>
-                            <View style={styles.otw_textRow}>
-                                <Text style={styles.otw_title} numberOfLines={1}>Chương 2: Di Tích Prazifan</Text>
-                                <MaterialIcons name='border-color' size={18} color={colors.gray} />
-                            </View>
-                            <View style={styles.otw_textRow}>
-                                <Text style={styles.otw_subtitle}>Cập nhật Hôm nay</Text>
-                            </View>
-                        </View>
-                        <Filigree5_Bottom />
-                        <LinearGradient
-                            colors={['rgba(0,0,0,0.2)', 'transparent']}
-                            style={[globalStyles.shadow, globalStyles.topShadow]}
-                        />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.ornateTextbox_white}
-                        onPress={() => {
-                            navigation.navigate("CreateStoryScreen_4")
+                            navigation.navigate("CreateStoryScreen_Page")
                         }}
                     >
                         <View>
@@ -222,11 +218,32 @@ const EditStoryScreen = () => {
                             style={[globalStyles.shadow, globalStyles.topShadow]}
                         />
                     </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.ornateTextbox_white}
+                        onPress={() => {
+                            navigation.navigate("CreateStoryScreen_Page")
+                        }}
+                    >
+                        <View>
+                            <View style={styles.otw_textRow}>
+                                <Text style={styles.otw_title} numberOfLines={1}>Chương 2: Di Tích Prazifan</Text>
+                                <MaterialIcons name='border-color' size={18} color={colors.gray} />
+                            </View>
+                            <View style={styles.otw_textRow}>
+                                <Text style={styles.otw_subtitle}>Cập nhật Hôm nay</Text>
+                            </View>
+                        </View>
+                        <Filigree5_Bottom />
+                        <LinearGradient
+                            colors={['rgba(0,0,0,0.2)', 'transparent']}
+                            style={[globalStyles.shadow, globalStyles.topShadow]}
+                        />
+                    </TouchableOpacity>
                 </View>
 
                 <TouchableOpacity style={{ marginVertical: 0 }}
                     onPress={() => {
-                        navigation.navigate("CreateStoryScreen_4")
+                        navigation.navigate("CreateStoryScreen_Page")
                     }}
                 >
                     <OrnateButton ButtonText={"Thêm Chương Mới"} ButtonIcon={"add"} />
@@ -350,6 +367,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     ot_textInput: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+
         width: '100%',
         padding: 5,
         paddingTop: 0,
@@ -364,6 +384,25 @@ const styles = StyleSheet.create({
         height: '100%',
 
         borderRadius: 4
+    },
+
+    //-------------------------------------------------------//
+    // GENRE COMPONENT
+
+    genreComponent: {
+        width: 'auto',
+        padding: 5,
+        paddingHorizontal: 10,
+        marginRight: 5,
+        marginTop: 5,
+
+        borderRadius: 4,
+
+        backgroundColor: colors.black,
+    },
+    gc_text: {
+        color: colors.white,
+        fontWeight: 'bold'
     },
 
     //-------------------------------------------------------//

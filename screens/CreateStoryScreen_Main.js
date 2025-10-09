@@ -6,8 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { colors, globalStyles } from './GlobalStyle';
 import HeaderMain from './Components/HeaderMain';
-import { Filigree2, Filigree4, Filigree5_Bottom, Filigree5_Top, Filigree8_BottomLeft, Filigree8_BottomRight, Filigree8_TopLeft, Filigree8_TopRight, Filigree9 } from './Decorations/Filigree';
-import { OrnateButton, OrnateOption } from './Decorations/DecoButton';
+import { Filigree2, Filigree4 } from './Decorations/Filigree';
+import { OrnateButton } from './Decorations/DecoButton';
 import ScreenTitle from './Components/ScreenTitle';
 
 const _presetCreation = {

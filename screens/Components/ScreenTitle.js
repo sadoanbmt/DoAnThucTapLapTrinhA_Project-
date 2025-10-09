@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     },
 
     bottomBorder: {
-        width: '45%',
+        width: '46%',
         height: 1,
 
         backgroundColor: colors.gold

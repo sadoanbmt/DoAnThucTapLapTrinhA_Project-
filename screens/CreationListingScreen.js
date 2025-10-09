@@ -5,10 +5,8 @@ import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from "react-redux";
 
 import { colors, globalStyles } from './GlobalStyle';
-import HeaderMain from './Components/HeaderMain';
 import { Filigree2, Filigree4, Filigree5_Bottom, Filigree5_Top, Filigree8_BottomLeft, Filigree8_BottomRight, Filigree8_TopLeft, Filigree8_TopRight, Filigree9 } from './Decorations/Filigree';
 import { OrnateButton, OrnateOption } from './Decorations/DecoButton';
-import ScreenTitle from './Components/ScreenTitle';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
 
 const _presetCreation = {

@@ -30,15 +30,13 @@ export const colors = {
   trueBlack: '#000000',
   trueWhite: '#ffffff',
 
-  black: '#0F0F10',
-  gray: '#27282C',
-  lightgray: '#a7aaaf',
-  white: '#e1e3e7ff',
+  black: '#100f0fff',
+  gray: '#2c2727ff',
+  lightgray: '#afa7a7ff',
+  white: '#e7e1e1ff',
 
-  gold: '#ebbe54ff',
-};
-
-
+  gold: '#eba754ff',
+}
 
 export const globalStyles = StyleSheet.create({
   //----------------------------------------------//

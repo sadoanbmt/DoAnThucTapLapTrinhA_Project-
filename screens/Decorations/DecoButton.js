@@ -190,9 +190,7 @@ export const OrnateButton = ({ ButtonText, ButtonIcon }) => {
                         style={[globalStyles.shadow, globalStyles.rightShadow]}
                     />
                 </View>
-
             </View>
-
         </View>
     );
 }
@@ -229,9 +227,9 @@ export const OrnateOption = ({ ButtonText, ButtonIcon, Active }) => {
                         width="17.7279"
                         height="17.7279"
                         transform="rotate(45 14.6569 2.46458)"
-                        fill={colors.black}
+                        fill={colors.gray}
                         stroke={Active ? colors.white : colors.lightgray}
-                        strokeWidth="2"
+                        strokeWidth="3"
                     />
                 </Svg>
             </View>
@@ -329,8 +327,6 @@ const styles = StyleSheet.create({
         height: 60,
         marginVertical: 8,
 
-        borderRadius: 4,
-
         borderColor: colors.lightgray,
         borderTopWidth: 1,
         borderBottomWidth: 1,
@@ -342,12 +338,9 @@ const styles = StyleSheet.create({
 
         width: '100%',
         height: '85%',
-        // paddingLeft: "25%",
-
-        borderRadius: 4,
 
         backgroundColor: colors.gray,
-        borderColor: colors.white,
+        borderColor: colors.trueWhite,
         borderTopWidth: 3,
         borderBottomWidth: 2,
     },
@@ -428,7 +421,7 @@ const styles = StyleSheet.create({
         // borderWidth: 1
     },
     sb_text: {
-        fontSize: 20,
+        fontSize: 17,
         fontWeight: 'bold',
         color: colors.gray
     },

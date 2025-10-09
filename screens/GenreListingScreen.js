@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, FlatList, Image, Pressable } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
-import Svg, { Circle, Line } from 'react-native-svg';
-import MaterialIcons from '@react-native-vector-icons/material-icons';
 
-import { colors, globalStyles, bookCover } from './GlobalStyle';
+import { colors, globalStyles } from './GlobalStyle';
 import HeaderMain from './Components/HeaderMain';
 import { Filigree1, Filigree4 } from './Decorations/Filigree';
 import { useDispatch, useSelector } from 'react-redux';
