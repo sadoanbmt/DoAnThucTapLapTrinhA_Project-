@@ -36,7 +36,7 @@ const _presetCreation = {
 const CreateStoryHeader = () => {
     const navigation = useNavigation();
     return (
-        <View style={styles.CreateStoryHeaderContainer}>
+        <View style={styles.creationHeader}>
             <TouchableOpacity style={styles.csh_button}
                 onPress={() => navigation.goBack()}
             >
@@ -86,7 +86,7 @@ const BookItem_Wide = ({ navigation, book }) => {
                     numberOfLines={1}
                     ellipsizeMode="tail"
                 >
-                    Tiếp tục viết
+                    Tiếp tục soạn
                 </Text>
 
                 <Text style={styles.bi_bookTitle}
@@ -98,7 +98,7 @@ const BookItem_Wide = ({ navigation, book }) => {
 
                 <View style={[styles.bi_row, { marginTop: 0 }]}>
                     <View style={{ padding: 5, paddingHorizontal: 15, borderRadius: 4, backgroundColor: colors.gold }}>
-                        <Text style={[styles.bi_bookPage, { color: colors.black, letterSpacing: 0 }]}>Chương 2</Text>
+                        <Text style={[{ fontWeight: 'bold', color: colors.black, letterSpacing: 0 }]}>Chương 2</Text>
                     </View>
                     <View style={{ marginLeft: 10 }}>
                         <Text style={{ color: colors.lightgray, letterSpacing: 0, fontWeight: 'normal', fontSize: 15 }}>5 Bản nháp</Text>
@@ -108,20 +108,6 @@ const BookItem_Wide = ({ navigation, book }) => {
         </View>
     )
 }
-const formatCompactNumber = (number) => {
-    if (typeof number !== 'number' || isNaN(number)) return 'Invalid';
-
-    if (number >= 1000000000) {
-        return (number / 1000000000).toFixed(1) + 'B';
-    }
-    if (number >= 1000000) {
-        return (number / 1000000).toFixed(1) + 'M';
-    }
-    if (number >= 1000) {
-        return (number / 1000).toFixed(1) + 'k';
-    }
-    return number.toString();
-};
 
 const CreationListingScreen = () => {
     const navigation = useNavigation();
@@ -133,13 +119,13 @@ const CreationListingScreen = () => {
 
                 <View style={{ marginTop: 15 }}>
                     <TouchableOpacity style={styles.currentCreationContainer}
-                        onPress={() => navigation.navigate("CreateStoryScreen_4")}
+                        onPress={() => navigation.navigate("EditStoryScreen")}
                     >
                         <BookItem_Wide navigation={navigation} book={_presetCreation} />
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.currentCreationContainer}
-                        onPress={() => navigation.navigate("CreateStoryScreen_4")}
+                        onPress={() => navigation.navigate("EditStoryScreen")}
                     >
                         <BookItem_Wide navigation={navigation} book={_presetCreation} />
                     </TouchableOpacity>
@@ -168,7 +154,10 @@ const styles = StyleSheet.create({
         backgroundColor: colors.black,
     },
 
-    CreateStoryHeaderContainer: {
+    //-------------------------------------------------------//
+    // CREATION HEADER
+
+    creationHeader: {
         zIndex: 999999,
 
         alignItems: 'center',
@@ -182,8 +171,6 @@ const styles = StyleSheet.create({
         height: 'max-content',
 
         backgroundColor: colors.gray,
-        // borderColor: colors.black,
-        // borderBottomWidth: 1
     },
 
     csh_button: {
@@ -334,36 +321,6 @@ const styles = StyleSheet.create({
         fontStyle: 'italic',
         letterSpacing: 1,
         fontSize: 12,
-    },
-    bi_bookPage: {
-        color: colors.white,
-        fontWeight: 'bold',
-        letterSpacing: 2,
-        fontSize: 12,
-    },
-    bi_statContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-
-        width: 170,
-        marginTop: 15,
-    },
-    bi_stat: {
-        // flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-
-        marginHorizontal: 5
-    },
-    bi_statNum: {
-        fontSize: 15,
-        fontWeight: 'bold',
-        color: colors.white
-    },
-    bi_statText: {
-        fontSize: 11,
-        color: colors.white
     },
     bi_row: {
         flexDirection: 'row',

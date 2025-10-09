@@ -5,32 +5,30 @@ import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from "react-redux";
 
 import { colors, globalStyles } from './GlobalStyle';
-import HeaderMain from './Components/HeaderMain';
-import { Filigree2, Filigree4, Filigree5_Bottom, Filigree5_Top, Filigree8_BottomLeft, Filigree8_BottomRight, Filigree8_TopLeft, Filigree8_TopRight, Filigree9 } from './Decorations/Filigree';
-import { OrnateButton, OrnateOption } from './Decorations/DecoButton';
-import ScreenTitle from './Components/ScreenTitle';
+import { Filigree2, Filigree4, Filigree5_Bottom } from './Decorations/Filigree';
+import { OrnateOption } from './Decorations/DecoButton';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
 
 const CreateStoryHeader = () => {
     const navigation = useNavigation();
     return (
-        <View style={styles.CreateStoryHeaderContainer}>
-            <TouchableOpacity style={styles.csh_button}
+        <View style={styles.creationHeader}>
+            <TouchableOpacity style={styles.ch_button}
                 onPress={() => navigation.goBack()}
             >
                 <MaterialIcons name='arrow-back' color={colors.white} size={30} />
             </TouchableOpacity>
 
-            <View style={styles.csh_textContainer}>
-                <Text style={styles.csh_text}>
+            <View style={styles.ch_textContainer}>
+                <Text style={styles.ch_text}>
                     Thông Tin Truyện
                 </Text>
             </View>
 
-            <TouchableOpacity style={styles.csh_button}
-                onPress={() => navigation.navigate("CreateStoryScreen_3")}
+            <TouchableOpacity style={styles.ch_button}
+                onPress={() => navigation.navigate("CreateStoryScreen_MoreDetail")}
             >
-                <Text style={[styles.csh_buttonText, { fontWeight: 'normal' }]}>
+                <Text style={[styles.ch_buttonText, { fontWeight: 'normal' }]}>
                     Tiếp
                 </Text>
             </TouchableOpacity>
@@ -38,8 +36,7 @@ const CreateStoryHeader = () => {
     )
 }
 
-const CreateStoryScreen_2 = () => {
-    const navigation = useNavigation();
+const CreateStoryScreen_Detail = () => {
 
     const [storyType, setStoryType] = useState(0);
     const [title, setTitle] = useState(null);
@@ -143,17 +140,6 @@ const CreateStoryScreen_2 = () => {
                         <OrnateOption ButtonText="Sách Chữ" Active={storyType == 1} />
                     </TouchableOpacity>
                 </View>
-                {/* <View style={styles.ornateTextbox_white}>
-                    <View>
-
-                    </View>
-                    <Filigree5_Bottom />
-                    <LinearGradient
-                        colors={['rgba(0,0,0,0.3)', 'transparent']}
-                        style={[styles.shadow, styles.topShadow]}
-                    />
-                </View> */}
-
                 <Filigree2 customPosition={50} />
                 <View style={globalStyles.bottomPadding} />
             </ScrollView>
@@ -170,7 +156,10 @@ const styles = StyleSheet.create({
         backgroundColor: colors.black,
     },
 
-    CreateStoryHeaderContainer: {
+    //-------------------------------------------------------//
+    // CREATION HEADER
+
+    creationHeader: {
         zIndex: 999999,
 
         alignItems: 'center',
@@ -186,22 +175,22 @@ const styles = StyleSheet.create({
         backgroundColor: colors.gray,
     },
 
-    csh_button: {
+    ch_button: {
         flex: 1,
         paddingHorizontal: 20
     },
 
-    csh_buttonText: {
+    ch_buttonText: {
         textAlign: 'right',
         color: colors.white,
         fontWeight: "bold"
     },
 
-    csh_textContainer: {
+    ch_textContainer: {
         flex: 4
     },
 
-    csh_text: {
+    ch_text: {
         textAlign: 'left',
         color: colors.white,
         fontWeight: "bold",
@@ -209,14 +198,23 @@ const styles = StyleSheet.create({
         letterSpacing: 1.2
     },
 
+    //-------------------------------------------------------//
+    // ORNATE TEXTBOX
 
-    ot2_container: {
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
+    ornateTextbox: {
         alignItems: 'center',
+        justifyContent: 'flex-start',
 
-        paddingHorizontal: 15,
-        width: '80%'
+        width: '100%',
+        height: 'auto',
+        marginVertical: 10,
+
+        overflow: 'hidden',
+
+        borderColor: colors.white,
+        borderTopWidth: 3,
+        borderBottomWidth: 2,
+        backgroundColor: colors.gray,
     },
 
     ot_container: {
@@ -226,7 +224,7 @@ const styles = StyleSheet.create({
 
         paddingHorizontal: 20,
         paddingBottom: 50,
-        width: '80%',
+        width: '90%',
         height: 'auto'
     },
 
@@ -276,21 +274,8 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1
     },
 
-    ornateTextbox: {
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-
-        width: '100%',
-        height: 'auto',
-        marginVertical: 10,
-
-        overflow: 'hidden',
-
-        borderColor: colors.white,
-        borderTopWidth: 3,
-        borderBottomWidth: 2,
-        backgroundColor: colors.gray,
-    },
+    //-------------------------------------------------------//
+    // ORNATE TEXTBOX
 
     ornateTextbox_2: {
         alignItems: 'center',
@@ -309,19 +294,16 @@ const styles = StyleSheet.create({
         backgroundColor: colors.gray,
     },
 
+    ot2_container: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
 
-    ornateTextbox_white: {
-        width: '100%',
-        height: 100,
-        marginVertical: 10,
-
-        overflow: 'hidden',
-
-        borderColor: colors.white,
-        borderTopWidth: 3,
-        borderBottomWidth: 2,
-        backgroundColor: colors.white,
+        paddingHorizontal: 15,
+        width: '80%'
     },
+
+    //-------------------------------------------------------//
 });
 
-export default CreateStoryScreen_2;
+export default CreateStoryScreen_Detail;

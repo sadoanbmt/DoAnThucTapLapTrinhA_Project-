@@ -14,23 +14,23 @@ import MaterialIcons from '@react-native-vector-icons/material-icons';
 const CreateStoryHeader = () => {
     const navigation = useNavigation();
     return (
-        <View style={styles.CreateStoryHeaderContainer}>
-            <TouchableOpacity style={styles.csh_button}
+        <View style={styles.creationHeader}>
+            <TouchableOpacity style={styles.ch_button}
                 onPress={() => navigation.goBack()}
             >
                 <MaterialIcons name='arrow-back' color={colors.white} size={30} />
             </TouchableOpacity>
 
-            <View style={styles.csh_textContainer}>
-                <Text style={styles.csh_text}>
+            <View style={styles.ch_textContainer}>
+                <Text style={styles.ch_text}>
                     Nội Dung Truyện
                 </Text>
             </View>
 
-            <TouchableOpacity style={styles.csh_button}
+            <TouchableOpacity style={styles.ch_button}
                 onPress={() => navigation.navigate("EditStoryScreen")}
             >
-                <Text style={[styles.csh_buttonText, { fontWeight: 'normal' }]}>
+                <Text style={[styles.ch_buttonText, { fontWeight: 'normal' }]}>
                     Đăng
                 </Text>
             </TouchableOpacity>
@@ -38,7 +38,7 @@ const CreateStoryHeader = () => {
     )
 }
 
-const CreateStoryScreen_4 = () => {
+const CreateStoryScreen_Page = () => {
     const navigation = useNavigation();
 
     const [content, setContent] = useState('');
@@ -47,7 +47,7 @@ const CreateStoryScreen_4 = () => {
         <View style={styles.container}>
             <CreateStoryHeader />
             <ScrollView bounces={false} overScrollMode="never" style={{ width: '100%' }}>
-                <View style={styles.titleInputContainer}>
+                <View style={styles.titleInput}>
                     <TextInput style={styles.ti_input}
                         placeholder='Tựa Đề Chương'
                         placeholderTextColor={colors.lightgray}
@@ -97,7 +97,10 @@ const styles = StyleSheet.create({
         backgroundColor: colors.black,
     },
 
-    CreateStoryHeaderContainer: {
+    //-------------------------------------------------------//
+    // CREATION HEADER
+
+    creationHeader: {
         zIndex: 999999,
 
         alignItems: 'center',
@@ -113,22 +116,22 @@ const styles = StyleSheet.create({
         backgroundColor: colors.gray,
     },
 
-    csh_button: {
+    ch_button: {
         flex: 1,
         paddingHorizontal: 20
     },
 
-    csh_buttonText: {
+    ch_buttonText: {
         textAlign: 'right',
         color: colors.white,
         fontWeight: "bold"
     },
 
-    csh_textContainer: {
+    ch_textContainer: {
         flex: 4
     },
 
-    csh_text: {
+    ch_text: {
         textAlign: 'left',
         color: colors.white,
         fontWeight: "bold",
@@ -136,16 +139,10 @@ const styles = StyleSheet.create({
         letterSpacing: 1.2
     },
 
-    pictureFrame: {
-        width: 200,
-        height: 300,
-        margin: 20,
+    //-------------------------------------------------------//
+    // TITLE INPUT
 
-        borderColor: colors.lightgray,
-        borderWidth: 1
-    },
-
-    titleInputContainer:{
+    titleInput: {
         alignItems: 'center',
         justifyContent: 'center',
 
@@ -153,7 +150,7 @@ const styles = StyleSheet.create({
         height: 70,
     },
 
-    ti_input:{
+    ti_input: {
         width: 320,
         paddingTop: 10,
         marginTop: 5,
@@ -165,6 +162,25 @@ const styles = StyleSheet.create({
 
         borderColor: colors.gray,
         borderTopWidth: 1.5,
+    },
+
+    //-------------------------------------------------------//
+    // ORNATE TEXTBOX
+
+    ornateTextbox: {
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+
+        width: '100%',
+        height: 620,
+        marginVertical: 10,
+
+        overflow: 'hidden',
+
+        borderColor: colors.white,
+        borderTopWidth: 3,
+        borderBottomWidth: 2,
+        backgroundColor: colors.gray,
     },
 
     ot_container: {
@@ -225,22 +241,6 @@ const styles = StyleSheet.create({
         // borderBottomWidth: 1
     },
 
-    ornateTextbox: {
-        alignItems: 'flex-start',
-        justifyContent: 'flex-start',
-
-        width: '100%',
-        height: 620,
-        marginVertical: 10,
-
-        overflow: 'hidden',
-
-        borderColor: colors.white,
-        borderTopWidth: 3,
-        borderBottomWidth: 2,
-        backgroundColor: colors.gray,
-    },
-
     ornateTextbox_2: {
         width: '100%',
         height: 180,
@@ -268,4 +268,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default CreateStoryScreen_4;
+export default CreateStoryScreen_Page;

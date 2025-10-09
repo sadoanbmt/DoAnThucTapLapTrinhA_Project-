@@ -31,7 +31,7 @@ const SideTabRight = ({ setLeftIsVisible, setRightIsVisible }) => {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.str_menuButton}
                     onPress={() => {
-                        navigation.navigate("CreateStoryScreen")
+                        navigation.navigate("CreateStoryScreen_Main")
                         setRightIsVisible(false)
                     }}
                 >

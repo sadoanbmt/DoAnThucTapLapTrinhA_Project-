@@ -9,7 +9,6 @@ import HeaderMain from './Components/HeaderMain';
 import { Filigree2, Filigree4, Filigree5_Bottom, Filigree5_Top, Filigree8_BottomLeft, Filigree8_BottomRight, Filigree8_TopLeft, Filigree8_TopRight, Filigree9 } from './Decorations/Filigree';
 import { OrnateButton, OrnateOption } from './Decorations/DecoButton';
 import ScreenTitle from './Components/ScreenTitle';
-import MaterialIcons from '@react-native-vector-icons/material-icons';
 
 const _presetCreation = {
     "type": "sách chữ",
@@ -33,7 +32,7 @@ const _presetCreation = {
     "chapterContent": []
 }
 
-const BookItem_Wide = ({ navigation, book }) => {
+const BookItem = ({ navigation, book }) => {
     return (
         <View style={styles.bi_container}>
             <Filigree4
@@ -61,7 +60,7 @@ const BookItem_Wide = ({ navigation, book }) => {
                     numberOfLines={1}
                     ellipsizeMode="tail"
                 >
-                    Tiếp tục viết
+                    Tiếp tục soạn
                 </Text>
 
                 <Text style={styles.bi_bookTitle}
@@ -71,9 +70,9 @@ const BookItem_Wide = ({ navigation, book }) => {
                     {book.title}
                 </Text>
 
-                <View style={[styles.bi_row, { marginTop: 0 }]}>
+                <View style={[styles.bi_row]}>
                     <View style={{ padding: 5, paddingHorizontal: 15, borderRadius: 4, backgroundColor: colors.gold }}>
-                        <Text style={[styles.bi_bookPage, { color: colors.black, letterSpacing: 0 }]}>Chương 2</Text>
+                        <Text style={{ color: colors.black, letterSpacing: 0, fontWeight: 'bold' }}>Chương 2</Text>
                     </View>
                     <View style={{ marginLeft: 10 }}>
                         <Text style={{ color: colors.lightgray, letterSpacing: 0, fontWeight: 'normal', fontSize: 15 }}>5 Bản nháp</Text>
@@ -83,38 +82,24 @@ const BookItem_Wide = ({ navigation, book }) => {
         </View>
     )
 }
-const formatCompactNumber = (number) => {
-    if (typeof number !== 'number' || isNaN(number)) return 'Invalid';
 
-    if (number >= 1000000000) {
-        return (number / 1000000000).toFixed(1) + 'B';
-    }
-    if (number >= 1000000) {
-        return (number / 1000000).toFixed(1) + 'M';
-    }
-    if (number >= 1000) {
-        return (number / 1000).toFixed(1) + 'k';
-    }
-    return number.toString();
-};
-
-const CreateStoryScreen = () => {
+const CreateStoryScreen_Main = () => {
     const navigation = useNavigation();
     return (
         <View style={styles.container}>
             <HeaderMain />
             <ScrollView bounces={false} overScrollMode="never" style={{ width: '100%' }}>
-                <ScreenTitle title={"ĐĂNG TRUYỆN"} icon={"edit-note"} />
+                <ScreenTitle title={"ĐĂNG TRUYỆN"} icon={"edit-note"} customIconPosition={-2}/>
 
-                <TouchableOpacity style={styles.currentCreationContainer}
-                    onPress={() => navigation.navigate("CreateStoryScreen_4")}
+                <TouchableOpacity style={styles.currentCreation}
+                    onPress={() => navigation.navigate("EditStoryScreen")}
                 >
-                    <BookItem_Wide navigation={navigation} book={_presetCreation} />
+                    <BookItem navigation={navigation} book={_presetCreation} />
                 </TouchableOpacity>
 
                 <TouchableOpacity style={{ marginTop: 5 }}
                     onPress={() => {
-                        navigation.navigate("CreateStoryScreen_2")
+                        navigation.navigate("CreateStoryScreen_Detail")
                     }}
                 >
                     <OrnateButton ButtonText={"Sáng Tác Truyện"} ButtonIcon={"edit-note"} />
@@ -152,14 +137,8 @@ const styles = StyleSheet.create({
         backgroundColor: colors.black,
     },
 
-    pictureFrame: {
-        width: 200,
-        height: 300,
-        margin: 20,
-
-        borderColor: colors.lightgray,
-        borderWidth: 1
-    },
+    //-------------------------------------------------------//
+    // ORNATE TEXTBOX
 
     ornateTextbox: {
         width: '100%',
@@ -174,33 +153,10 @@ const styles = StyleSheet.create({
         backgroundColor: colors.gray,
     },
 
-    ornateTextbox_2: {
-        width: '100%',
-        height: 180,
-        marginVertical: 10,
+    //-------------------------------------------------------//
+    // ORNATE TEXTBOX
 
-        overflow: 'hidden',
-
-        borderColor: colors.white,
-        borderTopWidth: 3,
-        borderBottomWidth: 2,
-        backgroundColor: colors.gray,
-    },
-
-    ornateTextbox_white: {
-        width: '100%',
-        height: 100,
-        marginVertical: 10,
-
-        overflow: 'hidden',
-
-        borderColor: colors.white,
-        borderTopWidth: 3,
-        borderBottomWidth: 2,
-        backgroundColor: colors.white,
-    },
-
-    currentCreationContainer: {
+    currentCreation: {
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
@@ -278,36 +234,6 @@ const styles = StyleSheet.create({
         letterSpacing: 1,
         fontSize: 12,
     },
-    bi_bookPage: {
-        color: colors.white,
-        fontWeight: 'bold',
-        letterSpacing: 2,
-        fontSize: 12,
-    },
-    bi_statContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-
-        width: 170,
-        marginTop: 15,
-    },
-    bi_stat: {
-        // flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-
-        marginHorizontal: 5
-    },
-    bi_statNum: {
-        fontSize: 15,
-        fontWeight: 'bold',
-        color: colors.white
-    },
-    bi_statText: {
-        fontSize: 11,
-        color: colors.white
-    },
     bi_row: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
@@ -317,4 +243,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default CreateStoryScreen;
+export default CreateStoryScreen_Main;

@@ -14,23 +14,23 @@ import MaterialIcons from '@react-native-vector-icons/material-icons';
 const CreateStoryHeader = () => {
     const navigation = useNavigation();
     return (
-        <View style={styles.CreateStoryHeaderContainer}>
-            <TouchableOpacity style={styles.csh_button}
+        <View style={styles.creationHeader}>
+            <TouchableOpacity style={styles.ch_button}
                 onPress={() => navigation.goBack()}
             >
                 <MaterialIcons name='arrow-back' color={colors.white} size={30} />
             </TouchableOpacity>
 
-            <View style={styles.csh_textContainer}>
-                <Text style={styles.csh_text}>
+            <View style={styles.ch_textContainer}>
+                <Text style={styles.ch_text}>
                     Thông Tin Truyện
                 </Text>
             </View>
 
-            <TouchableOpacity style={styles.csh_button}
-                onPress={() => navigation.navigate("CreateStoryScreen_4")}
+            <TouchableOpacity style={styles.ch_button}
+                onPress={() => navigation.navigate("CreateStoryScreen_Page")}
             >
-                <Text style={[styles.csh_buttonText, { fontWeight: 'normal' }]}>
+                <Text style={[styles.ch_buttonText, { fontWeight: 'normal' }]}>
                     Tiếp
                 </Text>
             </TouchableOpacity>
@@ -38,7 +38,7 @@ const CreateStoryHeader = () => {
     )
 }
 
-const CreateStoryScreen_3 = () => {
+const CreateStoryScreen_MoreDetail = () => {
     const navigation = useNavigation();
     const [authorIsAccount, setAuthorIsAccount] = useState(true);
     const [author, setAuthor] = useState(null);
@@ -131,7 +131,10 @@ const styles = StyleSheet.create({
         backgroundColor: colors.black,
     },
 
-    CreateStoryHeaderContainer: {
+    //-------------------------------------------------------//
+    // CREATION HEADER
+
+    creationHeader: {
         zIndex: 999999,
 
         alignItems: 'center',
@@ -146,23 +149,19 @@ const styles = StyleSheet.create({
 
         backgroundColor: colors.gray,
     },
-
-    csh_button: {
+    ch_button: {
         flex: 1,
         paddingHorizontal: 20
     },
-
-    csh_buttonText: {
+    ch_buttonText: {
         textAlign: 'right',
         color: colors.white,
         fontWeight: "bold"
     },
-
-    csh_textContainer: {
+    ch_textContainer: {
         flex: 4
     },
-
-    csh_text: {
+    ch_text: {
         textAlign: 'left',
         color: colors.white,
         fontWeight: "bold",
@@ -170,80 +169,8 @@ const styles = StyleSheet.create({
         letterSpacing: 1.2
     },
 
-    pictureFrame: {
-        width: 200,
-        height: 300,
-        margin: 20,
-
-        borderColor: colors.lightgray,
-        borderWidth: 1
-    },
-
-    ot2_container: {
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-
-        paddingHorizontal: 15,
-        width: '80%'
-    },
-
-    ot_container: {
-        flexDirection: 'collumn',
-        justifyContent: 'center',
-        alignItems: 'center',
-
-        paddingHorizontal: 20,
-        paddingBottom: 30,
-        width: '80%',
-        height: 'auto'
-    },
-
-    ot_pictureFrame: {
-        alignItems: 'center',
-        justifyContent: 'center',
-
-        width: 100,
-        height: 150,
-
-        borderRadius: 4,
-
-        borderColor: colors.lightgray,
-        borderWidth: 1,
-        backgroundColor: colors.gray
-    },
-    ot_text: {
-        color: colors.white,
-        fontSize: 20,
-        fontWeight: 'bold',
-
-        marginLeft: 10,
-        marginBottom: 10
-    },
-    ot_fieldContainer: {
-        width: '100%',
-
-        marginTop: 12
-    },
-
-    ot_textInputLabel: {
-        color: colors.gold,
-        fontSize: 11,
-        fontWeight: 'bold'
-    },
-
-    ot_textInput: {
-        width: '100%',
-
-        padding: 5,
-        paddingTop: 0,
-
-        margin: 0,
-
-        color: colors.white,
-        borderBottomColor: colors.lightgray,
-        borderBottomWidth: 1
-    },
+    //-------------------------------------------------------//
+    // ORNATE TEXTBOX
 
     ornateTextbox: {
         alignItems: 'center',
@@ -260,23 +187,46 @@ const styles = StyleSheet.create({
         borderBottomWidth: 2,
         backgroundColor: colors.gray,
     },
-
-    ornateTextbox_2: {
-        alignItems: 'center',
+    ot_container: {
+        flexDirection: 'collumn',
         justifyContent: 'center',
+        alignItems: 'center',
 
+        paddingHorizontal: 20,
+        paddingBottom: 30,
+        width: '90%',
+        height: 'auto'
+    },
+    ot_text: {
+        color: colors.white,
+        fontSize: 20,
+        fontWeight: 'bold',
+
+        marginLeft: 10,
+        marginBottom: 10
+    },
+    ot_fieldContainer: {
         width: '100%',
-        height: 180,
-        marginTop: 10,
-        marginBottom: 5,
 
-        overflow: 'hidden',
+        marginTop: 12
+    },
+    ot_textInputLabel: {
+        color: colors.gold,
+        fontSize: 11,
+        fontWeight: 'bold'
+    },
+    ot_textInput: {
+        width: '100%',
 
-        borderColor: colors.white,
-        borderTopWidth: 3,
-        borderBottomWidth: 2,
-        backgroundColor: colors.gray,
+        padding: 5,
+        paddingTop: 0,
+
+        margin: 0,
+
+        color: colors.white,
+        borderBottomColor: colors.lightgray,
+        borderBottomWidth: 1
     },
 });
 
-export default CreateStoryScreen_3;
+export default CreateStoryScreen_MoreDetail;

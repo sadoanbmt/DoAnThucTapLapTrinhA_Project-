@@ -14,21 +14,21 @@ import MaterialIcons from '@react-native-vector-icons/material-icons';
 const CreateStoryHeader = () => {
     const navigation = useNavigation();
     return (
-        <View style={styles.CreateStoryHeaderContainer}>
-            <TouchableOpacity style={styles.csh_button}
+        <View style={styles.creationHeader}>
+            <TouchableOpacity style={styles.ch_button}
                 onPress={() => navigation.goBack()}
             >
                 <MaterialIcons name='arrow-back' color={colors.white} size={30} />
             </TouchableOpacity>
 
-            <View style={styles.csh_textContainer}>
-                <Text style={styles.csh_text}>
+            <View style={styles.ch_textContainer}>
+                <Text style={styles.ch_text}>
                     Sửa Truyện
                 </Text>
             </View>
 
-            <TouchableOpacity style={styles.csh_button}>
-                <Text style={[styles.csh_buttonText, { fontWeight: 'normal' }]}>
+            <TouchableOpacity style={styles.ch_button}>
+                <Text style={[styles.ch_buttonText, { fontWeight: 'normal' }]}>
                     {/* Bỏ Qua */}
                 </Text>
             </TouchableOpacity>
@@ -168,12 +168,11 @@ const EditStoryScreen = () => {
                     <View style={styles.ot_container}>
                         <View style={styles.ot_fieldContainer}>
                             <Text style={[styles.ot_textInputLabel, (genre == null || genre == '') && { color: colors.gray }]}>Thể Loại</Text>
-                            <TextInput style={styles.ot_textInput}
-                                placeholder='Thể Loại'
-                                placeholderTextColor={colors.lightgray}
-                                onChangeText={(text) => setGenre(text)}
-                                value={genre}
-                            />
+                            <View style={styles.ot_textInput}>
+                                {(genre == null || genre == '') &&
+                                    <Text style={{ color: colors.lightgray }}>Thể Loại</Text>
+                                }
+                            </View>
                         </View>
                     </View>
                 </View>
@@ -183,10 +182,14 @@ const EditStoryScreen = () => {
                 </View>
 
                 <View style={styles.chapterContainer}>
-                    <View style={styles.ornateTextbox_white}>
+                    <TouchableOpacity style={styles.ornateTextbox_white}
+                        onPress={() => {
+                            navigation.navigate("CreateStoryScreen_4")
+                        }}
+                    >
                         <View>
                             <View style={styles.otw_textRow}>
-                                <Text style={styles.otw_title} numberOfLines={1}>Chương 2: Bran</Text>
+                                <Text style={styles.otw_title} numberOfLines={1}>Chương 2: Di Tích Prazifan</Text>
                                 <MaterialIcons name='border-color' size={18} color={colors.gray} />
                             </View>
                             <View style={styles.otw_textRow}>
@@ -198,11 +201,15 @@ const EditStoryScreen = () => {
                             colors={['rgba(0,0,0,0.2)', 'transparent']}
                             style={[globalStyles.shadow, globalStyles.topShadow]}
                         />
-                    </View>
-                    <View style={styles.ornateTextbox_white}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.ornateTextbox_white}
+                        onPress={() => {
+                            navigation.navigate("CreateStoryScreen_4")
+                        }}
+                    >
                         <View>
                             <View style={styles.otw_textRow}>
-                                <Text style={styles.otw_title} numberOfLines={1}>Chương 1: Prologue</Text>
+                                <Text style={styles.otw_title} numberOfLines={1}>Chương 1: Tân Định</Text>
                                 <MaterialIcons name='border-color' size={18} color={colors.gray} />
                             </View>
                             <View style={styles.otw_textRow}>
@@ -214,7 +221,7 @@ const EditStoryScreen = () => {
                             colors={['rgba(0,0,0,0.2)', 'transparent']}
                             style={[globalStyles.shadow, globalStyles.topShadow]}
                         />
-                    </View>
+                    </TouchableOpacity>
                 </View>
 
                 <TouchableOpacity style={{ marginVertical: 0 }}
@@ -241,7 +248,10 @@ const styles = StyleSheet.create({
         backgroundColor: colors.black,
     },
 
-    CreateStoryHeaderContainer: {
+    //-------------------------------------------------------//
+    // CREATION HEADER
+
+    creationHeader: {
         zIndex: 999999,
 
         alignItems: 'center',
@@ -255,32 +265,33 @@ const styles = StyleSheet.create({
         height: 'max-content',
 
         backgroundColor: colors.gray,
-        // borderColor: colors.black,
-        // borderBottomWidth: 1
     },
 
-    csh_button: {
+    ch_button: {
         flex: 1,
         paddingHorizontal: 20
     },
 
-    csh_buttonText: {
+    ch_buttonText: {
         textAlign: 'right',
         color: colors.white,
         fontWeight: "bold"
     },
 
-    csh_textContainer: {
+    ch_textContainer: {
         flex: 4
     },
 
-    csh_text: {
+    ch_text: {
         textAlign: 'left',
         color: colors.white,
         fontWeight: "bold",
         fontSize: 16,
         letterSpacing: 1.2
     },
+
+    //-------------------------------------------------------//
+    // ORNATE TEXTBOX
 
     ornateTextbox: {
         alignItems: 'center',
@@ -297,33 +308,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 2,
         backgroundColor: colors.gray,
     },
-
-    ornateTextbox_2: {
-        alignItems: 'center',
-        justifyContent: 'center',
-
-        width: '100%',
-        height: 180,
-        marginTop: 5,
-        marginBottom: 5,
-
-        overflow: 'hidden',
-
-        borderColor: colors.white,
-        borderTopWidth: 3,
-        borderBottomWidth: 2,
-        backgroundColor: colors.gray,
-    },
-
-    ot2_container: {
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-
-        paddingHorizontal: 15,
-        width: '80%'
-    },
-
     ot_container: {
         flexDirection: 'collumn',
         justifyContent: 'center',
@@ -331,10 +315,9 @@ const styles = StyleSheet.create({
 
         paddingHorizontal: 20,
         paddingBottom: 50,
-        width: '80%',
+        width: '90%',
         height: 'auto'
     },
-
     ot_pictureFrame: {
         alignItems: 'center',
         justifyContent: 'center',
@@ -361,19 +344,15 @@ const styles = StyleSheet.create({
 
         marginTop: 20
     },
-
     ot_textInputLabel: {
         color: colors.gold,
         fontSize: 11,
         fontWeight: 'bold'
     },
-
     ot_textInput: {
         width: '100%',
-
         padding: 5,
         paddingTop: 0,
-
         margin: 0,
 
         color: colors.white,
@@ -386,6 +365,37 @@ const styles = StyleSheet.create({
 
         borderRadius: 4
     },
+
+    //-------------------------------------------------------//
+    // ORNATE TEXTBOX 2
+
+    ornateTextbox_2: {
+        alignItems: 'center',
+        justifyContent: 'center',
+
+        width: '100%',
+        height: 180,
+        marginTop: 5,
+        marginBottom: 5,
+
+        overflow: 'hidden',
+
+        borderColor: colors.white,
+        borderTopWidth: 3,
+        borderBottomWidth: 2,
+        backgroundColor: colors.gray,
+    },
+    ot2_container: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+
+        paddingHorizontal: 15,
+        width: '80%'
+    },
+
+    //-------------------------------------------------------//
+    // TITLE CONTAINER
 
     titleContainer: {
         alignItems: 'flex-start',
@@ -403,6 +413,9 @@ const styles = StyleSheet.create({
         letterSpacing: 2
     },
 
+    //-------------------------------------------------------//
+    // ORNATE TEXTBOX WHITE
+
     ornateTextbox_white: {
         alignItems: 'center',
         justifyContent: 'flex-start',
@@ -418,7 +431,6 @@ const styles = StyleSheet.create({
         borderTopWidth: 2,
         backgroundColor: colors.white,
     },
-
     otw_textRow: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -426,24 +438,19 @@ const styles = StyleSheet.create({
 
         width: '100%',
         paddingHorizontal: 45
-
     },
-
     otw_title: {
         fontSize: 20,
         fontWeight: 'bold',
-        letterSpacing: 1.5,
+        letterSpacing: 0.4,
         color: colors.black,
         width: '100%'
     },
-
     otw_subtitle: {
         fontSize: 13,
         fontStyle: 'italic',
         color: colors.gray
     }
-
-    
 });
 
 export default EditStoryScreen;

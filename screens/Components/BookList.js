@@ -56,15 +56,15 @@ const BookList = ({ bookType, listOfBooks, customDestination }) => {
             <Filigree1 />
             <Filigree5_Bottom />
             <LinearGradient
-                colors={['rgba(0, 0, 0, 0.3)', 'transparent']}
+                colors={['rgba(0, 0, 0, 0.4)', 'transparent']}
                 style={[globalStyles.shadow, globalStyles.topShadow, { marginTop: 30, }]}
             />
             <LinearGradient
-                colors={['transparent', 'rgba(0,0,0,0.2)']}
+                colors={['transparent', 'rgba(0,0,0,0.4)']}
                 style={[globalStyles.shadow, globalStyles.bottomShadow]}
             />
             <LinearGradient
-                colors={['transparent', 'rgba(0,0,0,1)']}
+                colors={['transparent', 'rgba(0,0,0,0.9)']}
                 style={[globalStyles.shadow, globalStyles.bottomShadow, { top: -30, height: 30 }]}
             />
             <View style={styles.bl_header}>
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
         marginBottom: 60,
 
         backgroundColor: colors.white,
-        borderBottomColor: colors.gray,
+        borderBottomColor: colors.lightgray,
         borderBottomWidth: 2
     },
     bl_container_alt: {
@@ -312,6 +312,8 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
 
         backgroundColor: colors.gray,
+        borderColor: colors.white,
+        borderBottomWidth: 2
     },
     bl_header_alt: {
         zIndex: 999,

@@ -181,7 +181,7 @@ export const Filigree3 = ({ customPosition }) => {
                     cx="187.5"
                     cy="18.5"
                     r="17.5"
-                    stroke="#27282C"
+                    stroke={colors.gray}
                     strokeWidth="2"
                     fill="none"
                 />
@@ -189,53 +189,53 @@ export const Filigree3 = ({ customPosition }) => {
                     cx="187.5"
                     cy="18.5"
                     r="14.5"
-                    fill="#27282C"
+                    fill={colors.gray}
                 />
                 <Path
                     d="M0 9H173"
-                    stroke="#27282C"
+                    stroke={colors.gray}
                     strokeWidth="2"
                     fill="none"
                 />
                 <Path
                     d="M205 20C205 11.1634 213.059 9 223 9"
-                    stroke="#27282C"
+                    stroke={colors.gray}
                     strokeWidth="2"
                     fill="none"
                 />
                 <Path
                     d="M170 20C170 11.1634 161.941 9 152 9"
-                    stroke="#27282C"
+                    stroke={colors.gray}
                     strokeWidth="2"
                     fill="none"
                 />
                 <Path
                     d="M202 9H374"
-                    stroke="#27282C"
+                    stroke={colors.gray}
                     strokeWidth="2"
                     fill="none"
                 />
                 <Path
                     d="M1 10C1 15.5228 5.47716 20 11 20H170"
-                    stroke="#27282C"
+                    stroke={colors.gray}
                     strokeWidth="2"
                     fill="none"
                 />
                 <Path
                     d="M373 10C373 15.5228 368.523 20 363 20H205"
-                    stroke="#27282C"
+                    stroke={colors.gray}
                     strokeWidth="2"
                     fill="none"
                 />
                 <Path
                     d="M28 21C28 26.5228 32.4772 31 38 31H175"
-                    stroke="#27282C"
+                    stroke={colors.gray}
                     strokeWidth="2"
                     fill="none"
                 />
                 <Path
                     d="M347 21C347 26.5228 342.523 31 337 31H200"
-                    stroke="#27282C"
+                    stroke={colors.gray}
                     strokeWidth="2"
                     fill="none"
                 />
