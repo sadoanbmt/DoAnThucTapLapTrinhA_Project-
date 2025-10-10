@@ -505,7 +505,7 @@ const styles = StyleSheet.create({
         height: '100%',
     },
     bs_number: {
-        color: 'white',
+        color: colors.white,
         fontWeight: 'bold',
         fontSize: 20,
     },

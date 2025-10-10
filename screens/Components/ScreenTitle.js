@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 
         borderTopWidth: 2,
         borderColor: colors.gold,
-        backgroundColor: colors.black,
+        backgroundColor: colors.gray,
     },
 
     titleText: {

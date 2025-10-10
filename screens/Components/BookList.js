@@ -228,7 +228,7 @@ export const BookList_Detail = ({ searchType, searchKeyword, listOfBooks, custom
             />
             <LinearGradient
                 colors={['transparent', colors.black]}
-                style={[globalStyles.shadow, globalStyles.bottomShadow, {opacity: 0.2}]}
+                style={[globalStyles.shadow, globalStyles.bottomShadow, { opacity: 0.2 }]}
             />
             <LinearGradient
                 colors={['transparent', colors.black]}
@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
 
         backgroundColor: colors.gray,
-        borderColor: colors.white,
+        borderColor: colors.lightgray,
         borderBottomWidth: 2
     },
     bl_header_alt: {
@@ -380,10 +380,12 @@ const styles = StyleSheet.create({
         borderRadius: 4,
     },
     bi_bookTitle: {
+        color: colors.black,
         fontWeight: 'bold',
         fontSize: 14
     },
     bi_bookAuthor: {
+        color: colors.black,
         fontWeight: 'light',
         fontSize: 12,
         fontStyle: 'italic'

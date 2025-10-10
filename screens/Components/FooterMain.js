@@ -149,7 +149,7 @@ const FooterMain = ({ currentScreen }) => {
 
                 <TouchableOpacity style={[styles.h_button, currentScreen == 4 && styles.h_button_active]}
                     onPress={() => {
-                        navigation.navigate("AccountScreen")
+                        navigation.navigate("LoginScreen")
                     }}
                 >
                     <MaterialIcons name="person" size={22} color={currentScreen == 4 ? colors.gold : colors.white} />
