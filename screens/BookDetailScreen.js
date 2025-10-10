@@ -9,6 +9,7 @@ import HeaderMain from './Components/HeaderMain';
 import { BookList_Detail } from './Components/BookList';
 import { Filigree1, Filigree2, Filigree3_Simple, Filigree5_Bottom } from './Decorations/Filigree';
 import { DecoButton, DecoButton_Dark } from './Decorations/DecoButton';
+import FooterMain from './Components/FooterMain';
 
 import MaterialIcons from '@react-native-vector-icons/material-icons';
 
@@ -120,12 +121,12 @@ const BookStat = ({ theBook }) => {
             <Filigree1 customPosition={-95} />
 
             <LinearGradient
-                colors={['rgba(0, 0, 0, 0.3)', 'transparent']}
-                style={[styles.shadow, styles.topShadow, { height: 25 }]}
+                colors={[colors.black, 'transparent']}
+                style={[styles.shadow, styles.topShadow, { height: 25, opacity: 0.3, }]}
             />
             <LinearGradient
-                colors={['transparent', 'rgba(0,0,0,0.3)']}
-                style={[styles.shadow, styles.bottomShadow, { height: 25 }]}
+                colors={['transparent', colors.black]}
+                style={[styles.shadow, styles.bottomShadow, { height: 25, opacity: 0.3, }]}
             />
 
             <View style={styles.bs_info}>
@@ -175,8 +176,8 @@ const MoreDetails = ({ theBook, bookDatabase }) => {
     return (
         <View style={styles.md_container}>
             <LinearGradient
-                colors={['transparent', 'rgba(0,0,0,0.4)']}
-                style={[globalStyles.shadow, globalStyles.bottomShadow, { top: -40, height: 40 }]}
+                colors={['transparent', colors.black]}
+                style={[globalStyles.shadow, globalStyles.bottomShadow, { top: -40, height: 40, opacity: 0.4 }]}
             />
             <View style={styles.md_header}>
                 <Filigree3_Simple customBottomPosition={-20} />
@@ -236,7 +237,7 @@ const MoreDetailsOption2 = ({ theBook }) => {
                 <View style={styles.cc_decor} />
                 <Text style={styles.cc_text}>
                     Chương {index + 1}
-                    {chapterName != null && ": "} 
+                    {chapterName != null && ": "}
                     {chapterName}</Text>
             </TouchableOpacity >
         )
@@ -331,6 +332,7 @@ const BookDetailScreen = ({ navigation }) => {
                 />
                 <View style={globalStyles.bottomPadding} />
             </ScrollView>
+            <FooterMain currentScreen={0}/>
         </View>
     );
 };

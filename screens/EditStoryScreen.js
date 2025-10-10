@@ -30,6 +30,10 @@ const CreateStoryHeader = () => {
                     {/* Bỏ Qua */}
                 </Text>
             </TouchableOpacity>
+            <LinearGradient
+                colors={[colors.black, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.bottomShadow, { bottom: -13, height: 13, opacity: 0.4 }]}
+            />
         </View>
     )
 }

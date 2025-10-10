@@ -6,6 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { colors } from './GlobalStyle';
 import HeaderMain from './Components/HeaderMain';
+import FooterMain from './Components/FooterMain';
+
 import { } from './Decorations/Filigree';
 import { } from './Decorations/DecoButton';
 import ScreenTitle from './Components/ScreenTitle';
@@ -19,6 +21,7 @@ const NotificationScreen = () => {
 
 
             </ScrollView>
+            <FooterMain currentScreen={3}/>
         </View>
     );
 };

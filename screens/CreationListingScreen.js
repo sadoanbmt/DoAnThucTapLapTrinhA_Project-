@@ -52,6 +52,11 @@ const CreateStoryHeader = () => {
                     {/* Bỏ Qua */}
                 </Text>
             </TouchableOpacity>
+
+            <LinearGradient
+                colors={[colors.black, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.bottomShadow, { bottom: -13, height: 13, opacity: 0.4 }]}
+            />
         </View>
     )
 }
@@ -61,12 +66,12 @@ const BookItem_Wide = ({ navigation, book }) => {
         <View style={styles.bi_container}>
             <Filigree4
                 customBottomPosition={-5}
-                customLeftPosition={-25}
+                customLeftPosition={-35}
                 customOpacity={0.1}
             />
             <LinearGradient
-                colors={['rgba(0,0,0,0.2)', 'transparent']}
-                style={[globalStyles.shadow, globalStyles.topShadow]}
+                colors={[colors.black, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.topShadow, { opacity: 0.2 }]}
             />
 
             <View style={styles.bi_bookCover}
@@ -257,7 +262,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         overflow: 'hidden',
 
-        width: 320,
+        width: 340,
         height: 170,
         //paddingHorizontal: 10,
         //marginHorizontal: 20,

@@ -24,6 +24,7 @@ import ScreenTitle from "./Components/ScreenTitle";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import FooterMain from './Components/FooterMain';
 
 
 const LoginComponent = () => {
@@ -57,8 +58,8 @@ const LoginComponent = () => {
     <View>
       <View style={styles.ornateTextbox_white}>
         <LinearGradient
-          colors={["rgba(0,0,0,0.2)", "transparent"]}
-          style={[globalStyles.shadow, globalStyles.topShadow]}
+          colors={[colors.black, "transparent"]}
+          style={[globalStyles.shadow, globalStyles.topShadow, { opacity: 0.2 }]}
         />
         <View>
           <TouchableOpacity>
@@ -291,6 +292,7 @@ const LoginScreen = () => {
           <View style={globalStyles.bottomPadding} />
 
         </ScrollView>
+        <FooterMain currentScreen={4} />
       </KeyboardAvoidingView>
     </View >
   );
@@ -373,6 +375,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 1,
     backgroundColor: colors.lightgray,
+    opacity: 0.7
   },
   separatorText: {
     marginHorizontal: 5,

@@ -11,6 +11,7 @@ import { } from './Decorations/DecoButton';
 import ScreenTitle from './Components/ScreenTitle';
 import CurrentBook from './Components/CurrentBook';
 import BookList from './Components/BookList';
+import FooterMain from './Components/FooterMain';
 
 const book = {
     "type": "sách chữ",
@@ -66,10 +67,11 @@ const LibraryScreen = () => {
 
                 <CurrentBook book={book} />
 
-                <BookList bookType="Hello world" listOfBooks={listOfBooks} customDestination={"LibraryListingScreen"}/>
-                
-                <View style={globalStyles.bottomPadding}/>
+                <BookList bookType="Hello world" listOfBooks={listOfBooks} customDestination={"LibraryListingScreen"} />
+
+                <View style={globalStyles.bottomPadding} />
             </ScrollView>
+            <FooterMain currentScreen={1}/>
         </View>
     );
 };

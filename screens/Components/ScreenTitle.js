@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         marginTop: 0,
         marginBottom: 40,
 
-        borderTopWidth: 3,
+        borderTopWidth: 2,
         borderColor: colors.gold,
         backgroundColor: colors.black,
     },
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
 
     bottomBorder: {
         width: '46%',
-        height: 1,
+        height: 2,
 
         backgroundColor: colors.gold
     }

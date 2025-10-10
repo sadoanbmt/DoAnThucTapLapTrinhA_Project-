@@ -9,6 +9,7 @@ import HeaderMain from './Components/HeaderMain';
 import { Filigree2, Filigree4 } from './Decorations/Filigree';
 import { OrnateButton } from './Decorations/DecoButton';
 import ScreenTitle from './Components/ScreenTitle';
+import FooterMain from './Components/FooterMain';
 
 const _presetCreation = {
     "type": "sách chữ",
@@ -37,12 +38,12 @@ const BookItem = ({ navigation, book }) => {
         <View style={styles.bi_container}>
             <Filigree4
                 customBottomPosition={-5}
-                customLeftPosition={-25}
+                customLeftPosition={-35}
                 customOpacity={0.1}
             />
             <LinearGradient
-                colors={['rgba(0,0,0,0.2)', 'transparent']}
-                style={[globalStyles.shadow, globalStyles.topShadow]}
+                colors={[colors.black, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.topShadow, {opacity: 0.3,}]}
             />
 
             <View style={styles.bi_bookCover}
@@ -89,7 +90,7 @@ const CreateStoryScreen_Main = () => {
         <View style={styles.container}>
             <HeaderMain />
             <ScrollView bounces={false} overScrollMode="never" style={{ width: '100%' }}>
-                <ScreenTitle title={"ĐĂNG TRUYỆN"} icon={"edit-note"} customIconPosition={-2}/>
+                <ScreenTitle title={"ĐĂNG TRUYỆN"} icon={"edit-note"} customIconPosition={-2} />
 
                 <TouchableOpacity style={styles.currentCreation}
                     onPress={() => navigation.navigate("EditStoryScreen")}
@@ -121,9 +122,10 @@ const CreateStoryScreen_Main = () => {
                     <OrnateButton ButtonText={"Sáng Tác Của Bạn"} ButtonIcon={"list"} />
                 </TouchableOpacity>
 
-                <Filigree2 customPosition={60} />
-                <View style={globalStyles.bottomPadding} />
+                <Filigree2 customPosition={-95} />
+                {/* <View style={globalStyles.bottomPadding} /> */}
             </ScrollView>
+            <FooterMain currentScreen={2}/>
         </View>
     );
 };
@@ -171,7 +173,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         overflow: 'hidden',
 
-        width: 320,
+        width: 340,
         height: 170,
         //paddingHorizontal: 10,
         //marginHorizontal: 20,

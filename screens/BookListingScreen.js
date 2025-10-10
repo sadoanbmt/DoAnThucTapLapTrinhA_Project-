@@ -6,6 +6,7 @@ import { colors, globalStyles } from './GlobalStyle';
 import HeaderMain from './Components/HeaderMain';
 import { BookList_Alt } from './Components/BookList';
 import ScreenTitle from './Components/ScreenTitle';
+import FooterMain from './Components/FooterMain';
 
 const createRandomList = (array, count) => {
   return [...array]
@@ -34,9 +35,10 @@ const BookListingScreen = ({ navigation }) => {
 
         <BookList_Alt title="HÀNG ĐẦU" listOfBooks={listOfBooksTopRated} />
 
-        <View style={globalStyles.bottomPadding}/>
-        
+        <View style={globalStyles.bottomPadding} />
+
       </ScrollView>
+      <FooterMain currentScreen={1}/>
     </View>
   );
 };

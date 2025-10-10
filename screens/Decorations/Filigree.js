@@ -443,8 +443,8 @@ export const Filigree6_Top = ({ customTopPosition, customRightPosition, }) => {
     return (
         <View style={[styles.filigree, { top: positionTop, right: positionRight, opacity: 0.3 }]}>
             <Svg
-                width={svgWidth}
-                height={svgHeight}
+                width={246}
+                height={36}
                 viewBox="0 0 246 36"
                 preserveAspectRatio="xMidYMid meet"
             >
@@ -497,8 +497,8 @@ export const Filigree7_Top = ({ customTopPosition, customLeftPosition, }) => {
     return (
         <View style={[styles.filigree, { top: positionTop, left: positionLeft, opacity: 0.3 }]}>
             <Svg
-                width={svgWidth}
-                height={svgHeight}
+                width={266}
+                height={26}
                 viewBox="0 0 266 26"
                 preserveAspectRatio="xMidYMid meet"
             >

@@ -9,6 +9,7 @@ import { Filigree1, Filigree4 } from './Decorations/Filigree';
 import { useDispatch, useSelector } from 'react-redux';
 import ScreenTitle from './Components/ScreenTitle';
 import { searchForBooks } from '../slices/bookSlice';
+import FooterMain from './Components/FooterMain';
 
 const GenreDisplay = ({ genreList }) => {
     const data = genreList;
@@ -60,8 +61,8 @@ const GenreItem = ({ navigation, genre, bookDatabase }) => {
                 customOpacity={0.1}
             />
             <LinearGradient
-                colors={['rgba(0,0,0,0.3)', 'transparent']}
-                style={[globalStyles.shadow, globalStyles.topShadow]}
+                colors={[colors.black, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.topShadow, { opacity: 0.3 }]}
             />
             <View style={styles.gi_header}>
                 <Text style={styles.gi_genreName}>{genre.name}</Text>
@@ -115,6 +116,7 @@ const GenreListingScreen = ({ navigation }) => {
 
                 <View style={globalStyles.bottomPadding} />
             </ScrollView>
+            <FooterMain currentScreen={0} />
         </View>
     );
 };

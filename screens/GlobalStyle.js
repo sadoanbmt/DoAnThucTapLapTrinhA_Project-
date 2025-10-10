@@ -27,15 +27,15 @@ export const bookCover = {
 }
 
 export const colors = {
-  trueBlack: '#000000',
-  trueWhite: '#ffffff',
+  trueBlack: '#000000ff',
+  trueWhite: '#ffffffff',
 
-  black: '#100f0fff',
-  gray: '#2c2727ff',
-  lightgray: '#afa7a7ff',
-  white: '#e7e1e1ff',
+  black: '#131313ff',
+  gray: '#252525ff',
+  lightgray: '#767676ff',
+  white: '#ecececff',
 
-  gold: '#eba754ff',
+  gold: '#FFCF71',
 }
 
 export const globalStyles = StyleSheet.create({

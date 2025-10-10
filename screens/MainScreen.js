@@ -7,6 +7,7 @@ import { bookCover, colors, globalStyles } from './GlobalStyle';
 import HeaderMain from './Components/HeaderMain';
 import CurrentBook from './Components/CurrentBook';
 import BookList from './Components/BookList';
+import FooterMain from './Components/FooterMain';
 
 const Quotes = [
   "A mind needs books\nas a sword needs a whetstone.",
@@ -36,12 +37,12 @@ const Catalogue = ({ catalogueList }) => {
   return (
     <View style={styles.c_container}>
       <LinearGradient
-        colors={['rgba(0,0,0,0.8)', 'transparent']}
-        style={[globalStyles.shadow, globalStyles.topShadow, { zIndex: 999, top: 0, height: 40 }]}
+        colors={[colors.black, 'transparent']}
+        style={[globalStyles.shadow, globalStyles.topShadow, { zIndex: 999, opacity: 0.8, top: 0, height: 40 }]}
       />
       <LinearGradient
-        colors={['transparent', 'rgba(0,0,0,0.3)']}
-        style={[globalStyles.shadow, globalStyles.bottomShadow]}
+        colors={['transparent', colors.black]}
+        style={[globalStyles.shadow, globalStyles.bottomShadow, {opacity: 0.3,}]}
       />
       <Text style={styles.c_text}>{Quotes[randomQuote]}</Text>
 
@@ -104,13 +105,14 @@ const MainScreen = ({ navigation }) => {
         <Catalogue catalogueList={catalogueList} />
 
         <CurrentBook book={currentBook} />
-        
+
         <BookList bookType="TRUYỆN TRANH" listOfBooks={listOfComics} />
-        
+
         <BookList bookType="SÁCH CHỮ" listOfBooks={listOfBooks} />
 
-        <View style={globalStyles.bottomPadding}/>
+        <View style={globalStyles.bottomPadding} />
       </ScrollView>
+      <FooterMain currentScreen={0} />
     </View>
   );
 };

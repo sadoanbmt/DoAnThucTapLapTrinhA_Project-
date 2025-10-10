@@ -32,6 +32,11 @@ const CreateStoryHeader = () => {
                     Tiếp
                 </Text>
             </TouchableOpacity>
+
+            <LinearGradient
+                colors={[colors.black, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.bottomShadow, { bottom: -13, height: 13, opacity: 0.4 }]}
+            />
         </View>
     )
 }
@@ -140,8 +145,8 @@ const CreateStoryScreen_Detail = () => {
                         <OrnateOption ButtonText="Sách Chữ" Active={storyType == 1} />
                     </TouchableOpacity>
                 </View>
-                <Filigree2 customPosition={50} />
-                <View style={globalStyles.bottomPadding} />
+                <Filigree2 />
+                {/* <View style={globalStyles.bottomPadding} /> */}
             </ScrollView>
         </View>
     );

@@ -33,6 +33,11 @@ const CreateStoryHeader = () => {
                     Tiếp
                 </Text>
             </TouchableOpacity>
+
+            <LinearGradient
+                colors={[colors.black, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.bottomShadow, { bottom: -13, height: 13, opacity: 0.4 }]}
+            />
         </View>
     )
 }
@@ -59,7 +64,7 @@ const GenrePickerComponent = ({ genre, setGenreList, genreList }) => {
         }
     }
     return (
-        <TouchableOpacity style={[styles.genrePickerComponent, active && styles.gpc_activeColor, active && { width: '105%' }]}
+        <TouchableOpacity style={[styles.genrePickerComponent, active && styles.gpc_activeColor, active && { width: '105%', paddingHorizontal: 22 }]}
             activeOpacity={1}
             onPress={() => { handlePickingGenre(genre) }}
         >
@@ -67,7 +72,7 @@ const GenrePickerComponent = ({ genre, setGenreList, genreList }) => {
             <Text style={[styles.gpc_text, active && styles.gpc_activeColor]}>
                 {genre}
             </Text>
-            <Svg style={styles.gpc_diamond} width="30" height="30" viewBox="0 0 30 30" fill="none">
+            {/* <Svg style={styles.gpc_diamond} width="30" height="30" viewBox="0 0 30 30" fill="none">
                 <Rect
                     x="14.6569"
                     y="2.46458"
@@ -84,7 +89,7 @@ const GenrePickerComponent = ({ genre, setGenreList, genreList }) => {
                     d="M35.3261 3.41923L12.4194 26.3263L9.07937 22.9725L6.43948 20.3462L1.99713 15.8898C0.346014 14.2389 0.346013 11.5615 1.99713 9.90973C3.64845 8.25882 6.32592 8.25882 7.97725 9.90973L12.4264 14.3595L23.3663 3.41923C26.6689 0.11658 32.0234 0.11658 35.3261 3.41923Z"
                     fill={colors.gold}
                 />
-            </Svg>}
+            </Svg>} */}
         </TouchableOpacity>
     )
 }
@@ -140,7 +145,7 @@ const CreateStoryScreen_MoreDetail = () => {
                             </View>
                         </View>
                         :
-                        <View style={{width: '100%', height: 3, backgroundColor: colors.lightgray}}/>
+                        <View style={{ width: '100%', height: 3, backgroundColor: colors.lightgray }} />
                 }
 
                 <View style={[styles.ornateTextbox, !authorIsAccount && { marginTop: 5 }, authorIsAccount && { marginTop: 15 }]}>
@@ -365,7 +370,7 @@ const styles = StyleSheet.create({
     },
     gpc_activeColor: {
         color: colors.white,
-        borderColor: colors.white,
+        borderColor: colors.gold,
         backgroundColor: colors.black
     },
     gpc_text: {
