@@ -29,16 +29,16 @@ const CurrentBook = ({ }) => {
         customBottomPosition={10}
       />
       <LinearGradient
-        colors={['rgba(0,0,0,0.2)', 'transparent']}
-        style={[styles.shadow, styles.topShadow, { marginTop: 20, }]}
+        colors={[colors.black, 'transparent']}
+        style={[styles.shadow, styles.topShadow, { marginTop: 20, opacity: 0.2}]}
       />
       <LinearGradient
-        colors={['transparent', 'rgba(0,0,0,0.2)']}
-        style={[styles.shadow, styles.bottomShadow, { height: 130 }]}
+        colors={['transparent', colors.black]}
+        style={[styles.shadow, styles.bottomShadow, { height: 130, opacity: 0.2 }]}
       />
       <LinearGradient
-        colors={['transparent', 'rgba(0,0,0,1)']}
-        style={[styles.shadow, styles.bottomShadow, { top: -40, height: 40 }]}
+        colors={['transparent', colors.black]}
+        style={[styles.shadow, styles.bottomShadow, { top: -40, height: 40, opacity: 1 }]}
       />
 
       <View style={[styles.bl_header, { paddingLeft: 160 }]}>

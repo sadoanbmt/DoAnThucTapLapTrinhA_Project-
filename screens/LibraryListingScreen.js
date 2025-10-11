@@ -11,6 +11,7 @@ import { Filigree1, Filigree4 } from './Decorations/Filigree';
 import { DirectionButton_Left, DirectionButton_Right } from './Decorations/DecoButton';
 import { useSelector } from 'react-redux';
 import ScreenTitle from './Components/ScreenTitle';
+import FooterMain from './Components/FooterMain';
 
 const ResultCount = ({ searchType, searchKeyword, searchResultList }) => {
     return (
@@ -104,8 +105,8 @@ const BookItem_Wide = ({ navigation, book }) => {
                 customOpacity={0.1}
             />
             <LinearGradient
-                colors={['rgba(0,0,0,0.2)', 'transparent']}
-                style={[globalStyles.shadow, globalStyles.topShadow]}
+                colors={[colors.black, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.topShadow, {opacity: 0.2}]}
             />
 
             <TouchableOpacity style={styles.bi_bookCover}
@@ -166,13 +167,13 @@ const formatCompactNumber = (number) => {
     if (typeof number !== 'number' || isNaN(number)) return 'Invalid';
 
     if (number >= 1000000000) {
-        return (number / 1000000000).toFixed(1) + 'B';
+        return (number / 1000000000).toFixed(1) + 't';
     }
     if (number >= 1000000) {
-        return (number / 1000000).toFixed(1) + 'M';
+        return (number / 1000000).toFixed(1) + 'tr';
     }
     if (number >= 1000) {
-        return (number / 1000).toFixed(1) + 'k';
+        return (number / 1000).toFixed(1) + 'n';
     }
     return number.toString();
 };
@@ -204,6 +205,7 @@ const LibraryListingScreen = ({ navigation }) => {
 
                 <View style={globalStyles.bottomPadding} />
             </ScrollView>
+            <FooterMain currentScreen={1}/>
         </View>
     );
 };

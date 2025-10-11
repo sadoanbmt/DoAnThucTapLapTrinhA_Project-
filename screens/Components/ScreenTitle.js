@@ -42,12 +42,12 @@ const styles = StyleSheet.create({
 
         width: '100%',
         height: 50,
-        marginTop: 10,
+        marginTop: 0,
         marginBottom: 40,
 
-        borderTopWidth: 3,
+        borderTopWidth: 2,
         borderColor: colors.gold,
-        backgroundColor: colors.black,
+        backgroundColor: colors.gray,
     },
 
     titleText: {
@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
     },
 
     bottomBorder: {
-        width: '45%',
-        height: 1,
+        width: '46%',
+        height: 2,
 
         backgroundColor: colors.gold
     }

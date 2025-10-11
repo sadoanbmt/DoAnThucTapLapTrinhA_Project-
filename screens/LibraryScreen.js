@@ -11,6 +11,7 @@ import { } from './Decorations/DecoButton';
 import ScreenTitle from './Components/ScreenTitle';
 import CurrentBook from './Components/CurrentBook';
 import BookList from './Components/BookList';
+import FooterMain from './Components/FooterMain';
 
 const book = {
     "type": "sách chữ",
@@ -75,6 +76,7 @@ const LibraryScreen = () => {
                 <View style={globalStyles.bottomPadding}/>
 
             </ScrollView>
+            <FooterMain currentScreen={1}/>
         </View>
     );
 };

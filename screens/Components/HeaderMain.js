@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@react-native-vector-icons/material-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import { useDispatch } from 'react-redux';
 
-import { colors } from '../GlobalStyle';
+import { colors, globalStyles } from '../GlobalStyle';
 import { Filigree6_Bottom, Filigree6_Top, Filigree7_Top, Filigree7_Bottom } from '../Decorations/Filigree';
 import { searchForBooks, viewBookType } from '../../slices/bookSlice';
 
@@ -20,6 +21,69 @@ const SideTabRight = ({ setLeftIsVisible, setRightIsVisible }) => {
 
                 <TouchableOpacity style={styles.str_menuButton}
                     onPress={() => {
+                        navigation.navigate('MainScreen')
+                        setLeftIsVisible(false)
+                        setRightIsVisible(false)
+                    }}
+                >
+                    <MaterialIcons name="home" color={colors.gold} size={20} />
+                    <Text style={styles.str_menuButtonText}>
+                        Trang Chủ
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.str_menuButton}
+                    onPress={() => {
+                        dispatch(viewBookType("TRUYỆN TRANH"))
+                        navigation.navigate('BookListingScreen')
+                        setLeftIsVisible(false)
+                        setRightIsVisible(false)
+                    }}
+                >
+                    <MaterialIcons name="photo-library" color={colors.gold} size={20} />
+                    <Text style={styles.str_menuButtonText}>
+                        Truyện Tranh
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.str_menuButton}
+                    onPress={() => {
+                        dispatch(viewBookType("SÁCH CHỮ"))
+                        navigation.navigate('BookListingScreen')
+                        setLeftIsVisible(false)
+                        setRightIsVisible(false)
+                    }}
+                >
+                    <MaterialIcons name="library-books" color={colors.gold} size={20} />
+                    <Text style={styles.str_menuButtonText}>
+                        Sách Chữ
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.str_menuButton}
+                    onPress={() => {
+                        navigation.navigate('GenreListingScreen')
+                        setLeftIsVisible(false)
+                        setRightIsVisible(false)
+                    }}
+                >
+                    <MaterialIcons name="list" color={colors.gold} size={20} />
+                    <Text style={styles.str_menuButtonText}>
+                        Thể Loại
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.str_menuButton}
+                    onPress={() => {
+                        navigation.navigate('GenreListingScreen')
+                        setLeftIsVisible(false)
+                        setRightIsVisible(false)
+                    }}
+                >
+                    <MaterialIcons name="settings" color={colors.gold} size={20} />
+                    <Text style={styles.str_menuButtonText}>
+                        Cài Đặt
+                    </Text>
+                </TouchableOpacity>
+
+                {/* <TouchableOpacity style={styles.str_menuButton}
+                    onPress={() => {
                         navigation.navigate('LibraryScreen')
                         setRightIsVisible(false)
                     }}
@@ -31,7 +95,7 @@ const SideTabRight = ({ setLeftIsVisible, setRightIsVisible }) => {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.str_menuButton}
                     onPress={() => {
-                        navigation.navigate("CreateStoryScreen")
+                        navigation.navigate("CreateStoryScreen_Main")
                         setRightIsVisible(false)
                     }}
                 >
@@ -83,7 +147,7 @@ const SideTabRight = ({ setLeftIsVisible, setRightIsVisible }) => {
                     <Text style={styles.str_menuButtonText}>
                         Đăng Nhập
                     </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         </View>
     )
@@ -166,15 +230,31 @@ const HeaderMain = ({ hideLine }) => {
     return (
         <View View style={styles.container}>
             <View style={styles.h_container}>
+                <LinearGradient
+                    colors={[colors.gold, 'transparent']}
+                    style={[globalStyles.shadow, globalStyles.bottomShadow, { bottom: -13, height: 13, opacity: 0.2 }]}
+                />
+                <LinearGradient
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    colors={[colors.black, 'transparent']}
+                    style={[globalStyles.shadow, globalStyles.leftShadow, { height: 100 }]}
+                />
+                <LinearGradient
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    colors={['transparent', colors.black]}
+                    style={[globalStyles.shadow, globalStyles.rightShadow, { height: 100 }]}
+                />
                 <View style={styles.leftSideContainer}>
-                    <TouchableOpacity style={styles.button}
+                    {/* <TouchableOpacity style={styles.button}
                         onPress={() => {
                             setLeftIsVisible(!left_isVisible)
                             setRightIsVisible(false)
                         }}
                     >
                         <MaterialIcons name="menu" color={colors.white} size={30} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     <TouchableOpacity style={styles.button}
                         onPress={() => {
                             navigation.navigate('MainScreen')
@@ -207,8 +287,16 @@ const HeaderMain = ({ hideLine }) => {
                             setRightIsVisible(!right_isVisible)
                         }}
                     >
-                        <MaterialIcons name="person" color={colors.white} size={30} />
+                        <MaterialIcons name="menu" color={colors.white} size={30} />
                     </TouchableOpacity>
+                    {/* <TouchableOpacity style={styles.button}
+                        onPress={() => {
+                            setLeftIsVisible(false)
+                            setRightIsVisible(!right_isVisible)
+                        }}
+                    >
+                        <MaterialIcons name="person" color={colors.white} size={30} />
+                    </TouchableOpacity> */}
                 </View>
             </View>
 
@@ -261,20 +349,22 @@ const styles = StyleSheet.create({
         height: 'max-content',
 
         backgroundColor: colors.gray,
+        borderColor: colors.gold,
+        borderBottomWidth: 3,
     },
     leftSideContainer: {
         alignItems: 'center',
         justifyContent: 'space-between',
         flexDirection: 'row',
 
-        marginLeft: 10,
+        marginLeft: 25,
     },
     rightSideContainer: {
         alignItems: 'center',
         justifyContent: 'space-between',
         flexDirection: 'row',
 
-        marginRight: 10,
+        marginRight: 25,
     },
     button: {
         alignItems: 'center',

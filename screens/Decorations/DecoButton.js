@@ -175,45 +175,43 @@ export const OrnateButton = ({ ButtonText, ButtonIcon }) => {
                     />
                 </Svg>
                 <View style={styles.ob_textContainer}>
-                    {ButtonIcon != null && <MaterialIcons style={styles.ob_icon} color={colors.white} size={24} name={ButtonIcon} />}
+                    {ButtonIcon != null && <MaterialIcons style={styles.ob_icon} color={colors.gold} size={24} name={ButtonIcon} />}
                     <Text style={styles.ob_text}>{ButtonText}</Text>
                     <LinearGradient
                         start={{ x: 0, y: 0 }}
                         end={{ x: 1, y: 0 }}
                         colors={[colors.black, 'transparent']}
-                        style={[styles.shadow, styles.leftShadow]}
+                        style={[globalStyles.shadow, globalStyles.leftShadow]}
                     />
                     <LinearGradient
                         start={{ x: 0, y: 0 }}
                         end={{ x: 1, y: 0 }}
                         colors={['transparent', colors.black]}
-                        style={[styles.shadow, styles.rightShadow]}
+                        style={[globalStyles.shadow, globalStyles.rightShadow]}
                     />
                 </View>
-
             </View>
-
         </View>
     );
 }
 export const OrnateOption = ({ ButtonText, ButtonIcon, Active }) => {
     return (
-        <View style={{ width: '100%' }}>
-            <View style={styles.ornateOptionContainer}>
-                <View style={styles.oo_textContainer}>
+        <View style={[{ width: '100%' }]}>
+            <View style={[styles.ornateOptionContainer]}>
+                <View style={[styles.oo_textContainer, !Active && { borderColor: colors.lightgray }]}>
                     {ButtonIcon != null && <MaterialIcons style={styles.ob_icon} color={colors.white} size={24} name={ButtonIcon} />}
                     <Text style={[styles.oo_text, Active && styles.oo_text_active]}>{ButtonText}</Text>
                     <LinearGradient
                         start={{ x: 0, y: 0 }}
                         end={{ x: 1, y: 0 }}
                         colors={[colors.black, 'transparent']}
-                        style={[styles.shadow, styles.leftShadow]}
+                        style={[globalStyles.shadow, globalStyles.leftShadow]}
                     />
                     <LinearGradient
                         start={{ x: 0, y: 0 }}
                         end={{ x: 1, y: 0 }}
                         colors={['transparent', colors.black]}
-                        style={[styles.shadow, styles.rightShadow]}
+                        style={[globalStyles.shadow, globalStyles.rightShadow]}
                     />
                 </View>
                 {Active && <Svg style={styles.oo_checkmark} width="36" height="27" viewBox="0 0 36 27" fill="none">
@@ -229,9 +227,9 @@ export const OrnateOption = ({ ButtonText, ButtonIcon, Active }) => {
                         width="17.7279"
                         height="17.7279"
                         transform="rotate(45 14.6569 2.46458)"
-                        fill={colors.black}
-                        stroke={colors.white}
-                        strokeWidth="2"
+                        fill={colors.gray}
+                        stroke={Active ? colors.white : colors.lightgray}
+                        strokeWidth="3"
                     />
                 </Svg>
             </View>
@@ -329,8 +327,6 @@ const styles = StyleSheet.create({
         height: 60,
         marginVertical: 8,
 
-        borderRadius: 4,
-
         borderColor: colors.lightgray,
         borderTopWidth: 1,
         borderBottomWidth: 1,
@@ -343,20 +339,18 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '85%',
 
-        borderRadius: 4,
-
         backgroundColor: colors.gray,
-        borderColor: colors.white,
+        borderColor: colors.trueWhite,
         borderTopWidth: 3,
         borderBottomWidth: 2,
     },
     ob_icon: {
-        marginRight: 10
+        marginRight: 15
     },
     ob_text: {
         color: colors.white,
         fontWeight: 'bold',
-        fontSize: 20
+        fontSize: 18
     },
 
     ornateOptionContainer: {
@@ -365,13 +359,11 @@ const styles = StyleSheet.create({
 
         width: '100%',
         height: 70,
-        marginVertical: 0,
+        marginVertical: -3,
 
-        borderRadius: 4,
-
-        borderColor: colors.lightgray,
-        borderTopWidth: 1,
-        borderBottomWidth: 1,
+        // borderColor: colors.lightgray,
+        // borderTopWidth: 1,
+        // borderBottomWidth: 1,
     },
     oo_textContainer: {
         flexDirection: 'row',
@@ -381,8 +373,6 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '85%',
 
-        borderRadius: 4,
-
         backgroundColor: colors.gray,
         borderColor: colors.white,
         borderTopWidth: 3,
@@ -391,12 +381,12 @@ const styles = StyleSheet.create({
     oo_diamond: {
         zIndex: 999,
         position: 'absolute',
-        bottom: -15,
+        bottom: -9,
     },
     oo_checkmark: {
         zIndex: 9999,
         position: 'absolute',
-        bottom: -7,
+        bottom: -2,
         left: "46.5%"
     },
     oo_text: {
@@ -431,7 +421,7 @@ const styles = StyleSheet.create({
         // borderWidth: 1
     },
     sb_text: {
-        fontSize: 20,
+        fontSize: 17,
         fontWeight: 'bold',
         color: colors.gray
     },

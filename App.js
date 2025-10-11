@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -11,8 +11,13 @@ import PageScreen from './screens/PageScreen';
 import SearchListingScreen from './screens/SearchListingScreen';
 import SearchResultScreen from './screens/SearchResultScreen';
 import LibraryScreen from './screens/LibraryScreen';
-import LibraryListingScreen from './screens/LibraryListingScreen'
-import CreateStoryScreen from './screens/CreateStoryScreen';
+import LibraryListingScreen from './screens/LibraryListingScreen';
+import CreationListingScreen from './screens/CreationListingScreen';
+import EditStoryScreen from './screens/EditStoryScreen';
+import CreateStoryScreen_Main from './screens/CreateStoryScreen_Main';
+import CreateStoryScreen_Detail from './screens/CreateStoryScreen_Detail';
+import CreateStoryScreen_MoreDetail from './screens/CreateStoryScreen_MoreDetail';
+import CreateStoryScreen_Page from './screens/CreateStoryScreen_Page';
 import AccountScreen from './screens/AccountScreen';
 import NotificationScreen from './screens/NotificationScreen';
 import LoginScreen from './screens/LoginScreen';
@@ -39,14 +44,23 @@ export default function App() {
           <Stack.Screen name="PageScreen" component={PageScreen} options={{ title: 'PageScreen' }} />
           <Stack.Screen name="SearchListingScreen" component={SearchListingScreen} options={{ title: 'SearchListingScreen' }} />
           <Stack.Screen name="SearchResultScreen" component={SearchResultScreen} options={{ title: 'SearchResultScreen' }} />
+          
+          <Stack.Screen name="CreateStoryScreen_Main" component={CreateStoryScreen_Main} options={{ title: 'CreateStoryScreen_Main' }} />
+          <Stack.Screen name="CreateStoryScreen_Detail" component={CreateStoryScreen_Detail} options={{ title: 'CreateStoryScreen_Detail' }} />
+          <Stack.Screen name="CreateStoryScreen_MoreDetail" component={CreateStoryScreen_MoreDetail} options={{ title: 'CreateStoryScreen_MoreDetail' }} />
+          <Stack.Screen name="CreateStoryScreen_Page" component={CreateStoryScreen_Page} options={{ title: 'CreateStoryScreen_Page' }} />
+          <Stack.Screen name="CreationListingScreen" component={CreationListingScreen} options={{ title: 'CreationListingScreen' }} />
+          <Stack.Screen name="EditStoryScreen" component={EditStoryScreen} options={{ title: 'EditStoryScreen' }} />
+
+          <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ title: 'LoginScreen' }} />
+          <Stack.Screen name="AccountScreen" component={AccountScreen} options={{ title: 'AccountScreen' }} />
+
           <Stack.Screen name="LibraryScreen" component={LibraryScreen} options={{ title: 'LibraryScreen' }} />
           <Stack.Screen name="LibraryListingScreen" component={LibraryListingScreen} options={{ title: 'LibraryListingScreen' }} />
-          <Stack.Screen name="CreateStoryScreen" component={CreateStoryScreen} options={{ title: 'CreateStoryScreen' }} />
-          <Stack.Screen name="AccountScreen" component={AccountScreen} options={{ title: 'AccountScreen' }} />
-          <Stack.Screen name="NotificationScreen" component={NotificationScreen} options={{ title: 'NotificationScreen' }} />
-          <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ title: 'LoginScreen' }} />
-          <Stack.Screen name="GenreListingScreen" component={GenreListingScreen} options={{ title: 'GenreListingScreen' }} />
 
+          <Stack.Screen name="NotificationScreen" component={NotificationScreen} options={{ title: 'NotificationScreen' }} />
+
+          <Stack.Screen name="GenreListingScreen" component={GenreListingScreen} options={{ title: 'GenreListingScreen' }} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

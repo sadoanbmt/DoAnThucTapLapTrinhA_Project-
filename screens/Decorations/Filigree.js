@@ -181,7 +181,7 @@ export const Filigree3 = ({ customPosition }) => {
                     cx="187.5"
                     cy="18.5"
                     r="17.5"
-                    stroke="#27282C"
+                    stroke={colors.gray}
                     strokeWidth="2"
                     fill="none"
                 />
@@ -189,53 +189,53 @@ export const Filigree3 = ({ customPosition }) => {
                     cx="187.5"
                     cy="18.5"
                     r="14.5"
-                    fill="#27282C"
+                    fill={colors.gray}
                 />
                 <Path
                     d="M0 9H173"
-                    stroke="#27282C"
+                    stroke={colors.gray}
                     strokeWidth="2"
                     fill="none"
                 />
                 <Path
                     d="M205 20C205 11.1634 213.059 9 223 9"
-                    stroke="#27282C"
+                    stroke={colors.gray}
                     strokeWidth="2"
                     fill="none"
                 />
                 <Path
                     d="M170 20C170 11.1634 161.941 9 152 9"
-                    stroke="#27282C"
+                    stroke={colors.gray}
                     strokeWidth="2"
                     fill="none"
                 />
                 <Path
                     d="M202 9H374"
-                    stroke="#27282C"
+                    stroke={colors.gray}
                     strokeWidth="2"
                     fill="none"
                 />
                 <Path
                     d="M1 10C1 15.5228 5.47716 20 11 20H170"
-                    stroke="#27282C"
+                    stroke={colors.gray}
                     strokeWidth="2"
                     fill="none"
                 />
                 <Path
                     d="M373 10C373 15.5228 368.523 20 363 20H205"
-                    stroke="#27282C"
+                    stroke={colors.gray}
                     strokeWidth="2"
                     fill="none"
                 />
                 <Path
                     d="M28 21C28 26.5228 32.4772 31 38 31H175"
-                    stroke="#27282C"
+                    stroke={colors.gray}
                     strokeWidth="2"
                     fill="none"
                 />
                 <Path
                     d="M347 21C347 26.5228 342.523 31 337 31H200"
-                    stroke="#27282C"
+                    stroke={colors.gray}
                     strokeWidth="2"
                     fill="none"
                 />
@@ -443,8 +443,8 @@ export const Filigree6_Top = ({ customTopPosition, customRightPosition, }) => {
     return (
         <View style={[styles.filigree, { top: positionTop, right: positionRight, opacity: 0.3 }]}>
             <Svg
-                width={svgWidth}
-                height={svgHeight}
+                width={246}
+                height={36}
                 viewBox="0 0 246 36"
                 preserveAspectRatio="xMidYMid meet"
             >
@@ -497,8 +497,8 @@ export const Filigree7_Top = ({ customTopPosition, customLeftPosition, }) => {
     return (
         <View style={[styles.filigree, { top: positionTop, left: positionLeft, opacity: 0.3 }]}>
             <Svg
-                width={svgWidth}
-                height={svgHeight}
+                width={266}
+                height={26}
                 viewBox="0 0 266 26"
                 preserveAspectRatio="xMidYMid meet"
             >
@@ -591,6 +591,7 @@ export const Filigree8_TopLeft = ({ customTopPosition, customLeftPosition, custo
                 <Path
                     d="M27.4844 0.5C27.2256 4.95121 23.5346 8.48145 19.0186 8.48145H8.48145V19.0186C8.48145 23.5346 4.95113 27.2245 0.5 27.4834V0.5H27.4844Z"
                     stroke={colors.lightgray}
+                    fill="none"
                 />
             </Svg>
         </View>
@@ -664,6 +665,7 @@ export const Filigree8_BottomRight = ({ customBottomPosition, customRightPositio
                 <Path
                     d="M0.515625 27.5C0.774448 23.0488 4.4654 19.5186 8.98145 19.5186L19.5186 19.5186L19.5186 8.98144C19.5186 4.46536 23.0489 0.775451 27.5 0.516602L27.5 27.5L0.515625 27.5Z"
                     stroke={colors.lightgray}
+                    fill="none"
                 />
             </Svg>
         </View>

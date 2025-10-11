@@ -10,6 +10,7 @@ import { Filigree9, Filigree5_Bottom } from './Decorations/Filigree';
 import { } from './Decorations/DecoButton';
 import ScreenTitle from './Components/ScreenTitle';
 import BookList from './Components/BookList';
+import FooterMain from './Components/FooterMain';
 
 const createRandomList = (array, count) => {
     return [...array]
@@ -62,8 +63,8 @@ const AccountScreen = () => {
 
                     </View>
                     <Filigree5_Bottom />
-                    <LinearGradient colors={['rgba(0,0,0,0.3)', 'transparent']}
-                        style={[globalStyles.shadow, globalStyles.topShadow]}
+                    <LinearGradient colors={[colors.black, 'transparent']}
+                        style={[globalStyles.shadow, globalStyles.topShadow, { opacity: 0.3, }]}
                     />
                 </View>
 
@@ -91,6 +92,7 @@ const AccountScreen = () => {
 
                 {/* <BookList bookType="SÁNG TÁC CỦA BẠN" listOfBooks={listOfBooks} customDestination={"LibraryListingScreen"} /> */}
             </ScrollView>
+            <FooterMain currentScreen={4} />
         </View>
     );
 };

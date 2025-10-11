@@ -5,6 +5,8 @@ import Svg, { Circle, Line } from 'react-native-svg';
 import { colors, globalStyles } from './GlobalStyle';
 import HeaderMain from './Components/HeaderMain';
 import BookList from './Components/BookList';
+import FooterMain from './Components/FooterMain';
+
 import { useSelector } from 'react-redux';
 
 const bookDatabase = require('../assets/_bookDatabase.json');
@@ -93,6 +95,7 @@ const SearchResultScreen = ({ navigation }) => {
                 />
                 <View style={globalStyles.bottomPadding} />
             </ScrollView>
+            <FooterMain currentScreen={0}/>
         </View>
     );
 };

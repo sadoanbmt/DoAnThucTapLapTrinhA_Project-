@@ -56,16 +56,16 @@ const BookList = ({ bookType, listOfBooks, customDestination }) => {
             <Filigree1 />
             <Filigree5_Bottom />
             <LinearGradient
-                colors={['rgba(0, 0, 0, 0.3)', 'transparent']}
-                style={[globalStyles.shadow, globalStyles.topShadow, { marginTop: 30, }]}
+                colors={[colors.black, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.topShadow, { opacity: 0.4, marginTop: 30, }]}
             />
             <LinearGradient
-                colors={['transparent', 'rgba(0,0,0,0.2)']}
-                style={[globalStyles.shadow, globalStyles.bottomShadow]}
+                colors={['transparent', colors.black]}
+                style={[globalStyles.shadow, globalStyles.bottomShadow, { opacity: 0.4 }]}
             />
             <LinearGradient
-                colors={['transparent', 'rgba(0,0,0,1)']}
-                style={[globalStyles.shadow, globalStyles.bottomShadow, { top: -30, height: 30 }]}
+                colors={['transparent', colors.black]}
+                style={[globalStyles.shadow, globalStyles.bottomShadow, { opacity: 0.9, top: -30, height: 30 }]}
             />
             <View style={styles.bl_header}>
                 <Text style={styles.bl_headerTitle}>
@@ -136,12 +136,12 @@ export const BookList_Alt = ({ title, listOfBooks }) => {
             <Filigree1 />
             <Filigree5_Bottom />
             <LinearGradient
-                colors={['rgba(0, 0, 0, 0.4)', 'transparent']}
-                style={[globalStyles.shadow, globalStyles.topShadow]}
+                colors={[colors.black, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.topShadow, { opacity: 0.4 }]}
             />
             <LinearGradient
-                colors={['transparent', 'rgba(0,0,0,0.2)']}
-                style={[globalStyles.shadow, globalStyles.bottomShadow]}
+                colors={['transparent', colors.black]}
+                style={[globalStyles.shadow, globalStyles.bottomShadow, { opacity: 0.2 }]}
             />
             <View style={styles.bl_header_alt}>
                 <Svg width={38} height={38 * 0.184} viewBox="0 0 45 7">
@@ -223,16 +223,16 @@ export const BookList_Detail = ({ searchType, searchKeyword, listOfBooks, custom
             <Filigree1 />
             <Filigree5_Bottom />
             <LinearGradient
-                colors={['rgba(0, 0, 0, 0.3)', 'transparent']}
-                style={[globalStyles.shadow, globalStyles.topShadow, { marginTop: 30, }]}
+                colors={[colors.black, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.topShadow, { marginTop: 30, opacity: 0.3 }]}
             />
             <LinearGradient
-                colors={['transparent', 'rgba(0,0,0,0.2)']}
-                style={[globalStyles.shadow, globalStyles.bottomShadow]}
+                colors={['transparent', colors.black]}
+                style={[globalStyles.shadow, globalStyles.bottomShadow, { opacity: 0.2 }]}
             />
             <LinearGradient
-                colors={['transparent', 'rgba(0,0,0,1)']}
-                style={[globalStyles.shadow, globalStyles.bottomShadow, { top: -30, height: 30 }]}
+                colors={['transparent', colors.black]}
+                style={[globalStyles.shadow, globalStyles.bottomShadow, { top: -30, height: 30, opacity: 0.1, }]}
             />
             <View style={styles.bl_header}>
                 <Text style={styles.bl_headerTitle}>
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
         marginBottom: 60,
 
         backgroundColor: colors.white,
-        borderBottomColor: colors.gray,
+        borderBottomColor: colors.lightgray,
         borderBottomWidth: 2
     },
     bl_container_alt: {
@@ -312,6 +312,8 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
 
         backgroundColor: colors.gray,
+        borderColor: colors.lightgray,
+        borderBottomWidth: 2
     },
     bl_header_alt: {
         zIndex: 999,
@@ -378,10 +380,12 @@ const styles = StyleSheet.create({
         borderRadius: 4,
     },
     bi_bookTitle: {
+        color: colors.black,
         fontWeight: 'bold',
         fontSize: 14
     },
     bi_bookAuthor: {
+        color: colors.black,
         fontWeight: 'light',
         fontSize: 12,
         fontStyle: 'italic'

@@ -7,11 +7,13 @@ import MaterialIcons from '@react-native-vector-icons/material-icons';
 
 import { colors, globalStyles, bookCover } from './GlobalStyle';
 import HeaderMain from './Components/HeaderMain';
+import FooterMain from './Components/FooterMain';
+
 import { Filigree1, Filigree4 } from './Decorations/Filigree';
 import { DirectionButton_Left, DirectionButton_Right } from './Decorations/DecoButton';
 import { useSelector } from 'react-redux';
 
-const ResultCount = ({ searchType, searchKeyword, searchResultList}) => {
+const ResultCount = ({ searchType, searchKeyword, searchResultList }) => {
     return (
         <View style={styles.rc_container}>
             <Text style={styles.rc_title}>
@@ -222,6 +224,7 @@ const SearchListingScreen = ({ navigation }) => {
 
                 <View style={globalStyles.bottomPadding} />
             </ScrollView>
+            <FooterMain currentScreen={0}/>
         </View>
     );
 };
