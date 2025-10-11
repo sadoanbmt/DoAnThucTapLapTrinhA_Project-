@@ -13,7 +13,11 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { colors, globalStyles } from "./GlobalStyle";
 import HeaderMain from "./Components/HeaderMain";
-import { Filigree5_Bottom, Filigree2, Filigree5_Top } from "./Decorations/Filigree";
+import {
+  Filigree5_Bottom,
+  Filigree2,
+  Filigree5_Top,
+} from "./Decorations/Filigree";
 import {
   SidedButton_Left,
   SidedButton_Right,
@@ -24,42 +28,47 @@ import ScreenTitle from "./Components/ScreenTitle";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-import FooterMain from './Components/FooterMain';
-
+import FooterMain from "./Components/FooterMain";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser, registerUser } from "../slices/accountSlice";
 
 const LoginComponent = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
 
-  const handleAuth = async () => {
-    try {
-      const storedUser = await AsyncStorage.getItem("user");
-      if (!storedUser) {
-        Alert.alert("Thông báo", "Chưa có tài khoản, vui lòng đăng ký!");
-        return;
-      }
-      const user = JSON.parse(storedUser);
-      if (
-        (user.email === email || user.username === email) &&
-        user.password === password
-      ) {
-        Alert.alert("Đăng nhập thành công!");
-        navigation.navigate("MainScreen");
-      } else {
-        Alert.alert("Lỗi", "Sai email/tên người dùng hoặc mật khẩu!");
-      }
-    } catch (error) {
-      console.log(error);
+    // ✅ Đặt hook Redux ở ngoài (bắt buộc)
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.account);
+
+  // ✅ Hàm xử lý đăng nhập
+  const handleAuth = () => {
+    if (!email || !password) {
+      Alert.alert("Lỗi", "Vui lòng nhập đầy đủ thông tin!");
+      return;
     }
+
+    // Gửi yêu cầu đăng nhập đến slice
+    dispatch(loginUser({ email, password }));
   };
+
+  // ✅ Theo dõi khi user thay đổi
+  React.useEffect(() => {
+    if (user) {
+      navigation.replace("MainScreen");
+    }
+  }, [user]);
 
   return (
     <View>
       <View style={styles.ornateTextbox_white}>
         <LinearGradient
           colors={[colors.black, "transparent"]}
-          style={[globalStyles.shadow, globalStyles.topShadow, { opacity: 0.2 }]}
+          style={[
+            globalStyles.shadow,
+            globalStyles.topShadow,
+            { opacity: 0.2 },
+          ]}
         />
         <View>
           <TouchableOpacity>
@@ -89,18 +98,34 @@ const LoginComponent = () => {
         <Filigree5_Bottom customColor={colors.lightgray} />
         <View style={styles.ot_container}>
           <View style={styles.ot_fieldContainer}>
-            <Text style={[styles.ot_textInputLabel, (email == '') && { color: colors.gray }]}>Email hoặc tên đăng nhập</Text>
-            <TextInput style={styles.ot_textInput}
-              placeholder='Email hoặc tên đăng nhập'
+            <Text
+              style={[
+                styles.ot_textInputLabel,
+                email == "" && { color: colors.gray },
+              ]}
+            >
+              Email hoặc tên đăng nhập
+            </Text>
+            <TextInput
+              style={styles.ot_textInput}
+              placeholder="Email hoặc tên đăng nhập"
               placeholderTextColor={colors.lightgray}
               onChangeText={(text) => setEmail(text)}
               value={email}
             />
           </View>
           <View style={styles.ot_fieldContainer}>
-            <Text style={[styles.ot_textInputLabel, (password == '') && { color: colors.gray }]}>Mật khẩu</Text>
-            <TextInput style={styles.ot_textInput}
-              placeholder='Mật khẩu'
+            <Text
+              style={[
+                styles.ot_textInputLabel,
+                password == "" && { color: colors.gray },
+              ]}
+            >
+              Mật khẩu
+            </Text>
+            <TextInput
+              style={styles.ot_textInput}
+              placeholder="Mật khẩu"
               placeholderTextColor={colors.lightgray}
               onChangeText={(text) => setPassword(text)}
               value={password}
@@ -111,7 +136,8 @@ const LoginComponent = () => {
             <Text style={styles.forgotPassword2}>Quên mật khẩu?</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={{ position: 'absolute', bottom: -20, zIndex: 999 }}
+        <TouchableOpacity
+          style={{ position: "absolute", bottom: -20, zIndex: 999 }}
           onPress={() => handleAuth()}
           activeOpacity={1}
         >
@@ -119,8 +145,8 @@ const LoginComponent = () => {
         </TouchableOpacity>
       </View>
     </View>
-  )
-}
+  );
+};
 
 const SignUpComponent = (setIsLogin) => {
   const [email, setEmail] = useState("");
@@ -144,7 +170,7 @@ const SignUpComponent = (setIsLogin) => {
       Alert.alert("Đăng ký thành công!");
       setPassword("");
       setRepeatPassword("");
-      navigation.navigate('MainScreen');
+      navigation.navigate("MainScreen");
     } catch (error) {
       console.log(error);
     }
@@ -169,11 +195,17 @@ const SignUpComponent = (setIsLogin) => {
 
       <View style={styles.ot_container}>
         <View style={styles.ot_fieldContainer}>
-          <Text style={[styles.ot_textInputLabel, (email == '') && { color: colors.gray }]}>
+          <Text
+            style={[
+              styles.ot_textInputLabel,
+              email == "" && { color: colors.gray },
+            ]}
+          >
             Email hoặc tên đăng nhập
           </Text>
-          <TextInput style={styles.ot_textInput}
-            placeholder='Email'
+          <TextInput
+            style={styles.ot_textInput}
+            placeholder="Email"
             placeholderTextColor={colors.lightgray}
             onChangeText={(text) => setEmail(text)}
             value={email}
@@ -181,11 +213,17 @@ const SignUpComponent = (setIsLogin) => {
         </View>
 
         <View style={styles.ot_fieldContainer}>
-          <Text style={[styles.ot_textInputLabel, (username == '') && { color: colors.gray }]}>
+          <Text
+            style={[
+              styles.ot_textInputLabel,
+              username == "" && { color: colors.gray },
+            ]}
+          >
             Tên người dùng
           </Text>
-          <TextInput style={styles.ot_textInput}
-            placeholder='Tên người dùng'
+          <TextInput
+            style={styles.ot_textInput}
+            placeholder="Tên người dùng"
             placeholderTextColor={colors.lightgray}
             onChangeText={(text) => setUsername(text)}
             value={username}
@@ -196,7 +234,9 @@ const SignUpComponent = (setIsLogin) => {
           <Text style={{ color: colors.lightgray, margin: 5, fontSize: 18 }}>
             Ngày sinh
           </Text>
-          <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
             <TextInput
               style={[styles.input4, { flex: 1, marginRight: 5 }]}
               placeholder="Ngày"
@@ -222,11 +262,17 @@ const SignUpComponent = (setIsLogin) => {
         </View>
 
         <View style={styles.ot_fieldContainer}>
-          <Text style={[styles.ot_textInputLabel, (password == '') && { color: colors.gray }]}>
+          <Text
+            style={[
+              styles.ot_textInputLabel,
+              password == "" && { color: colors.gray },
+            ]}
+          >
             Mật khẩu
           </Text>
-          <TextInput style={styles.ot_textInput}
-            placeholder='Mật khẩu'
+          <TextInput
+            style={styles.ot_textInput}
+            placeholder="Mật khẩu"
             placeholderTextColor={colors.lightgray}
             onChangeText={(text) => setPassword(text)}
             value={password}
@@ -235,11 +281,17 @@ const SignUpComponent = (setIsLogin) => {
         </View>
 
         <View style={styles.ot_fieldContainer}>
-          <Text style={[styles.ot_textInputLabel, (repeatPassword == '') && { color: colors.gray }]}>
+          <Text
+            style={[
+              styles.ot_textInputLabel,
+              repeatPassword == "" && { color: colors.gray },
+            ]}
+          >
             Nhập lại mật khẩu
           </Text>
-          <TextInput style={styles.ot_textInput}
-            placeholder='Nhập lại mật khẩu'
+          <TextInput
+            style={styles.ot_textInput}
+            placeholder="Nhập lại mật khẩu"
             placeholderTextColor={colors.lightgray}
             onChangeText={(text) => setRepeatPassword(text)}
             value={repeatPassword}
@@ -247,7 +299,8 @@ const SignUpComponent = (setIsLogin) => {
           />
         </View>
 
-        <TouchableOpacity style={{ position: 'absolute', bottom: -20, zIndex: 999 }}
+        <TouchableOpacity
+          style={{ position: "absolute", bottom: -20, zIndex: 999 }}
           onPress={() => handleAuth()}
           activeOpacity={1}
         >
@@ -255,8 +308,8 @@ const SignUpComponent = (setIsLogin) => {
         </TouchableOpacity>
       </View>
     </View>
-  )
-}
+  );
+};
 
 const LoginScreen = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -268,7 +321,8 @@ const LoginScreen = () => {
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         style={{ flex: 1, width: "100%" }}
       >
-        <ScrollView bounces={false}
+        <ScrollView
+          bounces={false}
           overScrollMode="never"
           style={{ width: "100%" }}
           keyboardShouldPersistTaps="handled"
@@ -284,17 +338,18 @@ const LoginScreen = () => {
             </TouchableOpacity>
           </View>
 
-          {
-            isLogin ? <LoginComponent /> : <SignUpComponent setIsLogin={setIsLogin} />
-          }
+          {isLogin ? (
+            <LoginComponent />
+          ) : (
+            <SignUpComponent setIsLogin={setIsLogin} />
+          )}
 
           <Filigree2 customPosition={40} />
           <View style={globalStyles.bottomPadding} />
-
         </ScrollView>
         <FooterMain currentScreen={4} />
       </KeyboardAvoidingView>
-    </View >
+    </View>
   );
 };
 
@@ -311,12 +366,12 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: 'center'
+    justifyContent: "center",
   },
 
   ornateTextbox_white: {
     width: "100%",
-    height: 'auto',
+    height: "auto",
     paddingTop: 10,
     paddingBottom: 10,
 
@@ -327,7 +382,7 @@ const styles = StyleSheet.create({
   },
   loginContainer: {
     justifyContent: "flex-start",
-    alignItems: 'center',
+    alignItems: "center",
 
     width: "100%",
     height: 230,
@@ -339,7 +394,7 @@ const styles = StyleSheet.create({
   },
   registerContainer: {
     justifyContent: "flex-start",
-    alignItems: 'center',
+    alignItems: "center",
 
     width: "100%",
     height: 430,
@@ -369,24 +424,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginVertical: 10,
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   line: {
     flex: 1,
     height: 1,
     backgroundColor: colors.lightgray,
-    opacity: 0.7
+    opacity: 0.7,
   },
   separatorText: {
     marginHorizontal: 5,
     color: colors.lightgray,
-    fontStyle: 'italic',
+    fontStyle: "italic",
     fontSize: 16,
   },
   ot_container: {
     width: "80%",
     height: "100%",
-    justifyContent: 'flex-start',
+    justifyContent: "flex-start",
     alignItems: "center",
   },
   input2: {
@@ -427,32 +482,32 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lightgray,
     borderRadius: 4,
     textAlign: "center",
-    fontStyle: 'normal',
+    fontStyle: "normal",
     fontWeight: "bold",
   },
 
   ot_text: {
     color: colors.white,
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
 
     marginLeft: 10,
-    marginBottom: 10
+    marginBottom: 10,
   },
   ot_fieldContainer: {
-    width: '100%',
+    width: "100%",
 
-    marginTop: 20
+    marginTop: 20,
   },
 
   ot_textInputLabel: {
     color: colors.gold,
     fontSize: 11,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
 
   ot_textInput: {
-    width: '100%',
+    width: "100%",
 
     padding: 5,
     paddingTop: 0,
@@ -463,7 +518,7 @@ const styles = StyleSheet.create({
 
     color: colors.white,
     borderBottomColor: colors.lightgray,
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
   },
 });
 
