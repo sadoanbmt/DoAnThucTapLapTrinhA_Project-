@@ -67,9 +67,14 @@ const LibraryScreen = () => {
 
                 <CurrentBook book={book} />
 
-                <BookList bookType="Hello world" listOfBooks={listOfBooks} customDestination={"LibraryListingScreen"} />
+                <BookList bookType="ĐỌC GẦN ĐÂY" listOfBooks={listOfBooks} customDestination={"LibraryListingScreen"}/>
+                
+                <BookList bookType="YÊU THÍCH" listOfBooks={listOfBooks} customDestination={"LibraryListingScreen"}/>
 
-                <View style={globalStyles.bottomPadding} />
+                <BookList bookType="TẢI XUỐNG" listOfBooks={listOfBooks} customDestination={"LibraryListingScreen"}/>
+
+                <View style={globalStyles.bottomPadding}/>
+
             </ScrollView>
             <FooterMain currentScreen={1}/>
         </View>
