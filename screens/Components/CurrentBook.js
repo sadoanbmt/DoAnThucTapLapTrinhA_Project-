@@ -11,18 +11,18 @@ import { DecoButton } from '../Decorations/DecoButton';
 
 const CurrentBook = ({ }) => {
   const book = useSelector((state) => state.books.currentBook);
+  const chaptersOfSelectedBook = useSelector((state) => state.books.chaptersOfSelectedBook);
   const currentChapter = useSelector((state) => state.books.currentChapter);
   
   const navigation = useNavigation();
 
   if (book == null) return (null);
 
-  const chapterListLength = book.chapterList.length || 1;
-  const currentProgress = ((currentChapter + 1) / chapterListLength) * 100;
+  const totalChapter = chaptersOfSelectedBook.length || 1;
+  const currentProgress = Math.round(((currentChapter + 1) / totalChapter) * 100);
 
   return (
     <View style={styles.cb_container}>
-      <View style={styles.line} />
       <Filigree2 />
       <Filigree4
         customLeftPosition={-12}
@@ -61,14 +61,13 @@ const CurrentBook = ({ }) => {
         >{book.title}</Text>
         <Text style={styles.cb_desAuthor}>{book.author}</Text>
         <Text style={styles.cb_desProgress}>
-          {/* {currentPage} */}
           Chương {currentChapter + 1} | {currentProgress}%
         </Text>
       </View>
       <TouchableOpacity style={styles.decoButton}
         activeOpacity={1}
         onPress={() => {
-          // dispatch(selectChapter(0))
+          // dispatch(selectChapter())
           navigation.navigate('PageScreen')
         }}
       >

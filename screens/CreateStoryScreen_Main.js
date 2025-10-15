@@ -10,30 +10,9 @@ import { Filigree2, Filigree4 } from './Decorations/Filigree';
 import { OrnateButton } from './Decorations/DecoButton';
 import ScreenTitle from './Components/ScreenTitle';
 import FooterMain from './Components/FooterMain';
+import { setUserCreation } from '../slices/bookSlice';
 
-const _presetCreation = {
-    "type": "sách chữ",
-    "title": "Sunless Skies",
-    "author": "Võ Văn Việt",
-    "series": "A Song of the Skies",
-    "bookNum": 1,
-    "cover": require("../assets/sunlessSkies.jpg"),
-    "publishDate": "1996-08-06",
-    "genreList": [
-        "Kỳ ảo",
-        "Chính trị",
-        "Viễn tưởng"
-    ],
-    "totalPage": 694,
-    "totalView": 0,
-    "totalLike": 0,
-    "totalChapter": 1,
-    "description": "Năm 1970, Việt Nam bị bắt cóc và mang lên bầu trời bởi một con Cua. Kể từ đó người Việt bắt đầu thích nghi và khám phá một thế giới mới trên bầu trời. Nhân vật chính là một thuyền trưởng và thuyền của ông là một đầu máy xe lửa. Công việc của ông là giao hàng tới giữa các thuộc địa trên bầu trời, tham vọng của ông là phiêu lưu và chứng kiến mọi cái đẹp và cái đáng sợ của một thế giới mới.",
-    "chapterList": [],
-    "chapterContent": []
-}
-
-const BookItem = ({ navigation, book }) => {
+const BookItem = ({ book, chapterListLength }) => {
     return (
         <View style={styles.bi_container}>
             <Filigree4
@@ -43,21 +22,19 @@ const BookItem = ({ navigation, book }) => {
             />
             <LinearGradient
                 colors={[colors.black, 'transparent']}
-                style={[globalStyles.shadow, globalStyles.topShadow, {opacity: 0.3,}]}
+                style={[globalStyles.shadow, globalStyles.topShadow, { opacity: 0.3, }]}
             />
 
-            <View style={styles.bi_bookCover}
-                onPress={() => {
-                    navigation.navigate("BookDetailScreen")
-                }}
-            >
+            <View style={styles.bi_bookCover}>
                 <Image source={book.cover}
                     style={styles.bi_bookCoverImg}
                     resizeMode='cover'
                 />
             </View>
             <View style={styles.bi_detailContainer}>
-                <Text style={[styles.bi_bookTitle, { fontSize: 15, color: colors.white, letterSpacing: 0 }]}
+                <Text style={[styles.bi_bookTitle,
+                { fontSize: 15, color: colors.white, letterSpacing: 0 }
+                ]}
                     numberOfLines={1}
                     ellipsizeMode="tail"
                 >
@@ -73,11 +50,13 @@ const BookItem = ({ navigation, book }) => {
 
                 <View style={[styles.bi_row]}>
                     <View style={{ padding: 5, paddingHorizontal: 15, borderRadius: 4, backgroundColor: colors.gold }}>
-                        <Text style={{ color: colors.black, letterSpacing: 0, fontWeight: 'bold' }}>Chương 2</Text>
+                        <Text style={{ color: colors.black, letterSpacing: 0, fontWeight: 'bold' }}>
+                            {chapterListLength} Chương
+                        </Text>
                     </View>
-                    <View style={{ marginLeft: 10 }}>
+                    {/* <View style={{ marginLeft: 10 }}>
                         <Text style={{ color: colors.lightgray, letterSpacing: 0, fontWeight: 'normal', fontSize: 15 }}>5 Bản nháp</Text>
-                    </View>
+                    </View> */}
                 </View>
             </View>
         </View>
@@ -86,17 +65,37 @@ const BookItem = ({ navigation, book }) => {
 
 const CreateStoryScreen_Main = () => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
+    const selectedCreation = useSelector(
+        (state) => state.books.selectedCreation
+    );
+    console.log(selectedCreation)
+    const chaptersOfSelectedCreation = useSelector(
+        (state) => state.books.chaptersOfSelectedCreation
+    );
+    const userCreationIdList = useSelector(
+        (state) => state.account.creationIdList
+    )
+
     return (
         <View style={styles.container}>
             <HeaderMain />
             <ScrollView bounces={false} overScrollMode="never" style={{ width: '100%' }}>
                 <ScreenTitle title={"ĐĂNG TRUYỆN"} icon={"edit-note"} customIconPosition={-2} />
-
-                <TouchableOpacity style={styles.currentCreation}
-                    onPress={() => navigation.navigate("EditStoryScreen")}
-                >
-                    <BookItem navigation={navigation} book={_presetCreation} />
-                </TouchableOpacity>
+                {
+                    selectedCreation != null &&
+                    <TouchableOpacity style={styles.currentCreation}
+                        onPress={() => {
+                            dispatch(setUserCreation(selectedCreation.bookId))
+                            navigation.navigate("EditStoryScreen")
+                        }}
+                    >
+                        <BookItem navigation={navigation}
+                            book={selectedCreation}
+                            chapterListLength={chaptersOfSelectedCreation.length}
+                        />
+                    </TouchableOpacity>
+                }
 
                 <TouchableOpacity style={{ marginTop: 5 }}
                     onPress={() => {
@@ -106,13 +105,17 @@ const CreateStoryScreen_Main = () => {
                     <OrnateButton ButtonText={"Sáng Tác Truyện"} ButtonIcon={"edit-note"} />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={{ marginTop: 5 }}
-                    onPress={() => {
-                        navigation.navigate("EditStoryScreen")
-                    }}
-                >
-                    <OrnateButton ButtonText={"Sửa Truyện"} ButtonIcon={"edit-note"} />
-                </TouchableOpacity>
+                {
+                    userCreationIdList.length != 0 &&
+                    <TouchableOpacity style={{ marginTop: 5 }}
+                        onPress={() => {
+                            dispatch(setUserCreation(selectedCreation.bookId))
+                            navigation.navigate("EditStoryScreen")
+                        }}
+                    >
+                        <OrnateButton ButtonText={"Sửa Truyện"} ButtonIcon={"edit-note"} />
+                    </TouchableOpacity>
+                }
 
                 <TouchableOpacity style={{ marginTop: 5 }}
                     onPress={() => {
@@ -125,7 +128,7 @@ const CreateStoryScreen_Main = () => {
                 <Filigree2 customPosition={-95} />
                 {/* <View style={globalStyles.bottomPadding} /> */}
             </ScrollView>
-            <FooterMain currentScreen={2}/>
+            <FooterMain currentScreen={2} />
         </View>
     );
 };
@@ -242,6 +245,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
 
         width: '100%',
+        marginTop: 10
     },
 });
 

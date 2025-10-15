@@ -24,6 +24,7 @@ export const bookCover = {
   "../assets/dune4.jpg": require("../assets/dune4.jpg"),
   "../assets/dune5.jpg": require("../assets/dune5.jpg"),
   "../assets/dune6.jpg": require("../assets/dune6.jpg"),
+  "../assets/Piranesi.jpg": require("../assets/Piranesi.jpg"),
 }
 
 export const colors = {
@@ -32,10 +33,10 @@ export const colors = {
 
   black: '#131313ff',
   gray: '#252525ff',
-  lightgray: '#767676ff',
+  lightgray: '#a0a0a0ff',
   white: '#ecececff',
 
-  gold: '#ffad28ff',
+  gold: '#f6c144ff',
 }
 
 export const globalStyles = StyleSheet.create({

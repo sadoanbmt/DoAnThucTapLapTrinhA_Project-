@@ -1,12 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {};
+const initialState = {
+    username: "Alt Shift F",
+
+    personalLibrary: [],
+
+    currentBook: null,
+    chaptersOfCurrentBook: null,
+    currentChaper: null,
+
+    creationIdList: [],
+};
 
 const accountSlice = createSlice({
     name: "account",
     initialState,
-    reducers: { },
+    reducers: {
+        addNewCreationId: (state, action) => {
+            state.creationIdList = [action.payload, ...state.creationIdList];
+        },
+    },
 });
 
-export const { } = accountSlice.actions;
+export const { addNewCreationId } = accountSlice.actions;
 export default accountSlice.reducer;

@@ -12,7 +12,7 @@ import { searchForBooks, viewBookType } from '../../slices/bookSlice';
 
 const SideTabRight = ({ setLeftIsVisible, setRightIsVisible }) => {
     const navigation = useNavigation();
-
+    const dispatch = useDispatch();
     return (
         <View style={styles.str_container}>
             <View style={styles.str_menuContainer}>

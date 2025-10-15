@@ -7,9 +7,79 @@ import { useSelector, useDispatch } from "react-redux";
 import { colors, globalStyles } from './GlobalStyle';
 import { Filigree2, Filigree5_Bottom, Filigree5_Top } from './Decorations/Filigree';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
+import { setBookChapter, initNewBook, initNewChapter, initUpdatedChapter, finalizeCreation, finalizeChapterCreation, finalizeChapterUpdate } from '../slices/creationSlice';
 
-const CreateStoryHeader = () => {
+const CreateStoryHeader = ({ title, content }) => {
+    const dispatch = useDispatch();
     const navigation = useNavigation();
+
+    const screenMode = useSelector((state) => state.creation.createStoryScreen_Page_Mode);
+    const selectedCreation = useSelector((state) => state.books.selectedCreation);
+
+    const handleFinalizeCreation = async () => {
+        switch (screenMode) {
+            case "newBook":
+                createNewBook();
+                break;
+            case "updateChapter":
+                updateChapter();
+                break;
+            case "newChapter":
+                createNewChapter();
+                break;
+            default: console.log("unknown screenMode", screenMode);
+        }
+    };
+    const createNewBook = async () => {
+        try {
+            dispatch(setBookChapter(
+                {
+                    chapterTitle: title,
+                    chapterContent: content
+                }
+            ))
+            dispatch(initNewBook())
+            await dispatch(finalizeCreation()).unwrap();
+            console.log('Book created successfully!');
+        } catch (error) {
+            console.error('Failed to create book:', error);
+        }
+    };
+    const updateChapter = async () => {
+        try {
+            dispatch(setBookChapter(
+                {
+                    chapterTitle: title,
+                    chapterContent: content
+                }
+            ))
+            dispatch(initUpdatedChapter())
+            await dispatch(finalizeChapterUpdate()).unwrap();
+
+            console.log('Chapter updated successfully!');
+        } catch (error) {
+            console.error('Failed to create chapter:', error);
+        }
+    };
+    const createNewChapter = async () => {
+        try {
+            const chaptersOfSelectedCreation_Length = useSelector(
+                (state) => state.books.chapterDatabase.filter(
+                    (chapter) => chapter.bookId == selectedCreation.bookId
+                )).length || null;
+            dispatch(setBookChapter(
+                {
+                    chapterTitle: title,
+                    chapterContent: content
+                }
+            ))
+            dispatch(initNewChapter({ bookId: selectedCreation.bookId, chapterNum: chaptersOfSelectedCreation_Length + 1 }))
+            await dispatch(finalizeChapterCreation()).unwrap();
+            console.log('Chapter created successfully!');
+        } catch (error) {
+            console.error('Failed to create chapter:', error);
+        }
+    };
     return (
         <View style={styles.creationHeader}>
             <TouchableOpacity style={styles.ch_button}
@@ -25,7 +95,11 @@ const CreateStoryHeader = () => {
             </View>
 
             <TouchableOpacity style={styles.ch_button}
-                onPress={() => navigation.navigate("EditStoryScreen")}
+                onPress={() => {
+                    handleFinalizeCreation()
+                    navigation.navigate("EditStoryScreen")
+                }}
+            // disabled={isCreating || !newBook_metaData.title}
             >
                 <Text style={[styles.ch_buttonText, { fontWeight: 'normal' }]}>
                     Đăng
@@ -41,18 +115,21 @@ const CreateStoryHeader = () => {
 }
 
 const CreateStoryScreen_Page = () => {
-    const navigation = useNavigation();
-
-    const [content, setContent] = useState('');
+    const screenMode = useSelector((state) => state.creation.createStoryScreen_Page_Mode);
+    const chapterToEdit = useSelector((state) => state.creation.chapterToEdit);
+    const [title, setTitle] = useState(screenMode == 'updateChapter' ? chapterToEdit.chapterTitle : null);
+    const [content, setContent] = useState(screenMode == 'updateChapter' ? chapterToEdit.chapterContent : null);
 
     return (
         <View style={styles.container}>
-            <CreateStoryHeader />
+            <CreateStoryHeader title={title} content={content} />
             <ScrollView bounces={false} overScrollMode="never" style={{ width: '100%' }}>
                 <View style={styles.titleInput}>
                     <TextInput style={styles.ti_input}
                         placeholder='Tựa Đề Chương'
                         placeholderTextColor={colors.lightgray}
+                        onChangeText={(text) => setTitle(text)}
+                        value={title}
                     />
                     <Filigree2 customPosition={-75} />
                 </View>

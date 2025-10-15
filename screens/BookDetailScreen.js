@@ -7,7 +7,7 @@ import { useRoute } from "@react-navigation/native";
 import { colors, globalStyles, bookCover } from './GlobalStyle';
 import HeaderMain from './Components/HeaderMain';
 import { BookList_Detail } from './Components/BookList';
-import { Filigree1, Filigree2, Filigree3_Simple, Filigree5_Bottom } from './Decorations/Filigree';
+import { Filigree1, Filigree3_Simple, Filigree5_Bottom } from './Decorations/Filigree';
 import { DecoButton, DecoButton_Dark } from './Decorations/DecoButton';
 import FooterMain from './Components/FooterMain';
 
@@ -16,7 +16,7 @@ import MaterialIcons from '@react-native-vector-icons/material-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchForBooks, selectChapter } from '../slices/bookSlice';
 
-const BookDetail = ({ theBook }) => {
+const BookDetail = ({ selectedBook }) => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
 
@@ -35,7 +35,7 @@ const BookDetail = ({ theBook }) => {
     return (
         <View style={styles.bd_container}>
             <View style={styles.bd_bookCover}>
-                <Image source={bookCover[theBook.cover]}
+                <Image source={bookCover[selectedBook.cover]}
                     style={styles.bd_bookCoverImg}
                     resizeMode='cover'
                 />
@@ -49,7 +49,7 @@ const BookDetail = ({ theBook }) => {
                     colors={['rgba(0, 0, 0, 0.3)', 'transparent']}
                     style={[globalStyles.shadow, globalStyles.topShadow, { height: 40 }]}
                 />
-                <Image source={bookCover[theBook.cover]}
+                <Image source={bookCover[selectedBook.cover]}
                     style={styles.bd_blurBgImg}
                     resizeMode='cover'
                     blurRadius={5}
@@ -67,45 +67,85 @@ const BookDetail = ({ theBook }) => {
                 />
                 <View style={styles.bd_header}>
                     <Text style={styles.bd_headerText}>
-                        {theBook.title}
+                        {(selectedBook.title != null && selectedBook.title != "") ?
+                            selectedBook.title :
+                            "Tác phẩm không tên"
+                        }
                     </Text>
                 </View>
 
-                <TouchableOpacity style={styles.bd_series}
-                    onPress={() => {
-                        dispatch(searchForBooks({ searchType: "Series", searchKeyword: theBook.series }))
-                        navigation.navigate('SearchResultScreen')
-                    }}
-                >
-                    <MaterialIcons name="collections-bookmark"
-                        color={colors.black}
-                        size={15}
-                        style={{ marginRight: 6 }}
-                    />
-                    <Text style={styles.bd_seriesText}>
-                        {theBook.series} {theBook.bookNum > 0 && "| Cuốn " + theBook.bookNum}
-                    </Text>
-                </TouchableOpacity>
+                {
+                    (selectedBook.series != "" && selectedBook.series != null) &&
+                    <TouchableOpacity style={styles.bd_series}
+                        onPress={() => {
+                            dispatch(searchForBooks({ searchType: "Series", searchKeyword: selectedBook.series }))
+                            navigation.navigate('SearchResultScreen')
+                        }}
+                    >
+                        <MaterialIcons name="collections-bookmark"
+                            color={colors.black}
+                            size={15}
+                            style={{ marginRight: 6 }}
+                        />
+                        <Text style={styles.bd_seriesText}>
+                            {selectedBook.series} {selectedBook.bookNum > 0 && "| Cuốn " + selectedBook.bookNum}
+                        </Text>
+                    </TouchableOpacity>
+                }
 
-                <TouchableOpacity style={styles.bd_author}
-                    onPress={() => {
-                        dispatch(searchForBooks({ searchType: "Tác Giả", searchKeyword: theBook.author }))
-                        navigation.navigate('SearchResultScreen')
-                    }}
-                >
-                    <MaterialIcons name="create"
-                        color={colors.black}
-                        size={15}
-                        style={{ marginRight: 6 }}
-                    />
-                    <Text style={styles.bd_authorText}>
-                        {theBook.author}
-                    </Text>
-                </TouchableOpacity>
+                {
+                    (selectedBook.author != "" && selectedBook.author != null) &&
+                    <TouchableOpacity style={styles.bd_author}
+                        onPress={() => {
+                            dispatch(searchForBooks({ searchType: "Tác Giả", searchKeyword: selectedBook.author }))
+                            navigation.navigate('SearchResultScreen')
+                        }}
+                    >
+                        <MaterialIcons name="create"
+                            color={colors.black}
+                            size={14}
+                            style={{ marginRight: 8 }}
+                        />
+                        <Text style={styles.bd_authorText}>
+                            {selectedBook.translator != null && "Tác giả:"} {selectedBook.author}
+                        </Text>
+                    </TouchableOpacity>
+                }
 
+                {
+                    (selectedBook.translator != "" && selectedBook.translator != null) &&
+                    <TouchableOpacity style={styles.bd_author}
+                        onPress={() => {
+                            dispatch(searchForBooks({ searchType: "Dịch Giả", searchKeyword: selectedBook.translator }))
+                            navigation.navigate('SearchResultScreen')
+                        }}
+                    >
+                        <MaterialIcons name="compare"
+                            color={colors.black}
+                            size={14}
+                            style={{ marginRight: 6 }}
+                        />
+                        <Text style={styles.bd_authorText}>
+                            Dịch giả: {selectedBook.translator}
+                        </Text>
+                    </TouchableOpacity>
+                }
+
+                {
+                    (selectedBook.progressStatus != "" && selectedBook.progressStatus != null) &&
+                    <View style={[styles.bd_progressStatus]}>
+                        <Text style={[styles.bd_progressStatusText, ,
+                        selectedBook.progressStatus == "hoàn tất" ? styles.bd_progressStatusText_Complete :
+                            selectedBook.progressStatus == "đang cập nhật" ? styles.bd_progressStatusText_OnGoing :
+                                styles.bd_progressStatusText_Abandoned
+                        ]}>
+                            Trạng thái: {selectedBook.progressStatus.toUpperCase()}
+                        </Text>
+                    </View>
+                }
                 <View style={styles.bd_genresContainer}>
                     {
-                        theBook.genreList.map((genre) => (
+                        selectedBook.genreList.map((genre) => (
                             <BookGenre key={genre} genre={genre} />
                         ))
                     }
@@ -115,7 +155,7 @@ const BookDetail = ({ theBook }) => {
     )
 }
 
-const BookStat = ({ theBook }) => {
+const BookStat = ({ selectedBook, chaptersOfSelectedBook }) => {
     return (
         <View style={styles.bs_container}>
             <Filigree1 customPosition={-95} />
@@ -128,29 +168,42 @@ const BookStat = ({ theBook }) => {
                 colors={['transparent', colors.black]}
                 style={[styles.shadow, styles.bottomShadow, { height: 25, opacity: 0.3, }]}
             />
-
-            <View style={styles.bs_info}>
-                <Text style={styles.bs_number}>{theBook.totalPage}</Text>
-                <Text style={styles.bs_text}>Trang</Text>
-            </View>
-
             {
-                theBook.chapterList != null &&
-
+                selectedBook.type == "sách chữ" ?
+                    <View style={styles.bs_info}>
+                        <MaterialIcons name="book"
+                            color={colors.white}
+                            size={26}
+                        />
+                        <Text style={styles.bs_text}>Sách</Text>
+                    </View>
+                    :
+                    <View style={styles.bs_info}>
+                        <MaterialIcons name="dashboard"
+                            color={colors.white}
+                            size={26}
+                        />
+                        <Text style={styles.bs_text}>Truyện</Text>
+                    </View>
+            }
+            {
+                (selectedBook.___pageCount != null && selectedBook.___pageCount > 0) &&
                 <View style={styles.bs_info}>
-                    <Text style={styles.bs_number}>{theBook.totalChapter}</Text>
+                    <Text style={styles.bs_number}>{selectedBook.___pageCount}</Text>
+                    <Text style={styles.bs_text}>Trang</Text>
+                </View>
+            }
+            {
+                (chaptersOfSelectedBook != null && chaptersOfSelectedBook.length > 0) &&
+                <View style={styles.bs_info}>
+                    <Text style={styles.bs_number}>{chaptersOfSelectedBook.length}</Text>
                     <Text style={styles.bs_text}>Chương</Text>
                 </View>
             }
 
             <View style={styles.bs_info}>
-                <Text style={styles.bs_number}>{formatCompactNumber(theBook.totalView)}</Text>
-                <Text style={styles.bs_text}>Lượt Xem</Text>
-            </View>
-
-            <View style={styles.bs_info}>
-                <Text style={styles.bs_number}>{formatCompactNumber(theBook.totalLike)}</Text>
-                <Text style={styles.bs_text}>Lượt Thích</Text>
+                <Text style={styles.bs_number}>{formatCompactNumber(selectedBook.readCount)}</Text>
+                <Text style={styles.bs_text}>Lượt Đọc</Text>
             </View>
         </View>
     )
@@ -170,7 +223,7 @@ const formatCompactNumber = (number) => {
     return number.toString();
 };
 
-const MoreDetails = ({ theBook, bookDatabase }) => {
+const MoreDetails = ({ selectedBook, chaptersOfSelectedBook }) => {
     const [option, setOption] = useState(1);
 
     return (
@@ -187,7 +240,7 @@ const MoreDetails = ({ theBook, bookDatabase }) => {
                     <Text style={[styles.md_buttonText, option == 1 && styles.md_buttonText_Active]}>Giới Thiệu</Text>
                 </TouchableOpacity>
                 {
-                    theBook.chapterList.length > 0 &&
+                    chaptersOfSelectedBook.length > 0 &&
                     <TouchableOpacity style={[styles.md_button, option == 2 && styles.md_button_Active]}
                         onPress={() => setOption(2)}
                     >
@@ -201,78 +254,91 @@ const MoreDetails = ({ theBook, bookDatabase }) => {
                 </TouchableOpacity>
             </View>
             <View style={styles.md_content}>
-                {option == 1 && <MoreDetailsOption1 theBook={theBook} />}
-                {option == 2 && <MoreDetailsOption2 theBook={theBook} />}
-                {option == 3 && <MoreDetailsOption3 theBook={theBook} bookDatabase={bookDatabase} />}
+                {option == 1 && <MoreDetailsOption1 selectedBook={selectedBook} />}
+                {option == 2 && <MoreDetailsOption2 selectedBook={selectedBook} chaptersOfSelectedBook={chaptersOfSelectedBook} />}
+                {option == 3 && <MoreDetailsOption3 selectedBook={selectedBook} />}
             </View>
         </View>
     )
 }
-const MoreDetailsOption1 = ({ theBook }) => {
+const MoreDetailsOption1 = ({ selectedBook }) => {
+    if (selectedBook.description == null) return;
     return (
         <View style={styles.moreDetailsOption1}>
             <View style={styles.mdo_textBox}>
                 <Text style={styles.md_contentText}>
-                    {theBook.description}
+                    {selectedBook.description}
                 </Text>
             </View>
-            <Filigree2 />
+            <Filigree1 />
         </View>
     )
 }
-const MoreDetailsOption2 = ({ theBook }) => {
+const MoreDetailsOption2 = ({ selectedBook }) => {
     const dispatch = useDispatch();
+    const chaptersOfSelectedBook = useSelector((state) => state.books.chaptersOfSelectedBook);
+    console.log(chaptersOfSelectedBook)
+    if (chaptersOfSelectedBook == null || chaptersOfSelectedBook < 0) return (null);
 
-    if (theBook.chapterList == null) return (null);
-
-    const ChapterComponent = ({ index, chapterName }) => {
+    const ChapterComponent = ({ index, chapterTitle }) => {
         const navigation = useNavigation();
         return (
             <TouchableOpacity style={styles.cc_container}
                 onPress={() => {
-                    dispatch(selectChapter({ currentBook: theBook, currentChapter: index }))
+                    dispatch(selectChapter({ currentBook: selectedBook, currentChapter: index }))
                     navigation.navigate("PageScreen")
                 }}
             >
                 <View style={styles.cc_decor} />
                 <Text style={styles.cc_text}>
                     Chương {index + 1}
-                    {chapterName != null && ": "}
-                    {chapterName}</Text>
+                    {chapterTitle != null && ": "}
+                    {chapterTitle}</Text>
             </TouchableOpacity >
         )
     }
 
     return (
         <View style={styles.moreDetailsOption2}>
-            <Filigree2 />
+            <Filigree1 />
             <View style={styles.mdo_textBox}>
                 {
-                    theBook.chapterList.map((chapterName, index) =>
-                        <ChapterComponent index={index} chapterName={chapterName} key={index + chapterName} />
+                    chaptersOfSelectedBook.map((chapter, index) =>
+                        <ChapterComponent index={index}
+                            chapterTitle={chapter.chapterTitle}
+                            key={index + chapter}
+                        />
                     )
                 }
             </View>
         </View>
     )
 }
-const MoreDetailsOption3 = ({ theBook, bookDatabase }) => {
-    const listOfBooksByAuthor = bookDatabase.filter(book => book.author === theBook.author);
-    const listOfBooksBySeries = bookDatabase.filter(book => book.series === theBook.series);
+const MoreDetailsOption3 = ({ selectedBook }) => {
+    const bookDatabase = useSelector((state) => state.books.bookDatabase)
     return (
         <View>
-            <BookList_Detail searchType="Tác Giả"
-                searchKeyword={theBook.author}
-                listOfBooks={listOfBooksByAuthor.slice(0, 10)} />
+            <BookList_Detail key={selectedBook.author + Date.now.toString()}
+                searchType="Tác Giả"
+                searchKeyword={selectedBook.author}
+                listOfBooks={bookDatabase.filter(
+                    book => book.series === selectedBook.series
+                ).slice(0, 10)}
+            />
             {
-                theBook.series != "" &&
-                <BookList_Detail searchType="Series"
-                    searchKeyword={theBook.series}
-                    listOfBooks={listOfBooksBySeries.slice(0, 10)} />
+                selectedBook.series != "" &&
+                <BookList_Detail key={selectedBook.series + Date.now.toString()}
+                    searchType="Series"
+                    searchKeyword={selectedBook.series}
+                    listOfBooks={bookDatabase.filter(
+                        book => book.author === selectedBook.author
+                    ).slice(0, 10)}
+                />
             }
             {
-                theBook.genreList.slice(0, 3).map((genre) => (
-                    <BookList_Detail searchType="Thể Loại"
+                selectedBook.genreList.slice(0, 3).map((genre) => (
+                    <BookList_Detail key={genre + Date.now.toString()}
+                        searchType="Thể Loại"
                         searchKeyword={genre}
                         listOfBooks={
                             bookDatabase.filter(
@@ -282,13 +348,14 @@ const MoreDetailsOption3 = ({ theBook, bookDatabase }) => {
                     />
                 ))
             }
+            {/* <Filigree1 /> */}
         </View>
     )
 }
 
 const BookDetailScreen = ({ navigation }) => {
-    const theBook = useSelector((state) => state.books.selectedBook);
-    const bookDatabase = useSelector((state) => state.books.bookDatabase);
+    const selectedBook = useSelector((state) => state.books.selectedBook);
+    const chaptersOfSelectedBook = useSelector((state) => state.books.chaptersOfSelectedBook);
     const dispatch = useDispatch();
 
     const route = useRoute();
@@ -307,14 +374,16 @@ const BookDetailScreen = ({ navigation }) => {
                 overScrollMode="never"
                 style={{ width: '100%' }}
             >
-                <BookDetail theBook={theBook} />
+                <BookDetail selectedBook={selectedBook} />
 
-                <BookStat theBook={theBook} />
+                <BookStat selectedBook={selectedBook}
+                    chaptersOfSelectedBook={chaptersOfSelectedBook}
+                />
 
                 <TouchableOpacity style={{ zIndex: 999, marginVertical: 5 }}
                     activeOpacity={1}
                     onPress={() => {
-                        dispatch(selectChapter({ currentBook: theBook, currentChapter: 0 }))
+                        dispatch(selectChapter({ currentBook: selectedBook, currentChapter: 0 }))
                         navigation.navigate('PageScreen')
                     }}
                 >
@@ -327,12 +396,10 @@ const BookDetailScreen = ({ navigation }) => {
                     <DecoButton_Dark ButtonText="THƯ VIỆN" ButtonIcon="add" />
                 </TouchableOpacity>
 
-                <MoreDetails theBook={theBook}
-                    bookDatabase={bookDatabase}
-                />
+                <MoreDetails selectedBook={selectedBook} chaptersOfSelectedBook={chaptersOfSelectedBook} />
                 <View style={globalStyles.bottomPadding} />
             </ScrollView>
-            <FooterMain currentScreen={0}/>
+            <FooterMain currentScreen={0} />
         </View>
     );
 };
@@ -406,7 +473,7 @@ const styles = StyleSheet.create({
 
         width: "80%",
 
-        paddingBottom: 5,
+        paddingBottom: 2,
     },
     bd_headerText: {
         textAlign: 'center',
@@ -416,18 +483,23 @@ const styles = StyleSheet.create({
     },
     bd_author: {
         flexDirection: 'row',
-
         alignItems: 'center',
         justifyContent: 'center',
 
         width: "100%",
+        marginVertical: 2,
+        paddingHorizontal: 40
     },
     bd_authorText: {
         color: colors.black,
         fontSize: 14,
         fontWeight: 'light',
         fontStyle: 'italic',
-        letterSpacing: 3
+        letterSpacing: 3,
+        textAlign: 'center',
+
+        // borderColor: "red",
+        // borderWidth: 1
     },
     bd_series: {
         flexDirection: 'row',
@@ -436,14 +508,38 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
 
         width: "100%",
-        marginBottom: 5
+        marginBottom: 10,
     },
     bd_seriesText: {
         color: colors.black,
-        fontSize: 14,
+        fontSize: 15,
         fontWeight: 'bold',
         fontStyle: 'italic',
         letterSpacing: 2
+    },
+    bd_progressStatus: {
+        flexDirection: 'row',
+
+        alignItems: 'center',
+        justifyContent: 'center',
+
+        width: "100%",
+        marginTop: 12,
+    },
+    bd_progressStatusText: {
+        color: colors.black,
+        fontSize: 14,
+        fontWeight: 'bold',
+        letterSpacing: 1.2
+    },
+    bd_progressStatusText_Complete: {
+        color: "#7eaa72ff"
+    },
+    bd_progressStatusText_OnGoing: {
+        color: "#c2bd58ff"
+    },
+    bd_progressStatusText_Abandoned: {
+        color: "#d34f43ff"
     },
     bd_genresContainer: {
         alignItems: 'center',
