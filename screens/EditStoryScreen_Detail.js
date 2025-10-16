@@ -1,35 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput, FlatList } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from "react-redux";
 
-import { colors, globalStyles } from './GlobalStyle';
-import { Filigree2, Filigree4, Filigree5_Bottom } from './Decorations/Filigree';
+import { colors, globalStyles, bookCover } from './GlobalStyle';
+import { Filigree2, Filigree5_Top, Filigree5_Bottom } from './Decorations/Filigree';
 import { OrnateButton, OrnateOption } from './Decorations/DecoButton';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
+import { updateSelectedBook } from '../slices/bookSlice';
 
-import { setCreateStoryScreen_Page_Mode, setChapterToEdit } from '../slices/creationSlice';
+const languageList = require("../assets/_languageList.json");
+const genreDatabase = require("../assets/_genreDatabase.json")
 
-const CreateStoryHeader = () => {
+const CreateStoryHeader = ({ propertyToChange }) => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
+    const screenMode = useSelector((state) => state.creation.editStoryScreen_Detail_Mode);
+    
     return (
         <View style={styles.creationHeader}>
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={[colors.black, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.leftShadow, { height: 100 }]}
+            />
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['transparent', colors.black]}
+                style={[globalStyles.shadow, globalStyles.rightShadow, { height: 100 }]}
+            />
+
             <TouchableOpacity style={styles.ch_button}
-                onPress={() => navigation.navigate("CreateStoryScreen_Main")}
+                onPress={() => navigation.navigate("EditStoryScreen")}
             >
                 <MaterialIcons name='arrow-back' color={colors.white} size={30} />
             </TouchableOpacity>
 
             <View style={styles.ch_textContainer}>
                 <Text style={styles.ch_text}>
-                    Sửa Truyện
+                    Sửa {screenMode}
                 </Text>
             </View>
 
-            <TouchableOpacity style={styles.ch_button}>
-                <Text style={[styles.ch_buttonText, { fontWeight: 'normal' }]}>
-                    {/* Bỏ Qua */}
+            <TouchableOpacity style={styles.ch_button}
+                onPress={() => {
+                    dispatch(updateSelectedBook(propertyToChange))
+                    navigation.navigate("EditStoryScreen")
+                }}
+            >
+                <Text style={[styles.ch_buttonText, { fontSize: 18 }]}>
+                    Lưu
                 </Text>
             </TouchableOpacity>
             <LinearGradient
@@ -39,6 +62,7 @@ const CreateStoryHeader = () => {
         </View>
     )
 }
+
 const GenreComponent = ({ genre }) => {
     return (
         <View style={styles.genreComponent}>
@@ -49,220 +73,443 @@ const GenreComponent = ({ genre }) => {
     )
 }
 
-const ChapterComponent = ({ navigation, chapter }) => {
-    const dispatch = useDispatch();
+const LanguagePickerComponent = ({ pickedLanguage, language, setLanguage }) => {
+    const active = pickedLanguage == language;
     return (
-        <TouchableOpacity style={styles.ornateTextbox_white}
+        <TouchableOpacity style={[styles.genrePickerComponent, active && styles.gpc_activeColor, active && { width: '105%', paddingHorizontal: 22 }]}
+            activeOpacity={1}
             onPress={() => {
-                dispatch(setCreateStoryScreen_Page_Mode("updateChapter"))
-                dispatch(setChapterToEdit(chapter))
-                navigation.navigate("CreateStoryScreen_Page")
+                setLanguage(language)
             }}
         >
-            <View>
-                <View style={styles.otw_textRow}>
-                    <Text style={styles.otw_title} numberOfLines={1}>
-                        Chương {chapter.chapterNum}: {chapter.chapterTitle}
-                    </Text>
-                    <MaterialIcons name='border-color' size={18} color={colors.gray} />
-                </View>
-                <View style={styles.otw_textRow}>
-                    <Text style={styles.otw_subtitle}>Cập nhật ngày {chapter.lastUpdateDate}</Text>
-                </View>
-            </View>
-            <Filigree5_Bottom />
-            <LinearGradient
-                colors={['rgba(0,0,0,0.2)', 'transparent']}
-                style={[globalStyles.shadow, globalStyles.topShadow]}
-            />
+            <View style={[styles.gpc_decoration, active && { backgroundColor: colors.gold }]} />
+            <Text style={[styles.gpc_text, active && styles.gpc_activeColor]}>
+                {language}
+            </Text>
         </TouchableOpacity>
     )
 }
 
-const EditStoryScreen = () => {
-    const navigation = useNavigation();
-    const dispatch = useDispatch();
+const GenrePickerComponent = ({ genre, setGenreList, genreList }) => {
+    const [active, setActive] = useState(genreList.includes(genre));
 
-    const selectedCreationId = useSelector(
-        (state) => state.books.selectedCreationId
-    );
-
-    const selectedCreation = useSelector(
-        (state) => state.books.bookDatabase.find((book) => book.bookId == selectedCreationId)
-    );
-    const chaptersOfSelectedCreation = useSelector(
-        (state) => state.books.chapterDatabase.filter((chapter) => chapter.bookId == selectedCreationId)
-    );
-
-    const [type, setType] = useState(selectedCreation.type);
-    const [title, setTitle] = useState(selectedCreation.title);
-    const [series, setSeries] = useState(selectedCreation.series);
-    const [genreList, setGenreList] = useState(selectedCreation.genreList);
-    const [description, setDescription] = useState(selectedCreation.description);
-
+    const handlePickingGenre = (genre) => {
+        setActive(!active)
+        if (!active) {
+            setGenreList([...genreList, genre])
+        } else {
+            setGenreList(genreList.filter(item => item != genre))
+        }
+    }
     return (
-        <View style={styles.container}>
-            <CreateStoryHeader />
-            <ScrollView bounces={false} overScrollMode="never" style={{ width: '100%' }}>
+        <TouchableOpacity style={[styles.genrePickerComponent, active && styles.gpc_activeColor, active && { width: '105%', paddingHorizontal: 22 }]}
+            activeOpacity={1}
+            onPress={() => { handlePickingGenre(genre) }}
+        >
+            <View style={[styles.gpc_decoration, active && { backgroundColor: colors.gold }]} />
+            <Text style={[styles.gpc_text, active && styles.gpc_activeColor]}>
+                {genre}
+            </Text>
+        </TouchableOpacity>
+    )
+}
 
-                <View style={[styles.ornateTextbox_2, { marginTop: 10 }]}>
-                    <Filigree4 customBottomPosition={0} customOpacity={0.12} />
+// Display functions - removed internal useState
+const cover_display = (cover, setCover) => {
+    return (
+        <View style={[styles.ornateTextbox_2, { marginTop: 10 }]}>
+            <Filigree5_Bottom customColor={colors.lightgray} />
+            <Filigree5_Top customColor={colors.lightgray} />
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={[colors.black, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.leftShadow]}
+            />
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['transparent', colors.black]}
+                style={[globalStyles.shadow, globalStyles.rightShadow]}
+            />
 
-                    <View style={styles.ot2_container}>
-                        <View style={styles.ot_pictureFrame}>
-                            <Image source={require('../assets/sunlessSkies.jpg')}
-                                style={styles.ot_coverImage}
-                            />
-                            {/* <MaterialIcons name="add" size={30} color={colors.white} /> */}
-                        </View>
+            <View style={styles.ot2_container}>
+                <View style={styles.ot_pictureFrame}>
+                    <Image source={cover}
+                        style={styles.ot_coverImage}
+                    />
+                </View>
+            </View>
+        </View>
+    )
+}
 
-                        <Text style={styles.ot_text}>
-                            Sửa Ảnh Bìa
+const storyProgressStatus_display = (storyProgressStatus, setStoryProgressStatus) => {
+    return (
+        <View style={styles.ornateTextbox}>
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={[colors.black, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.leftShadow]}
+            />
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['transparent', colors.black]}
+                style={[globalStyles.shadow, globalStyles.rightShadow]}
+            />
+            <Filigree5_Bottom customColor={colors.lightgray} />
+
+            <View style={styles.ot_container}>
+                {/* Add your story progress status UI here */}
+            </View>
+        </View>
+    )
+}
+
+const title_display = (title, setTitle) => {
+    return (
+        <View style={styles.ornateTextbox}>
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={[colors.black, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.leftShadow]}
+            />
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['transparent', colors.black]}
+                style={[globalStyles.shadow, globalStyles.rightShadow]}
+            />
+            <Filigree5_Bottom customColor={colors.lightgray} />
+
+            <View style={styles.ot_container}>
+                <View style={styles.ot_fieldContainer}>
+                    <Text style={[styles.ot_textInputLabel,
+                    (title == null || title == '') && { color: colors.gray }
+                    ]}>
+                        Tựa Đề
+                    </Text>
+                    <TextInput style={styles.ot_textInput}
+                        placeholder='Tựa Đề'
+                        placeholderTextColor={colors.lightgray}
+                        value={title}
+                        onChangeText={setTitle}
+                    />
+                </View>
+            </View>
+        </View>
+    )
+}
+
+const series_display = (series, setSeries, bookNum, setBookNum) => {
+    return (
+        <View style={styles.ornateTextbox}>
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={[colors.black, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.leftShadow]}
+            />
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['transparent', colors.black]}
+                style={[globalStyles.shadow, globalStyles.rightShadow]}
+            />
+            <Filigree5_Bottom customColor={colors.lightgray} />
+
+            <View style={styles.ot_container}>
+                <View style={{ flexDirection: 'row' }}>
+                    <View style={[styles.ot_fieldContainer, { width: '72%' }]}>
+                        <Text style={[styles.ot_textInputLabel,
+                        (series == null || series == '') && { color: colors.gray }
+                        ]}>
+                            Series
                         </Text>
+                        <TextInput style={styles.ot_textInput}
+                            placeholder='Series'
+                            placeholderTextColor={colors.lightgray}
+                            value={series}
+                            onChangeText={setSeries}
+                        />
                     </View>
-
-                    <LinearGradient
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }}
-                        colors={[colors.black, 'transparent']}
-                        style={[globalStyles.shadow, globalStyles.leftShadow]}
-                    />
-                    <LinearGradient
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }}
-                        colors={['transparent', colors.black]}
-                        style={[globalStyles.shadow, globalStyles.rightShadow]}
-                    />
-                </View>
-
-                <View style={styles.ornateTextbox}>
-                    <LinearGradient
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }}
-                        colors={[colors.black, 'transparent']}
-                        style={[globalStyles.shadow, globalStyles.leftShadow]}
-                    />
-                    <LinearGradient
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }}
-                        colors={['transparent', colors.black]}
-                        style={[globalStyles.shadow, globalStyles.rightShadow]}
-                    />
-                    <Filigree5_Bottom customColor={colors.lightgray} />
-
-                    <View style={styles.ot_container}>
-                        <View style={styles.ot_fieldContainer}>
-                            <Text style={[styles.ot_textInputLabel,
-                            (title == null || title == '') && { color: colors.gray }
-                            ]}>
-                                Tựa Đề
-                            </Text>
-                            <TextInput style={styles.ot_textInput}
-                                placeholder='Tựa Đề'
-                                placeholderTextColor={colors.lightgray}
-                                onChangeText={(text) => setTitle(text)}
-                                value={title}
-                            />
-                        </View>
-                        <View style={styles.ot_fieldContainer}>
-                            <Text style={[styles.ot_textInputLabel,
-                            (series == null || series == '') && { color: colors.gray }
-                            ]}>
-                                Series
-                            </Text>
-                            <TextInput style={styles.ot_textInput}
-                                placeholder='Series'
-                                placeholderTextColor={colors.lightgray}
-                                onChangeText={(text) => setSeries(text)}
-                                value={series}
-                            />
-                        </View>
-                        <View style={styles.ot_fieldContainer}>
-                            <Text style={[styles.ot_textInputLabel,
-                            (description == null || description == '') && { color: colors.gray }
-                            ]}>
-                                Mô Tả
-                            </Text>
-                            <TextInput style={styles.ot_textInput}
-                                placeholder='Mô Tả'
-                                placeholderTextColor={colors.lightgray}
-                                multiline={true}
-                                textAlignVertical="top"
-                                onChangeText={(text) => setDescription(text)}
-                                value={description}
-                            />
-                        </View>
+                    <View style={[styles.ot_fieldContainer, { width: '25%', marginLeft: '3%', }]}>
+                        <Text style={[styles.ot_textInputLabel,
+                        (bookNum == null || bookNum == '') && { color: colors.gray }
+                        ]}>
+                            Thứ Tự
+                        </Text>
+                        <TextInput style={styles.ot_textInput}
+                            placeholder='Thứ Tự'
+                            placeholderTextColor={colors.lightgray}
+                            value={bookNum}
+                            keyboardType="numeric"
+                            onChangeText={setBookNum}
+                        />
                     </View>
                 </View>
+            </View>
+        </View>
+    )
+}
 
-                <View style={styles.ornateTextbox}>
-                    <LinearGradient
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }}
-                        colors={[colors.black, 'transparent']}
-                        style={[globalStyles.shadow, globalStyles.leftShadow]}
-                    />
-                    <LinearGradient
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }}
-                        colors={['transparent', colors.black]}
-                        style={[globalStyles.shadow, globalStyles.rightShadow]}
-                    />
-                    <Filigree5_Bottom customColor={colors.lightgray} />
+const description_display = (description, setDescription) => {
+    return (
+        <View style={styles.ornateTextbox}>
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={[colors.black, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.leftShadow]}
+            />
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['transparent', colors.black]}
+                style={[globalStyles.shadow, globalStyles.rightShadow]}
+            />
+            <Filigree5_Bottom customColor={colors.lightgray} />
 
-                    <View style={styles.ot_container}>
-                        <View style={styles.ot_fieldContainer}>
-                            <Text style={[styles.ot_textInputLabel,
-                            (genreList != null && genreList.length == 0) && { color: colors.gray }
-                            ]}>
-                                Thể Loại
-                            </Text>
-                            <View style={styles.ot_textInput}>
-                                {
-                                    (genreList != null && genreList.length == 0) &&
-                                    <Text style={
-                                        { color: colors.lightgray, marginTop: 5 }
-                                    }>
-                                        Thể Loại
-                                    </Text>
-                                }
-                                {
-                                    genreList.map(
-                                        (genre) =>
-                                            <GenreComponent key={genre} genre={genre} />
-                                    )
-                                }
-                            </View>
-                        </View>
+            <View style={styles.ot_container}>
+                <View style={styles.ot_fieldContainer}>
+                    <Text style={[styles.ot_textInputLabel,
+                    (description == null || description == '') && { color: colors.gray }
+                    ]}>
+                        Mô Tả
+                    </Text>
+                    <TextInput style={styles.ot_textInput}
+                        placeholder='Mô Tả'
+                        placeholderTextColor={colors.lightgray}
+                        multiline={true}
+                        textAlignVertical="top"
+                        value={description}
+                        onChangeText={setDescription}
+                    />
+                </View>
+            </View>
+        </View>
+    )
+}
+
+const language_display = (language, setLanguage) => {
+    return (
+        <View style={styles.ornateTextbox}>
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={[colors.black, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.leftShadow]}
+            />
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['transparent', colors.black]}
+                style={[globalStyles.shadow, globalStyles.rightShadow]}
+            />
+            <Filigree5_Bottom customColor={colors.lightgray} />
+
+            <View style={styles.ot_container}>
+                <View style={[styles.ot_fieldContainer,
+                { marginTop: 20 }
+                ]}>
+                    <Text style={styles.ot_textInputLabel}>
+                        {language != null && 'Ngôn Ngữ'}
+                    </Text>
+                    <View style={styles.ot_textInput}>
+                        {
+                            language != null ?
+                                <Text style={{ color: colors.white, marginVertical: 2 }}>
+                                    {language}
+                                </Text>
+                                :
+                                <Text style={{ color: colors.lightgray, marginVertical: 2 }}>
+                                    Ngôn Ngữ
+                                </Text>
+                        }
                     </View>
                 </View>
-
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title}>MỤC LỤC</Text>
-                </View>
-                <View style={styles.chapterContainer}>
+                <View style={styles.genrePicker}>
                     {
-                        chaptersOfSelectedCreation != null &&
-                        chaptersOfSelectedCreation.map((chapter) =>
-                            <ChapterComponent chapter={chapter}
-                                key={chapter.chapterId}
-                                navigation={navigation}
+                        languageList.map((_language) =>
+                            <LanguagePickerComponent key={_language}
+                                language={_language}
+                                pickedLanguage={language}
+                                setLanguage={setLanguage}
                             />
                         )
                     }
                 </View>
+            </View>
+        </View>
+    )
+}
 
-                <TouchableOpacity style={{ marginVertical: 0 }}
-                    onPress={() => {
-                        dispatch(setCreateStoryScreen_Page_Mode("newChapter"))
-                        navigation.navigate("CreateStoryScreen_Page")
-                    }}
-                >
-                    <OrnateButton ButtonText={"Thêm Chương Mới"} ButtonIcon={"add"} />
-                </TouchableOpacity>
+const translator_display = (translator, setTranslator) => {
+    return (
+        <View style={styles.ornateTextbox}>
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={[colors.black, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.leftShadow]}
+            />
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['transparent', colors.black]}
+                style={[globalStyles.shadow, globalStyles.rightShadow]}
+            />
+            <Filigree5_Bottom customColor={colors.lightgray} />
 
-                <Filigree2 customPosition={60} />
-                <View style={globalStyles.bottomPadding} />
+            <View style={styles.ot_container}>
+                <View style={styles.ot_fieldContainer}>
+                    <Text style={[styles.ot_textInputLabel,
+                    (translator == null || translator == '') && { color: colors.gray }
+                    ]}>
+                        Dịch Giả
+                    </Text>
+                    <TextInput style={styles.ot_textInput}
+                        placeholder='Dịch Giả'
+                        placeholderTextColor={colors.lightgray}
+                        value={translator}
+                        onChangeText={setTranslator}
+                    />
+                </View>
+            </View>
+        </View>
+    )
+}
+
+const genreList_display = (genreList, setGenreList) => {
+    return (
+        <View style={styles.ornateTextbox}>
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={[colors.black, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.leftShadow]}
+            />
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['transparent', colors.black]}
+                style={[globalStyles.shadow, globalStyles.rightShadow]}
+            />
+            <Filigree5_Top customColor={colors.lightgray} />
+            <Filigree5_Bottom customColor={colors.lightgray} />
+
+            <View style={styles.ot_container}>
+                <View style={[styles.ot_fieldContainer,
+                { marginTop: 20 }
+                ]}>
+                    <Text style={[styles.ot_textInputLabel,
+                    { marginBottom: 5 }
+                    ]}>
+                        {genreList != null && 'Thể Loại'}
+                    </Text>
+                    <View style={styles.ot_textInput}>
+                        {
+                            genreList.length == 0 &&
+                            <Text style={{ color: colors.lightgray, marginVertical: 7 }}>
+                                Thể Loại
+                            </Text>
+                        }
+                        {
+                            genreList.map(
+                                (genre) => <GenreComponent key={genre}
+                                    genre={genre}
+                                />
+                            )
+                        }
+
+                    </View>
+                </View>
+                <View style={styles.genrePicker}>
+                    {
+                        genreDatabase.map((genre) =>
+                            <GenrePickerComponent key={genre.name} genre={genre.name}
+                                genreList={genreList}
+                                setGenreList={setGenreList}
+                            />
+                        )
+                    }
+                </View>
+            </View>
+        </View>
+    )
+}
+
+const EditStoryScreen_Detail = () => {
+    const screenMode = useSelector((state) => state.creation.editStoryScreen_Detail_Mode);
+    const selectedCreation = useSelector((state) => state.books.selectedCreation)
+
+    const [cover, setCover] = useState(selectedCreation.cover);
+    const [storyProgressStatus, setStoryProgressStatus] = useState(selectedCreation.storyProgressStatus)
+    const [title, setTitle] = useState(selectedCreation.title);
+    const [series, setSeries] = useState(selectedCreation.series);
+    const [description, setDescription] = useState(selectedCreation.description);
+    const [language, setLanguage] = useState(selectedCreation.language);
+    const [bookNum, setBookNum] = useState(selectedCreation.bookNum);
+    const [translator, setTranslator] = useState(selectedCreation.translator);
+    const [genreList, setGenreList] = useState(selectedCreation.genreList);
+
+    const propertyToChange = useMemo(() => {
+        switch (screenMode.toLowerCase()) {
+            case "trạng thái": 
+                return { name: "storyProgressStatus", value: storyProgressStatus };
+            case "ảnh bìa": 
+                return { name: "cover", value: cover };
+            case "tựa đề": 
+                return { name: "title", value: title };
+            case "series": 
+                return { name: ["series", "bookNum"], value: [series, bookNum] };
+            case "mô tả": 
+                return { name: "description", value: description };
+            case "ngôn ngữ": 
+                return { name: "language", value: language };
+            case "dịch giả": 
+                return { name: "translator", value: translator };
+            case "thể loại": 
+                return { name: "genreList", value: genreList };
+            default: 
+                console.log("unknown screen mode");
+                return null;
+        }
+    }, [screenMode, storyProgressStatus, cover, title, series, bookNum, description, language, translator, genreList]);
+
+    const screenDisplay = useMemo(() => {
+        switch (screenMode.toLowerCase()) {
+            case "trạng thái": 
+                return storyProgressStatus_display(storyProgressStatus, setStoryProgressStatus);
+            case "ảnh bìa": 
+                return cover_display(cover, setCover);
+            case "tựa đề": 
+                return title_display(title, setTitle);
+            case "series": 
+                return series_display(series, setSeries, bookNum, setBookNum);
+            case "mô tả": 
+                return description_display(description, setDescription);
+            case "ngôn ngữ": 
+                return language_display(language, setLanguage);
+            case "dịch giả": 
+                return translator_display(translator, setTranslator);
+            case "thể loại": 
+                return genreList_display(genreList, setGenreList);
+            default: 
+                console.log("unknown screen mode");
+                return null;
+        }
+    }, [screenMode, storyProgressStatus, cover, title, series, bookNum, description, language, translator, genreList]);
+
+    return (
+        <View style={styles.container}>
+            <CreateStoryHeader propertyToChange={propertyToChange} />
+            <ScrollView bounces={false} overScrollMode="never" style={{ width: '100%' }}>
+                {screenDisplay}
+                <Filigree2 customPosition={-85} />
             </ScrollView>
         </View>
     );
@@ -328,7 +575,7 @@ const styles = StyleSheet.create({
 
         width: '100%',
         height: 'auto',
-        marginVertical: 5,
+        marginVertical: 10,
 
         overflow: 'hidden',
 
@@ -343,7 +590,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
 
         paddingHorizontal: 20,
-        paddingBottom: 50,
+        paddingBottom: 40,
         width: '90%',
         height: 'auto'
     },
@@ -351,8 +598,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
 
-        width: 100,
-        height: 150,
+        width: 250,
+        height: 350,
+        marginVertical: 40,
 
         borderRadius: 4,
 
@@ -425,7 +673,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
 
         width: '100%',
-        height: 180,
+        height: 'auto',
         marginTop: 5,
         marginBottom: 5,
 
@@ -438,7 +686,7 @@ const styles = StyleSheet.create({
     },
     ot2_container: {
         flexDirection: 'row',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         alignItems: 'center',
 
         paddingHorizontal: 15,
@@ -501,7 +749,61 @@ const styles = StyleSheet.create({
         fontSize: 13,
         fontStyle: 'italic',
         color: colors.gray
+    },
+    //-------------------------------------------------------//
+    // GENRE PICKER COMPONENT
+    genrePicker: {
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+
+        width: '90%',
+        // marginBottom: 10
+    },
+
+    genrePickerComponent: {
+        flexDirection: 'row',
+        alignItems: 'center',
+
+        width: '100%',
+        padding: 15,
+        paddingHorizontal: 15,
+        marginRight: 5,
+        marginTop: 8,
+
+        borderRadius: 4,
+
+        backgroundColor: colors.gray,
+        borderColor: colors.lightgray,
+        borderWidth: 1,
+        borderLeftWidth: 3,
+        borderRightWidth: 3,
+    },
+    gpc_activeColor: {
+        color: colors.white,
+        borderColor: colors.gold,
+        backgroundColor: colors.black
+    },
+    gpc_text: {
+        color: colors.lightgray,
+        fontWeight: 'bold'
+    },
+    gpc_diamond: {
+        position: 'absolute',
+        right: -17
+    },
+    gpc_checkmark: {
+        position: 'absolute',
+        right: -25,
+        top: 5
+    },
+    gpc_decoration: {
+        height: '100%',
+        width: 6,
+        borderRadius: 4,
+        backgroundColor: colors.lightgray,
+        marginRight: 10
     }
+
 });
 
-export default EditStoryScreen;
+export default EditStoryScreen_Detail;

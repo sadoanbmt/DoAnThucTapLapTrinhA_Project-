@@ -16,6 +16,18 @@ const CreateStoryHeader = ({ type, title, series, description, bookNum }) => {
     const dispatch = useDispatch();
     return (
         <View style={styles.creationHeader}>
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={[colors.black, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.leftShadow, { height: 100 }]}
+            />
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['transparent', colors.black]}
+                style={[globalStyles.shadow, globalStyles.rightShadow, { height: 100 }]}
+            />
             <TouchableOpacity style={styles.ch_button}
                 onPress={() => navigation.goBack()}
             >

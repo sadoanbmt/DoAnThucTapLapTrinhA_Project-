@@ -11,7 +11,7 @@ const null_metaData = {
     language: null,
     translator: null,
     series: null,
-    bookNum: 1,
+    bookNum: null,
     cover: null,
     publishDate: null,
     genreList: [],
@@ -22,6 +22,7 @@ const null_metaData = {
 
 const null_chapter = {
     bookId: null,
+    chapterId: null,
     chapterNum: null,
     publishDate: null,
     lastUpdateDate: null,
@@ -39,7 +40,7 @@ const initialState = {
         language: null,
         translator: null,
         series: null,
-        bookNum: 1,
+        bookNum: null,
         cover: null,
         publishDate: null,
         genreList: [],
@@ -58,6 +59,8 @@ const initialState = {
     },
     createStoryScreen_Page_Mode: null,
     chapterToEdit: null,
+
+    editStoryScreen_Detail_Mode: null,
 };
 
 export const finalizeCreation = createAsyncThunk(
@@ -117,6 +120,7 @@ const creationSlice = createSlice({
             state.newBook_metaData.type = action.payload.type;
             state.newBook_metaData.title = action.payload.title;
             state.newBook_metaData.series = action.payload.series;
+            state.newBook_metaData.bookNum = action.payload.bookNum;
             state.newBook_metaData.description = action.payload.description;
         },
         setBookMoreDetail: (state, action) => {
@@ -196,10 +200,19 @@ const creationSlice = createSlice({
         },
         setCreateStoryScreen_Page_Mode: (state, action) => {
             state.createStoryScreen_Page_Mode = action.payload;
+
+            console.log("setCreateStoryScreen_Page_Mode success");
         },
         setChapterToEdit: (state, action) => {
             state.chapterToEdit = action.payload;
-        }
+
+            console.log("setChapterToEdit success");
+        },
+        setEditStoryScreen_Detail_Mode: (state, action) => {
+            state.editStoryScreen_Detail_Mode = action.payload;
+
+            console.log("setEditStoryScreen_Detail_Mode success");
+        },
     }
 });
 
@@ -212,6 +225,7 @@ export const {
     initUpdatedChapter,
     resetState,
     setCreateStoryScreen_Page_Mode,
-    setChapterToEdit
+    setChapterToEdit,
+    setEditStoryScreen_Detail_Mode
 } = creationSlice.actions;
 export default creationSlice.reducer;

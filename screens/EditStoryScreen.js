@@ -4,17 +4,34 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from "react-redux";
 
-import { colors, globalStyles } from './GlobalStyle';
+import { colors, globalStyles, bookCover } from './GlobalStyle';
 import { Filigree2, Filigree4, Filigree5_Bottom } from './Decorations/Filigree';
 import { OrnateButton, OrnateOption } from './Decorations/DecoButton';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
 
-import { setCreateStoryScreen_Page_Mode, setChapterToEdit } from '../slices/creationSlice';
+import { setCreateStoryScreen_Page_Mode, setChapterToEdit, setEditStoryScreen_Detail_Mode } from '../slices/creationSlice';
 
 const CreateStoryHeader = () => {
     const navigation = useNavigation();
     return (
         <View style={styles.creationHeader}>
+            {/* <LinearGradient
+                colors={[colors.gold, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.bottomShadow, { bottom: -13, height: 13, opacity: 0.2 }]}
+            /> */}
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={[colors.black, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.leftShadow, { height: 100 }]}
+            />
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['transparent', colors.black]}
+                style={[globalStyles.shadow, globalStyles.rightShadow, { height: 100 }]}
+            />
+
             <TouchableOpacity style={styles.ch_button}
                 onPress={() => navigation.navigate("CreateStoryScreen_Main")}
             >
@@ -86,7 +103,6 @@ const EditStoryScreen = () => {
     const selectedCreationId = useSelector(
         (state) => state.books.selectedCreationId
     );
-
     const selectedCreation = useSelector(
         (state) => state.books.bookDatabase.find((book) => book.bookId == selectedCreationId)
     );
@@ -94,33 +110,40 @@ const EditStoryScreen = () => {
         (state) => state.books.chapterDatabase.filter((chapter) => chapter.bookId == selectedCreationId)
     );
 
-    const [type, setType] = useState(selectedCreation.type);
-    const [title, setTitle] = useState(selectedCreation.title);
-    const [series, setSeries] = useState(selectedCreation.series);
-    const [genreList, setGenreList] = useState(selectedCreation.genreList);
-    const [description, setDescription] = useState(selectedCreation.description);
+    const [progressStatus] = useState(selectedCreation.progressStatus);
+    const [cover] = useState(selectedCreation.cover);
+    const [title] = useState(selectedCreation.title);
+    const [series] = useState(selectedCreation.series);
+    const [genreList] = useState(selectedCreation.genreList);
+    const [description] = useState(selectedCreation.description);
+    const [bookNum] = useState(selectedCreation.bookNum);
+    const [language] = useState(selectedCreation.language);
+    const [translator] = useState(selectedCreation.translator);
 
     return (
         <View style={styles.container}>
             <CreateStoryHeader />
             <ScrollView bounces={false} overScrollMode="never" style={{ width: '100%' }}>
+                <TouchableOpacity style={{ paddingVertical: 20, alignItems: 'center' }}
+                    onPress={() => {
+                        dispatch(setEditStoryScreen_Detail_Mode("Trạng Thái"))
+                        navigation.navigate("EditStoryScreen_Detail")
+                    }}
+                >
+                    <Text style={styles.title}>
+                        Trạng Thái:{" "}
+                        <Text style={progressStatus == "hoàn tất" ? { color: colors.green }
+                            : progressStatus == "đang cập nhật" ? { color: colors.yellow }
+                                : { color: colors.red }}
+                        >
+                            {progressStatus.toUpperCase()}
+                        </Text>
+                    </Text>
+                    <Filigree2 customPosition={-70} />
+                </TouchableOpacity>
 
                 <View style={[styles.ornateTextbox_2, { marginTop: 10 }]}>
                     <Filigree4 customBottomPosition={0} customOpacity={0.12} />
-
-                    <View style={styles.ot2_container}>
-                        <View style={styles.ot_pictureFrame}>
-                            <Image source={require('../assets/sunlessSkies.jpg')}
-                                style={styles.ot_coverImage}
-                            />
-                            {/* <MaterialIcons name="add" size={30} color={colors.white} /> */}
-                        </View>
-
-                        <Text style={styles.ot_text}>
-                            Sửa Ảnh Bìa
-                        </Text>
-                    </View>
-
                     <LinearGradient
                         start={{ x: 0, y: 0 }}
                         end={{ x: 1, y: 0 }}
@@ -133,6 +156,24 @@ const EditStoryScreen = () => {
                         colors={['transparent', colors.black]}
                         style={[globalStyles.shadow, globalStyles.rightShadow]}
                     />
+
+                    <TouchableOpacity style={styles.ot2_container}
+                        onPress={() => {
+                            dispatch(setEditStoryScreen_Detail_Mode("Ảnh Bìa"))
+                            navigation.navigate("EditStoryScreen_Detail")
+                        }}
+                    >
+                        <View style={styles.ot_pictureFrame}>
+                            <Image source={bookCover[cover]}
+                                style={styles.ot_coverImage}
+                            />
+                            {/* <MaterialIcons name="add" size={30} color={colors.white} /> */}
+                        </View>
+
+                        <Text style={styles.ot_text}>
+                            Sửa Ảnh Bìa
+                        </Text>
+                    </TouchableOpacity>
                 </View>
 
                 <View style={styles.ornateTextbox}>
@@ -151,7 +192,12 @@ const EditStoryScreen = () => {
                     <Filigree5_Bottom customColor={colors.lightgray} />
 
                     <View style={styles.ot_container}>
-                        <View style={styles.ot_fieldContainer}>
+                        <TouchableOpacity style={styles.ot_fieldContainer}
+                            onPress={() => {
+                                dispatch(setEditStoryScreen_Detail_Mode("Tựa Đề"))
+                                navigation.navigate("EditStoryScreen_Detail")
+                            }}
+                        >
                             <Text style={[styles.ot_textInputLabel,
                             (title == null || title == '') && { color: colors.gray }
                             ]}>
@@ -160,24 +206,50 @@ const EditStoryScreen = () => {
                             <TextInput style={styles.ot_textInput}
                                 placeholder='Tựa Đề'
                                 placeholderTextColor={colors.lightgray}
-                                onChangeText={(text) => setTitle(text)}
                                 value={title}
+                                editable={false}
                             />
-                        </View>
-                        <View style={styles.ot_fieldContainer}>
-                            <Text style={[styles.ot_textInputLabel,
-                            (series == null || series == '') && { color: colors.gray }
-                            ]}>
-                                Series
-                            </Text>
-                            <TextInput style={styles.ot_textInput}
-                                placeholder='Series'
-                                placeholderTextColor={colors.lightgray}
-                                onChangeText={(text) => setSeries(text)}
-                                value={series}
-                            />
-                        </View>
-                        <View style={styles.ot_fieldContainer}>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{ flexDirection: 'row' }}
+                            onPress={() => {
+                                dispatch(setEditStoryScreen_Detail_Mode("Series"))
+                                navigation.navigate("EditStoryScreen_Detail")
+                            }}
+                        >
+                            <View style={[styles.ot_fieldContainer, { width: '72%' }]}>
+                                <Text style={[styles.ot_textInputLabel,
+                                (series == null || series == '') && { color: colors.gray }
+                                ]}>
+                                    Series
+                                </Text>
+                                <TextInput style={styles.ot_textInput}
+                                    placeholder='Series'
+                                    placeholderTextColor={colors.lightgray}
+                                    value={series}
+                                    editable={false}
+                                />
+                            </View>
+                            <View style={[styles.ot_fieldContainer, { width: '25%', marginLeft: '3%', }]}>
+                                <Text style={[styles.ot_textInputLabel,
+                                (bookNum == null || bookNum == '') && { color: colors.gray }
+                                ]}>
+                                    Thứ Tự
+                                </Text>
+                                <TextInput style={styles.ot_textInput}
+                                    placeholder='Thứ Tự'
+                                    placeholderTextColor={colors.lightgray}
+                                    value={bookNum}
+                                    keyboardType="numeric"
+                                    editable={false}
+                                />
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.ot_fieldContainer}
+                            onPress={() => {
+                                dispatch(setEditStoryScreen_Detail_Mode("Mô Tả"))
+                                navigation.navigate("EditStoryScreen_Detail")
+                            }}
+                        >
                             <Text style={[styles.ot_textInputLabel,
                             (description == null || description == '') && { color: colors.gray }
                             ]}>
@@ -188,10 +260,69 @@ const EditStoryScreen = () => {
                                 placeholderTextColor={colors.lightgray}
                                 multiline={true}
                                 textAlignVertical="top"
-                                onChangeText={(text) => setDescription(text)}
                                 value={description}
+                                editable={false}
                             />
-                        </View>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
+                <View style={styles.ornateTextbox}>
+                    <LinearGradient
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        colors={[colors.black, 'transparent']}
+                        style={[globalStyles.shadow, globalStyles.leftShadow]}
+                    />
+                    <LinearGradient
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        colors={['transparent', colors.black]}
+                        style={[globalStyles.shadow, globalStyles.rightShadow]}
+                    />
+                    <Filigree5_Bottom customColor={colors.lightgray} />
+                    <View style={styles.ot_container}>
+                        <TouchableOpacity style={[styles.ot_fieldContainer,
+                        { marginTop: 20 }
+                        ]}
+                            onPress={() => {
+                                dispatch(setEditStoryScreen_Detail_Mode("Ngôn Ngữ"))
+                                navigation.navigate("EditStoryScreen_Detail")
+                            }}>
+                            <Text style={styles.ot_textInputLabel}>
+                                {language != null && 'Ngôn Ngữ'}
+                            </Text>
+                            <View style={styles.ot_textInput}>
+                                {
+                                    language != null ?
+                                        <Text style={{ color: colors.white, marginVertical: 2 }}>
+                                            {language}
+                                        </Text>
+                                        :
+                                        <Text style={{ color: colors.lightgray, marginVertical: 2 }}>
+                                            Ngôn Ngữ
+                                        </Text>
+                                }
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.ot_fieldContainer]}
+                            onPress={() => {
+                                dispatch(setEditStoryScreen_Detail_Mode("Dịch Giả"))
+                                navigation.navigate("EditStoryScreen_Detail")
+                            }}
+                        >
+                            <Text style={[styles.ot_textInputLabel,
+                            (translator == null || translator == '') && { color: colors.gray }
+                            ]}>
+                                Dịch Giả
+                            </Text>
+                            <TextInput style={styles.ot_textInput}
+                                placeholder='Dịch Giả (Nếu Có)'
+                                placeholderTextColor={colors.lightgray}
+                                value={translator}
+                                editable={false}
+                            />
+                        </TouchableOpacity>
                     </View>
                 </View>
 
@@ -211,7 +342,12 @@ const EditStoryScreen = () => {
                     <Filigree5_Bottom customColor={colors.lightgray} />
 
                     <View style={styles.ot_container}>
-                        <View style={styles.ot_fieldContainer}>
+                        <TouchableOpacity style={styles.ot_fieldContainer}
+                            onPress={() => {
+                                dispatch(setEditStoryScreen_Detail_Mode("Thể Loại"))
+                                navigation.navigate("EditStoryScreen_Detail")
+                            }}
+                        >
                             <Text style={[styles.ot_textInputLabel,
                             (genreList != null && genreList.length == 0) && { color: colors.gray }
                             ]}>
@@ -233,7 +369,7 @@ const EditStoryScreen = () => {
                                     )
                                 }
                             </View>
-                        </View>
+                        </TouchableOpacity>
                     </View>
                 </View>
 
@@ -294,6 +430,8 @@ const styles = StyleSheet.create({
         height: 'max-content',
 
         backgroundColor: colors.gray,
+        // borderColor: colors.gold,
+        // borderBottomWidth: 3
     },
 
     ch_button: {

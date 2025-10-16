@@ -35,14 +35,14 @@ const BookItem = ({ book, chapterListLength }) => {
                 <Text style={[styles.bi_bookTitle,
                 { fontSize: 15, color: colors.white, letterSpacing: 0 }
                 ]}
-                    numberOfLines={1}
+                    numberOfLines={2}
                     ellipsizeMode="tail"
                 >
                     Tiếp tục soạn
                 </Text>
 
                 <Text style={styles.bi_bookTitle}
-                    numberOfLines={1}
+                    numberOfLines={2}
                     ellipsizeMode="tail"
                 >
                     {book.title}
@@ -106,7 +106,7 @@ const CreateStoryScreen_Main = () => {
                 </TouchableOpacity>
 
                 {
-                    userCreationIdList.length != 0 &&
+                    selectedCreation != null &&
                     <TouchableOpacity style={{ marginTop: 5 }}
                         onPress={() => {
                             dispatch(setUserCreation(selectedCreation.bookId))
@@ -129,7 +129,7 @@ const CreateStoryScreen_Main = () => {
                 {/* <View style={globalStyles.bottomPadding} /> */}
             </ScrollView>
             <FooterMain currentScreen={2} />
-        </View>
+        </View >
     );
 };
 

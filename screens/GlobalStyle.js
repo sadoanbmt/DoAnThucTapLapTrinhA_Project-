@@ -37,6 +37,9 @@ export const colors = {
   white: '#ecececff',
 
   gold: '#f6c144ff',
+  green: '#7eaa72ff',
+  yellow: "#e2d34fff",
+  red: "#d34f43ff"
 }
 
 export const globalStyles = StyleSheet.create({

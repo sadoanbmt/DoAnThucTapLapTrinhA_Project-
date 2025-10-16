@@ -533,13 +533,13 @@ const styles = StyleSheet.create({
         letterSpacing: 1.2
     },
     bd_progressStatusText_Complete: {
-        color: "#7eaa72ff"
+        color: colors.green
     },
     bd_progressStatusText_OnGoing: {
-        color: "#c2bd58ff"
+        color: colors.yellow
     },
     bd_progressStatusText_Abandoned: {
-        color: "#d34f43ff"
+        color: colors.red
     },
     bd_genresContainer: {
         alignItems: 'center',

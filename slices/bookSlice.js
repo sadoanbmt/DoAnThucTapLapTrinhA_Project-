@@ -119,6 +119,55 @@ const bookSlice = createSlice({
                 }
             });
         },
+        updateSelectedBook: (state, action) => {
+            const propertyToChange = action.payload;
+
+            // Handle case where propertyToChange is null or undefined
+            if (!propertyToChange) {
+                console.log("No property to change provided");
+                return;
+            }
+
+            console.log("propertyToChange", propertyToChange);
+
+            // Handle multiple properties (like for "series" case)
+            if (Array.isArray(propertyToChange.name)) {
+                // For cases like ["series", "bookNum"]
+                propertyToChange.name.forEach((propertyName, index) => {
+                    if (state.selectedCreation.hasOwnProperty(propertyName)) {
+                        console.log(`Updating ${propertyName} from`, state.selectedCreation[propertyName], "to", propertyToChange.value[index]);
+                        state.selectedCreation[propertyName] = propertyToChange.value[index];
+
+                    } else {
+                        console.warn(`Property ${propertyName} does not exist in selectedCreation`);
+                    }
+                });
+                state.bookDatabase.forEach((book, index) => {
+                    if (book.bookId == state.selectedCreation.bookId) {
+                        state.bookDatabase[index] = state.selectedCreation;
+                        return;
+                    }
+                });
+            }
+            // Handle single property
+            else if (typeof propertyToChange.name === 'string') {
+                if (state.selectedCreation.hasOwnProperty(propertyToChange.name)) {
+                    console.log(`Updating ${propertyToChange.name} from`, state.selectedCreation[propertyToChange.name], "to", propertyToChange.value);
+                    state.selectedCreation[propertyToChange.name] = propertyToChange.value;
+                    state.bookDatabase.forEach((book, index) => {
+                        if (book.bookId == state.selectedCreation.bookId) {
+                            state.bookDatabase[index] = state.selectedCreation;
+                            return;
+                        }
+                    });
+                } else {
+                    console.warn(`Property ${propertyToChange.name} does not exist in selectedCreation`);
+                }
+            }
+            else {
+                console.warn("Invalid propertyToChange format:", propertyToChange);
+            }
+        },
 
         //--------------------------------------------------------------//
 
@@ -144,6 +193,7 @@ export const {
     addNewBook,
     addNewChapter,
     updateChapter,
+    updateSelectedBook,
     setUserCreation
 } = bookSlice.actions;
 export default bookSlice.reducer;

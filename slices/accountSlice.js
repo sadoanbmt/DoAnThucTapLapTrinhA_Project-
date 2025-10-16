@@ -13,7 +13,7 @@ const initialState = {
   chaptersOfCurrentBook: null,
   currentChaper: null,
 
-  creationIdList: [],
+  creationIdList: [16],
 
   user: null,
   loading: false,
@@ -134,8 +134,13 @@ export const forgotPassword = createAsyncThunk(
 const accountSlice = createSlice({
   name: "account",
   initialState,
-  reducers: {},
+  reducers: {
+    addNewCreationId: (state, action) => {
+      const newBookId = action.payload;
+      state.creationIdList = [newBookId, ...state.creationIdList];
+    }
+  },
 });
 
-export const { } = accountSlice.actions;
+export const { addNewCreationId } = accountSlice.actions;
 export default accountSlice.reducer;
