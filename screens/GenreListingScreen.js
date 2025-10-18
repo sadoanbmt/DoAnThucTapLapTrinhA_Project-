@@ -42,9 +42,8 @@ const GenreItem = ({ navigation, genre, bookDatabase }) => {
 
     const bookWithTheGenre = bookDatabase.filter(book => book.genreList.includes(genre.name));
     const bookCount = bookWithTheGenre.length;
-    const authorWithTheGenre = new Set(bookWithTheGenre.map(book => book.author));
-    const authorCount = authorWithTheGenre.size;
-    const viewCount = bookWithTheGenre.reduce((sum, book) => sum + book.totalView, 0);
+    const authorCount = new Set(bookWithTheGenre.map(book => book.author)).size;
+    const readCount = bookWithTheGenre.reduce((sum, book) => sum + book.readCount, 0);
 
     if (bookCount <= 0) return null;
 
@@ -80,7 +79,7 @@ const GenreItem = ({ navigation, genre, bookDatabase }) => {
                 </View>
                 <View style={styles.gi_divLine} />
                 <View style={styles.gi_stat}>
-                    <Text style={styles.gi_statNum}>{formatCompactNumber(viewCount)}</Text>
+                    <Text style={styles.gi_statNum}>{formatCompactNumber(readCount)}</Text>
                     <Text style={styles.gi_statText}>Đọc Giả</Text>
                 </View>
             </View>
@@ -102,10 +101,8 @@ const formatCompactNumber = (number) => {
     return number.toString();
 };
 
-const GenreListingScreen = ({ navigation }) => {
-    const bookDatabase = useSelector((state) => state.books.bookDatabase);
+const GenreListingScreen = ({ }) => {
     const genreList = require('../assets/_genreDatabase.json');
-
     return (
         <View style={styles.container}>
             <HeaderMain />

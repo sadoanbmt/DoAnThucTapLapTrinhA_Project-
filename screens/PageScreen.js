@@ -14,7 +14,7 @@ const Header = ({ showChapterPicker, setShowChapterPicker }) => {
   const [right_isVisible, setRightIsVisible] = useState(false);
 
   const currentChapter = useSelector((state) => state.books.currentChapter)
-  const currentChapterTitle = useSelector((state) => state.books.currentBook.chapterList[currentChapter]);
+  const chaptersOfSelectedBook = useSelector((state) => state.books.chaptersOfSelectedBook);
 
   return (
     <View>
@@ -36,8 +36,8 @@ const Header = ({ showChapterPicker, setShowChapterPicker }) => {
             ellipsizeMode="tail"
           >
             Chương {currentChapter + 1}
-            {currentChapterTitle != null && ': '}
-            {currentChapterTitle}
+            {chaptersOfSelectedBook[currentChapter].chapterTitle != null && ': '}
+            {chaptersOfSelectedBook[currentChapter].chapterTitle}
           </Text>
         </TouchableOpacity>
 
@@ -110,9 +110,10 @@ const SideTabRight = ({ setRightIsVisible }) => {
 }
 
 const PageDisplay = ({ setShowChapterPicker, showChapterPicker }) => {
-  const currentChapter = useSelector((state) => state.books.currentChapter)
-  const currentChapterText = useSelector((state) => state.books.currentBook.chapterContent[currentChapter])
-
+  const chaptersOfSelectedBook = useSelector((state) => state.books.chaptersOfSelectedBook)
+  const currentChapter = useSelector((state)=> state.books.currentChapter)
+  
+  const currentChapterText = chaptersOfSelectedBook[currentChapter].chapterContent
   return (
     <View style={styles.p_container}>
       <LinearGradient
@@ -144,8 +145,8 @@ const PageDisplay = ({ setShowChapterPicker, showChapterPicker }) => {
 const ChapterPicker = ({ setShowChapterPicker }) => {
   const dispatch = useDispatch();
   const currentChapter = useSelector((state) => state.books.currentChapter);
-  const chapterList = useSelector((state) => state.books.currentBook.chapterList);
-
+  const chaptersOfSelectedBook = useSelector((state) => state.books.chaptersOfSelectedBook)
+  
   const ChapterComponent = ({ index, chapter }) => {
     return (
       <TouchableOpacity style={styles.cc_container}
@@ -157,8 +158,8 @@ const ChapterPicker = ({ setShowChapterPicker }) => {
         <View style={[styles.cc_decoration, currentChapter == index && styles.cc_decoration_active]} />
         <Text style={[styles.cc_text, currentChapter == index && styles.cc_text_active]}>
           Chương {index + 1}
-          {chapter != null && ": "}
-          {chapter}
+          {chapter.chapterTitle != null && ": "}
+          {chapter.chapterTitle}
         </Text>
       </TouchableOpacity>
     )
@@ -169,7 +170,7 @@ const ChapterPicker = ({ setShowChapterPicker }) => {
       <ScrollView
         style={{ width: '100%' }}>
         {
-          chapterList.map((chapter, index) => (
+          chaptersOfSelectedBook.map((chapter, index) => (
             <ChapterComponent
               index={index}
               chapter={chapter}
@@ -263,6 +264,7 @@ const styles = StyleSheet.create({
 
     marginVertical: 15,
     padding: 20,
+    paddingHorizontal: 25,
     paddingBottom: 100
   },
 

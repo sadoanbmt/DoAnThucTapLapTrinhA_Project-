@@ -23,6 +23,8 @@ const AccountScreen = () => {
 
     const listOfBooks = createRandomList(bookDatabase, 10);
 
+    const navigation = useNavigation();
+    
     return (
         <View style={styles.container}>
             <HeaderMain />
@@ -33,10 +35,31 @@ const AccountScreen = () => {
                     <Filigree9 />
                 </View>
 
+                {/* avt */}
+                <View style={styles.avatarWrapper}>
+                    <View style={styles.avatarContainer}>
+                        <Image
+                            source={{ uri: 'https://www.cnet.com/a/img/resize/e58477ebf3a1bb812b68953ea2bf6c5cdc93e825/hub/2019/07/08/631653cd-fb27-476a-bb76-1e8f8b70b87e/troller-t4-trail-1.jpg?auto=webp&width=1200' }}
+                            style={styles.avatar}
+                        />
+                    </View>
+                </View>
+
+
+
                 <View style={styles.ornateTextbox_white}>
                     <View>
 
-                        {/* làm việc trong đây*/}
+                        {/* tên hiển thị dưới avt*/}
+                        <Text style={styles.username}>Alt Schwift X
+                            <Text style={styles.iconWrapper}>
+                                <Image
+                                    source={require('../assets/edit.png')}
+                                    style={styles.edit}
+                                />
+                            </Text>
+                        </Text>
+                        <Text style={styles.userSubtitle}>Đoàn Thị Nguyên Sa</Text>
 
                     </View>
                     <Filigree5_Bottom />
@@ -45,7 +68,29 @@ const AccountScreen = () => {
                     />
                 </View>
 
-                <BookList bookType="Hello world" listOfBooks={listOfBooks} customDestination={"LibraryListingScreen"} />
+                {/* style listbook */}
+                <View style={styles.bookListWrapper}>
+                    <BookList bookType="SÁNG TÁC CỦA BẠN" listOfBooks={listOfBooks} customDestination={"LibraryListingScreen"} />
+                </View>
+
+                <View style={styles.buttonContainer}>
+                    {/* <TouchableOpacity style={styles.optionButton}>
+                        <Text style={styles.optionText}>+ Sửa Thông Tin Tài Khoản</Text>
+                    </TouchableOpacity> */}
+
+                    <TouchableOpacity
+                        style={styles.optionButton}
+                        onPress={() => navigation.navigate('AccountEdit')}
+                    >
+                        <Text style={styles.optionText}>+ Sửa Thông Tin Tài Khoản</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.optionButton}>
+                        <Text style={styles.optionText}>+ Đăng Xuất</Text>
+                    </TouchableOpacity>
+                </View>
+
+                {/* <BookList bookType="SÁNG TÁC CỦA BẠN" listOfBooks={listOfBooks} customDestination={"LibraryListingScreen"} /> */}
             </ScrollView>
             <FooterMain currentScreen={4} />
         </View>
@@ -74,6 +119,85 @@ const styles = StyleSheet.create({
         borderTopWidth: 3,
         borderBottomWidth: 2,
         backgroundColor: colors.white,
+
+        // canh chỉnh tên hiển thị
+        alignSelf: 'center',
+        alignItems: 'center',
+        paddingVertical: 20,
+    },
+
+
+    // phần bổ sung
+
+    avatarWrapper: {
+        alignItems: 'center',
+        marginTop: -400, // cách 5px so với "TÀI KHOẢN"
+        marginBottom: -15, // cách 5px với phần text box trắng
+    },
+
+    avatar: {
+        width: 135,        // tăng kích thước
+        height: 135,       // tăng kích thước
+        borderRadius: 70,  // bán kính = 1/2 để giữ hình tròn
+        borderWidth: 2,
+        borderColor: '#FFD700',
+        backgroundColor: '#000',
+        resizeMode: 'cover',
+    },
+
+    iconWrapper: {
+        paddingLeft: 10,
+    },
+
+    edit: {
+        width: 15,
+        height: 15,
+    },
+
+    username: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#000',
+    },
+
+    userSubtitle: {
+        fontSize: 14,
+        color: '#555',
+        marginTop: 3,
+    },
+
+    bookListWrapper: {
+        position: 'relative',
+        zIndex: 5,
+    },
+
+    buttonContainer: {
+        width: '100%',
+        alignSelf: 'center',
+        marginTop: 20,
+        marginBottom: 60, // chừa khoảng phía footer
+        position: 'relative',
+        zIndex: 10, // đảm bảo hiển thị trên nền và trước footer
+    },
+
+    optionButton: {
+        width: '100%',
+        paddingVertical: 14,
+        alignItems: 'center',
+        justifyContent: 'center',
+
+        borderTopWidth: 1,
+        borderBottomWidth: 1,
+        borderColor: colors.white,
+
+        backgroundColor: 'transparent',
+        marginVertical: 4,
+    },
+
+    optionText: {
+        color: colors.white,
+        fontSize: 15,
+        fontWeight: '500',
     },
 });
 

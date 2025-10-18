@@ -8,33 +8,26 @@ import { colors, globalStyles } from './GlobalStyle';
 import { Filigree2, Filigree4, Filigree5_Bottom, Filigree5_Top, Filigree8_BottomLeft, Filigree8_BottomRight, Filigree8_TopLeft, Filigree8_TopRight, Filigree9 } from './Decorations/Filigree';
 import { OrnateButton, OrnateOption } from './Decorations/DecoButton';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
+import { setUserCreation } from '../slices/bookSlice';
 
-const _presetCreation = {
-    "type": "sách chữ",
-    "title": "Sunless Skies",
-    "author": "Võ Văn Việt",
-    "series": "A Song of the Skies",
-    "bookNum": 1,
-    "cover": require("../assets/sunlessSkies.jpg"),
-    "publishDate": "1996-08-06",
-    "genreList": [
-        "Kỳ ảo",
-        "Chính trị",
-        "Viễn tưởng"
-    ],
-    "totalPage": 694,
-    "totalView": 0,
-    "totalLike": 0,
-    "totalChapter": 1,
-    "description": "Năm 1970, Việt Nam bị bắt cóc và mang lên bầu trời bởi một con Cua. Kể từ đó người Việt bắt đầu thích nghi và khám phá một thế giới mới trên bầu trời. Nhân vật chính là một thuyền trưởng và thuyền của ông là một đầu máy xe lửa. Công việc của ông là giao hàng tới giữa các thuộc địa trên bầu trời, tham vọng của ông là phiêu lưu và chứng kiến mọi cái đẹp và cái đáng sợ của một thế giới mới.",
-    "chapterList": [],
-    "chapterContent": []
-}
 
 const CreateStoryHeader = () => {
     const navigation = useNavigation();
     return (
         <View style={styles.creationHeader}>
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={[colors.black, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.leftShadow, { height: 100 }]}
+            />
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['transparent', colors.black]}
+                style={[globalStyles.shadow, globalStyles.rightShadow, { height: 100 }]}
+            />
+            
             <TouchableOpacity style={styles.csh_button}
                 onPress={() => navigation.goBack()}
             >
@@ -61,9 +54,23 @@ const CreateStoryHeader = () => {
     )
 }
 
-const BookItem_Wide = ({ navigation, book }) => {
+
+const BookItem = ({ navigation, bookId }) => {
+    const dispatch = useDispatch();
+    const book = useSelector(
+        (state) => state.books.bookDatabase.find((book) => book.bookId == bookId)
+    )
+    const chapterListLength = useSelector(
+        (state) => state.books.chapterDatabase.filter((chapter) => chapter.bookId == bookId)
+    ).length;
+
     return (
-        <View style={styles.bi_container}>
+        <TouchableOpacity style={styles.bi_container}
+            onPress={() => {
+                dispatch(setUserCreation(bookId))
+                navigation.navigate("EditStoryScreen")
+            }}
+        >
             <Filigree4
                 customBottomPosition={-5}
                 customLeftPosition={-35}
@@ -71,7 +78,7 @@ const BookItem_Wide = ({ navigation, book }) => {
             />
             <LinearGradient
                 colors={[colors.black, 'transparent']}
-                style={[globalStyles.shadow, globalStyles.topShadow, { opacity: 0.2 }]}
+                style={[globalStyles.shadow, globalStyles.topShadow, { opacity: 0.3, }]}
             />
 
             <View style={styles.bi_bookCover}
@@ -93,58 +100,64 @@ const BookItem_Wide = ({ navigation, book }) => {
                 </Text>
 
                 <Text style={styles.bi_bookTitle}
-                    numberOfLines={1}
+                    numberOfLines={2}
                     ellipsizeMode="tail"
                 >
                     {book.title}
                 </Text>
 
-                <View style={[styles.bi_row, { marginTop: 0 }]}>
+                <View style={[styles.bi_row]}>
                     <View style={{ padding: 5, paddingHorizontal: 15, borderRadius: 4, backgroundColor: colors.gold }}>
-                        <Text style={[{ fontWeight: 'bold', color: colors.black, letterSpacing: 0 }]}>Chương 2</Text>
+                        <Text style={{ color: colors.black, letterSpacing: 0, fontWeight: 'bold' }}>
+                            {chapterListLength} Chương
+                        </Text>
                     </View>
-                    <View style={{ marginLeft: 10 }}>
+                    {/* <View style={{ marginLeft: 10 }}>
                         <Text style={{ color: colors.lightgray, letterSpacing: 0, fontWeight: 'normal', fontSize: 15 }}>5 Bản nháp</Text>
-                    </View>
+                    </View> */}
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 
+
 const CreationListingScreen = () => {
     const navigation = useNavigation();
+    const creationIdList = useSelector((state) => state.account.creationIdList);
+
     return (
         <View style={styles.container}>
             <CreateStoryHeader />
             <ScrollView bounces={false} overScrollMode="never" style={{ width: '100%' }}>
                 {/* <ScreenTitle title={"ĐĂNG TRUYỆN"} icon={"edit-note"} /> */}
 
-                <View style={{ marginTop: 15 }}>
-                    <TouchableOpacity style={styles.currentCreationContainer}
-                        onPress={() => navigation.navigate("EditStoryScreen")}
-                    >
-                        <BookItem_Wide navigation={navigation} book={_presetCreation} />
-                    </TouchableOpacity>
+                <View style={{ marginTop: 15, width: '100%', alignItems: 'center' }}>
+                    {
+                        creationIdList.length == 0
+                            ?
+                            <Text style={{ marginVertical: 15, color: colors.lightgray, fontStyle: 'italic' }}>
+                                Bạn chưa có tác phẩm nào...
+                            </Text>
+                            :
+                            creationIdList.map((id) =>
+                                <BookItem navigation={navigation} bookId={id} key={id} />
+                            )
+                    }
 
-                    <TouchableOpacity style={styles.currentCreationContainer}
-                        onPress={() => navigation.navigate("EditStoryScreen")}
-                    >
-                        <BookItem_Wide navigation={navigation} book={_presetCreation} />
-                    </TouchableOpacity>
                 </View>
 
                 <TouchableOpacity style={{ marginTop: 5 }}
                     onPress={() => {
-                        navigation.navigate("CreateStoryScreen_2")
+                        navigation.navigate("CreateStoryScreen_Detail")
                     }}
                 >
                     <OrnateButton ButtonText={"Sáng Tác Truyện"} ButtonIcon={"edit-note"} />
                 </TouchableOpacity>
                 <Filigree2 customPosition={60} />
                 <View style={globalStyles.bottomPadding} />
-            </ScrollView>
-        </View>
+            </ScrollView >
+        </View >
     );
 };
 

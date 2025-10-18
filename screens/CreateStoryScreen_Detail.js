@@ -4,15 +4,30 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from "react-redux";
 
+import { setBookDetail } from '../slices/creationSlice';
+
 import { colors, globalStyles } from './GlobalStyle';
 import { Filigree2, Filigree4, Filigree5_Bottom } from './Decorations/Filigree';
 import { OrnateOption } from './Decorations/DecoButton';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
 
-const CreateStoryHeader = () => {
+const CreateStoryHeader = ({ type, title, series, description, bookNum }) => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
     return (
         <View style={styles.creationHeader}>
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={[colors.black, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.leftShadow, { height: 100 }]}
+            />
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['transparent', colors.black]}
+                style={[globalStyles.shadow, globalStyles.rightShadow, { height: 100 }]}
+            />
             <TouchableOpacity style={styles.ch_button}
                 onPress={() => navigation.goBack()}
             >
@@ -26,7 +41,18 @@ const CreateStoryHeader = () => {
             </View>
 
             <TouchableOpacity style={styles.ch_button}
-                onPress={() => navigation.navigate("CreateStoryScreen_MoreDetail")}
+                onPress={() => {
+                    dispatch(setBookDetail(
+                        {
+                            type: type,
+                            title: title,
+                            series: series,
+                            description: description,
+                            bookNum: bookNum
+                        }
+                    ))
+                    navigation.navigate("CreateStoryScreen_MoreDetail")
+                }}
             >
                 <Text style={[styles.ch_buttonText, { fontWeight: 'normal' }]}>
                     Tiếp
@@ -35,24 +61,31 @@ const CreateStoryHeader = () => {
 
             <LinearGradient
                 colors={[colors.black, 'transparent']}
-                style={[globalStyles.shadow, globalStyles.bottomShadow, { bottom: -13, height: 13, opacity: 0.4 }]}
+                style={[globalStyles.shadow, globalStyles.bottomShadow,
+                { bottom: -13, height: 13, opacity: 0.4 }
+                ]}
             />
         </View>
     )
 }
 
 const CreateStoryScreen_Detail = () => {
-
-    const [storyType, setStoryType] = useState(0);
+    const [type, setType] = useState("truyện tranh");
     const [title, setTitle] = useState(null);
     const [series, setSeries] = useState(null);
+    const [bookNum, setBookNum] = useState(0);
     const [description, setDescription] = useState(null);
 
     return (
         <View style={styles.container}>
-            <CreateStoryHeader />
+            <CreateStoryHeader
+                type={type}
+                title={title}
+                series={series}
+                description={description}
+                bookNum={bookNum}
+            />
             <ScrollView bounces={false} overScrollMode="never" style={{ width: '100%' }}>
-
                 <View style={styles.ornateTextbox_2}>
                     <Filigree4 customBottomPosition={0} customOpacity={0.12} />
 
@@ -81,6 +114,23 @@ const CreateStoryScreen_Detail = () => {
 
                 </View>
 
+                <View style={{ marginBottom: 10, marginTop: 5 }}>
+                    <TouchableOpacity style={{ zIndex: 2 }} activeOpacity={0.9}
+                        onPress={() => {
+                            setType("truyện tranh")
+                        }}
+                    >
+                        <OrnateOption ButtonText="Truyện Tranh" Active={type == "truyện tranh"} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ zIndex: 1 }} activeOpacity={0.9}
+                        onPress={() => {
+                            setType("sách chữ")
+                        }}
+                    >
+                        <OrnateOption ButtonText="Sách Chữ" Active={type == "sách chữ"} />
+                    </TouchableOpacity>
+                </View>
+
                 <View style={styles.ornateTextbox}>
                     <LinearGradient
                         start={{ x: 0, y: 0 }}
@@ -98,7 +148,11 @@ const CreateStoryScreen_Detail = () => {
 
                     <View style={styles.ot_container}>
                         <View style={styles.ot_fieldContainer}>
-                            <Text style={[styles.ot_textInputLabel, (title == null || title == '') && { color: colors.gray }]}>Tựa Đề</Text>
+                            <Text style={[styles.ot_textInputLabel,
+                            (title == null || title == '') && { color: colors.gray }
+                            ]}>
+                                Tựa Đề
+                            </Text>
                             <TextInput style={styles.ot_textInput}
                                 placeholder='Tựa Đề'
                                 placeholderTextColor={colors.lightgray}
@@ -106,17 +160,43 @@ const CreateStoryScreen_Detail = () => {
                                 value={title}
                             />
                         </View>
-                        <View style={styles.ot_fieldContainer}>
-                            <Text style={[styles.ot_textInputLabel, (series == null || series == '') && { color: colors.gray }]}>Series</Text>
-                            <TextInput style={styles.ot_textInput}
-                                placeholder='Series'
-                                placeholderTextColor={colors.lightgray}
-                                onChangeText={(text) => setSeries(text)}
-                                value={series}
-                            />
+
+                        <View style={{ flexDirection: 'row' }}>
+                            <View style={[styles.ot_fieldContainer, { width: '72%' }]}>
+                                <Text style={[styles.ot_textInputLabel,
+                                (series == null || series == '') && { color: colors.gray }
+                                ]}>
+                                    Series
+                                </Text>
+                                <TextInput style={styles.ot_textInput}
+                                    placeholder='Series'
+                                    placeholderTextColor={colors.lightgray}
+                                    onChangeText={(text) => setSeries(text)}
+                                    value={series}
+                                />
+                            </View>
+                            <View style={[styles.ot_fieldContainer, { width: '25%', marginLeft: '3%', }]}>
+                                <Text style={[styles.ot_textInputLabel,
+                                (bookNum == null || bookNum == '') && { color: colors.gray }
+                                ]}>
+                                    Thứ Tự
+                                </Text>
+                                <TextInput style={styles.ot_textInput}
+                                    placeholder='Thứ Tự'
+                                    placeholderTextColor={colors.lightgray}
+                                    onChangeText={(text) => setBookNum(text)}
+                                    value={bookNum}
+                                    keyboardType="numeric"
+                                />
+                            </View>
                         </View>
+
                         <View style={styles.ot_fieldContainer}>
-                            <Text style={[styles.ot_textInputLabel, (description == null || description == '') && { color: colors.gray }]}>Mô Tả</Text>
+                            <Text style={[styles.ot_textInputLabel,
+                            (description == null || description == '') && { color: colors.gray }
+                            ]}>
+                                Mô Tả
+                            </Text>
                             <TextInput style={styles.ot_textInput}
                                 placeholder='Mô Tả'
                                 placeholderTextColor={colors.lightgray}
@@ -128,24 +208,7 @@ const CreateStoryScreen_Detail = () => {
                         </View>
                     </View>
                 </View>
-
-                <View style={{ marginTop: 5 }}>
-                    <TouchableOpacity style={{ zIndex: 2 }} activeOpacity={0.9}
-                        onPress={() => {
-                            setStoryType(0)
-                        }}
-                    >
-                        <OrnateOption ButtonText="Truyện Tranh" Active={storyType == 0} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{ zIndex: 1 }} activeOpacity={0.9}
-                        onPress={() => {
-                            setStoryType(1)
-                        }}
-                    >
-                        <OrnateOption ButtonText="Sách Chữ" Active={storyType == 1} />
-                    </TouchableOpacity>
-                </View>
-                <Filigree2 />
+                <Filigree2 customPosition={-90} />
                 {/* <View style={globalStyles.bottomPadding} /> */}
             </ScrollView>
         </View>

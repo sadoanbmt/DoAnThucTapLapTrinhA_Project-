@@ -14,6 +14,7 @@ import LibraryScreen from './screens/LibraryScreen';
 import LibraryListingScreen from './screens/LibraryListingScreen';
 import CreationListingScreen from './screens/CreationListingScreen';
 import EditStoryScreen from './screens/EditStoryScreen';
+import EditStoryScreen_Detail from './screens/EditStoryScreen_Detail';
 import CreateStoryScreen_Main from './screens/CreateStoryScreen_Main';
 import CreateStoryScreen_Detail from './screens/CreateStoryScreen_Detail';
 import CreateStoryScreen_MoreDetail from './screens/CreateStoryScreen_MoreDetail';
@@ -49,8 +50,12 @@ export default function App() {
           <Stack.Screen name="CreateStoryScreen_Detail" component={CreateStoryScreen_Detail} options={{ title: 'CreateStoryScreen_Detail' }} />
           <Stack.Screen name="CreateStoryScreen_MoreDetail" component={CreateStoryScreen_MoreDetail} options={{ title: 'CreateStoryScreen_MoreDetail' }} />
           <Stack.Screen name="CreateStoryScreen_Page" component={CreateStoryScreen_Page} options={{ title: 'CreateStoryScreen_Page' }} />
+          
           <Stack.Screen name="CreationListingScreen" component={CreationListingScreen} options={{ title: 'CreationListingScreen' }} />
+          
           <Stack.Screen name="EditStoryScreen" component={EditStoryScreen} options={{ title: 'EditStoryScreen' }} />
+          <Stack.Screen name="EditStoryScreen_Detail" component={EditStoryScreen_Detail} options={{ title: 'EditStoryScreen_Detail' }} />
+
 
           <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ title: 'LoginScreen' }} />
           <Stack.Screen name="AccountScreen" component={AccountScreen} options={{ title: 'AccountScreen' }} />

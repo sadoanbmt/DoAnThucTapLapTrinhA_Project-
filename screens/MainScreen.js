@@ -94,8 +94,8 @@ const MainScreen = ({ navigation }) => {
   const currentBook = useSelector((state) => state.books.selectedBook);
 
   const catalogueList = createRandomList(bookDatabase, 10);
-  const listOfBooks = createRandomList(bookDatabase, 10);
-  const listOfComics = createRandomList(bookDatabase, 10);
+  const listOfBooks = createRandomList(bookDatabase.filter(book => book.type == "sách chữ"), 10);
+  const listOfComics = createRandomList(bookDatabase.filter(book => book.type == "truyện tranh"), 10);
 
   return (
     <View style={styles.container}>
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
 
     backgroundColor: colors.gray,
-    opacity: 0.2,
+    opacity: 0.12,
   },
   c_bookImg: {
     width: "100%",

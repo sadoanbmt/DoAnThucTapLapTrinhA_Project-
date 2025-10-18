@@ -1,19 +1,33 @@
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from "react-redux";
+import { setBookMoreDetail, setCreateStoryScreen_Page_Mode } from '../slices/creationSlice';
 
 import { colors, globalStyles } from './GlobalStyle';
 import { Filigree2, Filigree4, Filigree5_Bottom, Filigree5_Top } from './Decorations/Filigree';
 import { OrnateButton, OrnateOption } from './Decorations/DecoButton';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
-import { Svg, Rect, Path } from 'react-native-svg';
 
-const CreateStoryHeader = () => {
+const CreateStoryHeader = ({ author, genreList, language, translator }) => {
+    const dispatch = useDispatch();
     const navigation = useNavigation();
     return (
         <View style={styles.creationHeader}>
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={[colors.black, 'transparent']}
+                style={[globalStyles.shadow, globalStyles.leftShadow, { height: 100 }]}
+            />
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['transparent', colors.black]}
+                style={[globalStyles.shadow, globalStyles.rightShadow, { height: 100 }]}
+            />
+
             <TouchableOpacity style={styles.ch_button}
                 onPress={() => navigation.goBack()}
             >
@@ -27,7 +41,18 @@ const CreateStoryHeader = () => {
             </View>
 
             <TouchableOpacity style={styles.ch_button}
-                onPress={() => navigation.navigate("CreateStoryScreen_Page")}
+                onPress={() => {
+                    dispatch(setBookMoreDetail(
+                        {
+                            author: author,
+                            genreList: genreList,
+                            language: language,
+                            translator: translator
+                        }
+                    ))
+                    dispatch(setCreateStoryScreen_Page_Mode("newBook"))
+                    navigation.navigate("CreateStoryScreen_Page")
+                }}
             >
                 <Text style={[styles.ch_buttonText, { fontWeight: 'normal' }]}>
                     Tiếp
@@ -53,7 +78,7 @@ const GenreComponent = ({ genre }) => {
 }
 
 const GenrePickerComponent = ({ genre, setGenreList, genreList }) => {
-    const [active, setActive] = useState(false);
+    const [active, setActive] = useState(genreList.includes(genre));
 
     const handlePickingGenre = (genre) => {
         setActive(!active)
@@ -94,21 +119,58 @@ const GenrePickerComponent = ({ genre, setGenreList, genreList }) => {
     )
 }
 
+const LanguagePickerComponent = ({ pickedLanguage, language, setLanguage, setOpenLanguageList }) => {
+    const active = pickedLanguage == language;
+    return (
+        <TouchableOpacity style={[styles.genrePickerComponent, active && styles.gpc_activeColor, active && { width: '105%', paddingHorizontal: 22 }]}
+            activeOpacity={1}
+            onPress={() => {
+                setOpenLanguageList(false)
+                setLanguage(language)
+            }}
+        >
+            <View style={[styles.gpc_decoration, active && { backgroundColor: colors.gold }]} />
+            <Text style={[styles.gpc_text, active && styles.gpc_activeColor]}>
+                {language}
+            </Text>
+        </TouchableOpacity>
+    )
+}
+
 const CreateStoryScreen_MoreDetail = () => {
+    const username = useSelector((state) => state.account.username);
+
     const [authorIsAccount, setAuthorIsAccount] = useState(true);
-    const [author, setAuthor] = useState(null);
+    const [author, setAuthor] = useState(username);
+
     const [genreList, setGenreList] = useState([]);
-    const [openGenreList, setOpenGenreList] = useState(true);
+    const [openGenreList, setOpenGenreList] = useState(false);
+
+    const [language, setLanguage] = useState(null);
+    const [openLanguageList, setOpenLanguageList] = useState(false);
+
+    const [translator, setTranslator] = useState(null);
 
     const genreDatabase = require('../assets/_genreDatabase.json');
+    const languageList = require('../assets/_languageList.json');
 
     return (
         <View style={styles.container}>
-            <CreateStoryHeader />
+            <CreateStoryHeader
+                genreList={genreList}
+                author={author}
+                language={language}
+                translator={translator}
+            />
             <ScrollView bounces={false} overScrollMode="never" style={{ width: '100%' }}>
                 <TouchableOpacity activeOpacity={1}
                     style={{ marginTop: 15, zIndex: 99 }}
                     onPress={() => {
+                        if (!authorIsAccount) {
+                            setAuthor(username);
+                        } else {
+                            setAuthor(null);
+                        }
                         setAuthorIsAccount(!authorIsAccount)
                     }}
                 >
@@ -132,13 +194,16 @@ const CreateStoryScreen_MoreDetail = () => {
                             />
                             <Filigree5_Bottom customColor={colors.lightgray} />
 
-                            <View style={styles.ot_container}>
+                            <View style={[styles.ot_container, { marginVertical: 10 }]}>
                                 <View style={styles.ot_fieldContainer}>
-                                    <Text style={[styles.ot_textInputLabel, (author == null || author == '') && { color: colors.gray }]}>Tác Giả</Text>
+                                    <Text style={[styles.ot_textInputLabel,
+                                    (author == null || author == '') && { color: colors.gray }]}>
+                                        Tác Giả
+                                    </Text>
                                     <TextInput style={styles.ot_textInput}
                                         placeholder='Tác Giả'
                                         placeholderTextColor={colors.lightgray}
-                                        onChangeText={(text) => setAuthor(text)}
+                                        onChangeText={(text) => { setAuthor(text) }}
                                         value={author}
                                     />
                                 </View>
@@ -148,7 +213,9 @@ const CreateStoryScreen_MoreDetail = () => {
                         <View style={{ width: '100%', height: 3, backgroundColor: colors.lightgray }} />
                 }
 
-                <View style={[styles.ornateTextbox, !authorIsAccount && { marginTop: 5 }, authorIsAccount && { marginTop: 15 }]}>
+                <View style={[styles.ornateTextbox,
+                !authorIsAccount ? { marginTop: 5 } : { marginTop: 15 }
+                ]}>
                     <LinearGradient
                         start={{ x: 0, y: 0 }}
                         end={{ x: 1, y: 0 }}
@@ -161,19 +228,90 @@ const CreateStoryScreen_MoreDetail = () => {
                         colors={['transparent', colors.black]}
                         style={[globalStyles.shadow, globalStyles.rightShadow]}
                     />
-                    <Filigree5_Top customColor={colors.lightgray} />
+                    {openLanguageList && <Filigree5_Top customColor={colors.lightgray} />}
                     <Filigree5_Bottom customColor={colors.lightgray} />
 
                     <View style={styles.ot_container}>
-                        <View style={[styles.ot_fieldContainer, { marginTop: 20 }]}>
-                            {
-
-                                <Text style={styles.ot_textInputLabel}>
-                                    {genreList.length != 0 && 'Thể Loại'}
-                                </Text>
-                            }
+                        <View style={[styles.ot_fieldContainer,
+                        { marginTop: 20 }
+                        ]}>
+                            <Text style={styles.ot_textInputLabel}>
+                                {language != null && 'Ngôn Ngữ'}
+                            </Text>
                             <TouchableOpacity style={styles.ot_textInput}
-                            // onPress={() => setOpenGenreList(!openGenreList)}
+                                onPress={() => setOpenLanguageList(!openLanguageList)}
+                            >
+                                {
+                                    language != null ?
+                                        <Text style={{ color: colors.white, marginVertical: 2 }}>
+                                            {language}
+                                        </Text>
+                                        :
+                                        <Text style={{ color: colors.lightgray, marginVertical: 2 }}>
+                                            Ngôn Ngữ
+                                        </Text>
+                                }
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.genrePicker}>
+                            {
+                                openLanguageList &&
+                                languageList.map((_language) =>
+                                    <LanguagePickerComponent key={_language}
+                                        language={_language}
+                                        pickedLanguage={language}
+                                        setLanguage={setLanguage}
+                                        setOpenLanguageList={setOpenLanguageList}
+                                    />
+                                )
+                            }
+                        </View>
+
+                        <View style={[styles.ot_fieldContainer,
+                        { marginBottom: 10 }
+                        ]}>
+                            <Text style={[styles.ot_textInputLabel,
+                            (translator == null || translator == '') && { color: colors.gray }
+                            ]}>
+                                Dịch Giả
+                            </Text>
+                            <TextInput style={styles.ot_textInput}
+                                placeholder='Dịch Giả (Nếu Có)'
+                                placeholderTextColor={colors.lightgray}
+                                onChangeText={(text) => setTranslator(text)}
+                                value={translator}
+                            />
+                        </View>
+                    </View>
+                </View>
+
+                <View style={[styles.ornateTextbox,]}>
+                    <LinearGradient
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        colors={[colors.black, 'transparent']}
+                        style={[globalStyles.shadow, globalStyles.leftShadow]}
+                    />
+                    <LinearGradient
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        colors={['transparent', colors.black]}
+                        style={[globalStyles.shadow, globalStyles.rightShadow]}
+                    />
+                    {openGenreList && <Filigree5_Top customColor={colors.lightgray} />}
+                    <Filigree5_Bottom customColor={colors.lightgray} />
+
+                    <View style={styles.ot_container}>
+                        <View style={[styles.ot_fieldContainer,
+                        { marginTop: 20 }
+                        ]}>
+                            <Text style={[styles.ot_textInputLabel,
+                            { marginBottom: 5 }
+                            ]}>
+                                {genreList.length != 0 && 'Thể Loại'}
+                            </Text>
+                            <TouchableOpacity style={styles.ot_textInput}
+                                onPress={() => setOpenGenreList(!openGenreList)}
                             >
                                 {
                                     genreList.length == 0 &&
@@ -185,10 +323,10 @@ const CreateStoryScreen_MoreDetail = () => {
                                     genreList.map(
                                         (genre) => <GenreComponent key={genre}
                                             genre={genre}
-
                                         />
                                     )
                                 }
+
                             </TouchableOpacity>
                         </View>
                         <View style={styles.genrePicker}>
@@ -207,8 +345,8 @@ const CreateStoryScreen_MoreDetail = () => {
 
                 <Filigree2 customPosition={60} />
                 <View style={globalStyles.bottomPadding} />
-            </ScrollView>
-        </View>
+            </ScrollView >
+        </View >
     );
 };
 
@@ -271,7 +409,7 @@ const styles = StyleSheet.create({
 
         width: '100%',
         height: 'auto',
-        marginVertical: 10,
+        marginVertical: 5,
 
         overflow: 'hidden',
 
@@ -300,12 +438,12 @@ const styles = StyleSheet.create({
     },
     ot_fieldContainer: {
         width: '100%',
-        marginTop: 12
     },
     ot_textInputLabel: {
         color: colors.gold,
         fontSize: 11,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+
     },
     ot_textInput: {
         flexDirection: 'row',
@@ -347,7 +485,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
 
         width: '90%',
-        marginTop: 10
+        marginBottom: 10
     },
 
     genrePickerComponent: {
